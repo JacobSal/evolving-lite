@@ -1,0 +1,356 @@
+<svg viewBox="0 0 1800 2400" xmlns="http://www.w3.org/2000/svg" font-family="'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#56B6C2"/>
+    </marker>
+    <filter id="sh" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <rect width="1800" height="2400" fill="#0D1017"/>
+
+  <g transform="translate(40, 55)">
+    <text font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="16" font-weight="600" fill="#56B6C2">&gt;_</text>
+    <text x="32" font-size="12" font-weight="600" fill="#56B6C2" letter-spacing="4">EVOLVING SYSTEM / INTERNAL R&amp;D</text>
+  </g>
+
+  <text x="900" y="110" text-anchor="middle" font-size="36" font-weight="700" fill="#C8D2DC" font-family="'Poppins', system-ui, sans-serif">AutoEvolve V2 <tspan fill="#56B6C2">.</tspan> Complete Dependency Map</text>
+  <text x="900" y="140" text-anchor="middle" font-size="15" fill="#6b7280">All 50+ files, hooks, configs, and references that wire the self-tuning delegation loop together</text>
+  <text x="900" y="162" text-anchor="middle" font-size="12" fill="#4b5563" font-style="italic">Source: dependency survey 2026-05-19. Evolving-System</text>
+
+  <g transform="translate(40, 195)">
+    <rect width="540" height="500" rx="14" fill="#11151c" stroke="#1a1f28" stroke-width="1" filter="url(#sh)"/>
+    <text x="24" y="34" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="11" font-weight="600" fill="#56B6C2" letter-spacing="2">01 / PRODUCERS</text>
+    <text x="24" y="56" font-size="16" font-weight="700" fill="#C8D2DC" font-family="'Poppins', sans-serif">Capture signal</text>
+    <text x="24" y="78" font-size="11" fill="#6b7280">9 components write into the ledgers</text>
+
+    <line x1="24" y1="92" x2="516" y2="92" stroke="#1a1f28"/>
+
+    <text x="24" y="116" font-size="11" font-weight="700" fill="#9aa5b1" letter-spacing="1">HOOKS</text>
+    <text x="24" y="138" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">.claude/hooks/delegation-outcome-tracker.py</text>
+    <text x="24" y="154" font-size="11" fill="#6b7280" font-style="italic">Stop + PreToolUse - writes gaps + fitness rows</text>
+    <text x="24" y="176" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">.claude/hooks/recurring-task-checker.py</text>
+    <text x="24" y="192" font-size="11" fill="#6b7280" font-style="italic">SessionStart - auto-triggers recalc-fitness</text>
+
+    <text x="24" y="220" font-size="11" font-weight="700" fill="#9aa5b1" letter-spacing="1">SCRIPTS</text>
+    <text x="24" y="242" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">scripts/metacognitive-synthesizer.py</text>
+    <text x="24" y="258" font-size="11" fill="#6b7280" font-style="italic">writes trait/lens/pulse outcomes</text>
+    <text x="24" y="278" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">scripts/v2_bridge_spike.py</text>
+    <text x="24" y="294" font-size="11" fill="#6b7280" font-style="italic">schema translator gaps -&gt; fitness (Phase 1)</text>
+    <text x="24" y="314" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">scripts/build-delegation-test-cases.py</text>
+    <text x="24" y="330" font-size="11" fill="#6b7280" font-style="italic">cleaned test-case generator</text>
+
+    <text x="24" y="358" font-size="11" font-weight="700" fill="#9aa5b1" letter-spacing="1">AGENT</text>
+    <text x="24" y="380" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">.claude/agents/autoevolve-optimizer.md</text>
+    <text x="24" y="396" font-size="11" fill="#6b7280" font-style="italic">writes mutation-outcome rows post-apply</text>
+
+    <text x="24" y="424" font-size="11" font-weight="700" fill="#9aa5b1" letter-spacing="1">TRANSIENT IPC</text>
+    <text x="24" y="446" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">/tmp/delegation-pending-{SESSION_ID}.json</text>
+    <text x="24" y="462" font-size="11" fill="#6b7280" font-style="italic">marker file passes UserPromptSubmit -&gt; Stop</text>
+    <text x="24" y="482" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">/tmp/claude-context-pct-{SESSION_ID}.txt</text>
+  </g>
+
+  <g transform="translate(630, 195)">
+    <rect width="540" height="500" rx="14" fill="#11151c" stroke="#1a1f28" stroke-width="1" filter="url(#sh)"/>
+    <text x="24" y="34" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="11" font-weight="600" fill="#56B6C2" letter-spacing="2">02 / LEDGERS</text>
+    <text x="24" y="56" font-size="16" font-weight="700" fill="#C8D2DC" font-family="'Poppins', sans-serif">Persist signal</text>
+    <text x="24" y="78" font-size="11" fill="#6b7280">Append-only .jsonl streams (single source of truth)</text>
+
+    <line x1="24" y1="92" x2="516" y2="92" stroke="#1a1f28"/>
+
+    <text x="24" y="116" font-size="11" font-weight="700" fill="#9aa5b1" letter-spacing="1">APPEND-ONLY STREAMS</text>
+    <text x="24" y="138" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">_memory/analytics/delegation-gaps.jsonl</text>
+    <text x="24" y="154" font-size="11" fill="#6b7280" font-style="italic">247+ routing decisions, V1 + V2 source</text>
+    <text x="24" y="176" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">_memory/analytics/cognitive-fitness.jsonl</text>
+    <text x="24" y="192" font-size="11" fill="#6b7280" font-style="italic">unified outcome stream (trait+lens+delegation+pulse)</text>
+
+    <text x="24" y="220" font-size="11" font-weight="700" fill="#9aa5b1" letter-spacing="1">DERIVED REPORTS</text>
+    <text x="24" y="242" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">_memory/analytics/delegation-gaps-report.json</text>
+    <text x="24" y="258" font-size="11" fill="#6b7280" font-style="italic">FP rate, miss rate (summary metrics)</text>
+    <text x="24" y="278" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">_memory/analytics/cognitive-fitness.README</text>
+    <text x="24" y="294" font-size="11" fill="#6b7280" font-style="italic">schema docs (row shape, system field values)</text>
+
+    <text x="24" y="322" font-size="11" font-weight="700" fill="#9aa5b1" letter-spacing="1">LEDGER-ADJACENT</text>
+    <text x="24" y="344" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">_ledgers/auto-mode-audit.jsonl</text>
+    <text x="24" y="360" font-size="11" fill="#6b7280" font-style="italic">classifier decisions (informational)</text>
+    <text x="24" y="380" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">_ledgers/CURRENT.md</text>
+    <text x="24" y="396" font-size="11" fill="#6b7280" font-style="italic">latest fitness snapshot index</text>
+  </g>
+
+  <g transform="translate(1220, 195)">
+    <rect width="540" height="500" rx="14" fill="#11151c" stroke="#1a1f28" stroke-width="1" filter="url(#sh)"/>
+    <text x="24" y="34" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="11" font-weight="600" fill="#56B6C2" letter-spacing="2">03 / SCORER</text>
+    <text x="24" y="56" font-size="16" font-weight="700" fill="#C8D2DC" font-family="'Poppins', sans-serif">Derive fitness</text>
+    <text x="24" y="78" font-size="11" fill="#6b7280">EMA + baselines + composite metric</text>
+
+    <line x1="24" y1="92" x2="516" y2="92" stroke="#1a1f28"/>
+
+    <text x="24" y="116" font-size="11" font-weight="700" fill="#9aa5b1" letter-spacing="1">SCORING SCRIPTS</text>
+    <text x="24" y="138" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">scripts/recalc-fitness.py</text>
+    <text x="24" y="154" font-size="11" fill="#6b7280" font-style="italic">EMA per task_type, writes 3 fitness caches</text>
+    <text x="24" y="176" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">scripts/autoevolve-scorer.py</text>
+    <text x="24" y="192" font-size="11" fill="#6b7280" font-style="italic">deterministic composite scorer per target</text>
+
+    <text x="24" y="220" font-size="11" font-weight="700" fill="#9aa5b1" letter-spacing="1">BASELINES + CONFIG</text>
+    <text x="24" y="242" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">_autoevolve/baselines.json</text>
+    <text x="24" y="258" font-size="11" fill="#6b7280" font-style="italic">target baseline scores (real-data 0.5296)</text>
+    <text x="24" y="278" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">_autoevolve/config.json</text>
+    <text x="24" y="294" font-size="11" fill="#6b7280" font-style="italic">AutoEvolve metadata + run cadence</text>
+
+    <text x="24" y="322" font-size="11" font-weight="700" fill="#9aa5b1" letter-spacing="1">TESTS</text>
+    <text x="24" y="344" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">tests/test_autoevolve_scorer.py</text>
+    <text x="24" y="360" font-size="11" fill="#6b7280" font-style="italic">scorer unit tests (Phase 5 TDD red-&gt;green)</text>
+  </g>
+
+  <g transform="translate(40, 735)">
+    <rect width="540" height="380" rx="14" fill="#11151c" stroke="#1a1f28" stroke-width="1" filter="url(#sh)"/>
+    <text x="24" y="34" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="11" font-weight="600" fill="#56B6C2" letter-spacing="2">04 / FITNESS CACHE</text>
+    <text x="24" y="56" font-size="16" font-weight="700" fill="#C8D2DC" font-family="'Poppins', sans-serif">Live decisions</text>
+    <text x="24" y="78" font-size="11" fill="#6b7280">Read at every UserPromptSubmit</text>
+
+    <line x1="24" y1="92" x2="516" y2="92" stroke="#1a1f28"/>
+
+    <text x="24" y="116" font-size="11" font-weight="700" fill="#9aa5b1" letter-spacing="1">FITNESS CACHES</text>
+    <text x="24" y="138" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">_graph/cache/delegation-fitness.json</text>
+    <text x="24" y="154" font-size="11" fill="#6b7280" font-style="italic">EMA scores per task_type (V2 Phase 3 output)</text>
+    <text x="24" y="176" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">_graph/cache/trait-fitness.json</text>
+    <text x="24" y="192" font-size="11" fill="#6b7280" font-style="italic">EMA scores per trait (PsychAgent)</text>
+    <text x="24" y="212" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">_graph/cache/lens-fitness.json</text>
+    <text x="24" y="228" font-size="11" fill="#6b7280" font-style="italic">EMA scores per quantum lens</text>
+
+    <text x="24" y="256" font-size="11" font-weight="700" fill="#9aa5b1" letter-spacing="1">ADAPTIVE THRESHOLD STATE</text>
+    <text x="24" y="278" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">_graph/cache/active-thresholds.json</text>
+    <text x="24" y="294" font-size="11" fill="#6b7280" font-style="italic">live threshold (context_pct, success_rate)</text>
+    <text x="24" y="314" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">_graph/cache/context-router.json</text>
+    <text x="24" y="330" font-size="11" fill="#6b7280" font-style="italic">consulted for routing keywords</text>
+    <text x="24" y="350" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">_graph/cache/hot-pairs.json</text>
+    <text x="24" y="366" font-size="11" fill="#6b7280" font-style="italic">coactivation hints injected into delegation prompts</text>
+  </g>
+
+  <g transform="translate(630, 735)">
+    <rect width="540" height="380" rx="14" fill="#11151c" stroke="#1a1f28" stroke-width="1" filter="url(#sh)"/>
+    <text x="24" y="34" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="11" font-weight="600" fill="#56B6C2" letter-spacing="2">05 / MUTATIONS</text>
+    <text x="24" y="56" font-size="16" font-weight="700" fill="#C8D2DC" font-family="'Poppins', sans-serif">Close the loop</text>
+    <text x="24" y="78" font-size="11" fill="#6b7280">Epsilon-greedy proposal + habituation + apply</text>
+
+    <line x1="24" y1="92" x2="516" y2="92" stroke="#1a1f28"/>
+
+    <text x="24" y="116" font-size="11" font-weight="700" fill="#9aa5b1" letter-spacing="1">MUTATION AGENT</text>
+    <text x="24" y="138" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">.claude/agents/autoevolve-optimizer.md</text>
+    <text x="24" y="154" font-size="11" fill="#6b7280" font-style="italic">epsilon-greedy mutations, 24h cooldown</text>
+
+    <text x="24" y="182" font-size="11" font-weight="700" fill="#9aa5b1" letter-spacing="1">AUTHORITY (target of mutations)</text>
+    <text x="24" y="204" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">_graph/cache/delegation-config.json</text>
+    <text x="24" y="220" font-size="11" fill="#6b7280" font-style="italic">routing rules + kill-switches (sole authority)</text>
+
+    <text x="24" y="248" font-size="11" font-weight="700" fill="#9aa5b1" letter-spacing="1">HABITUATION MEMORY</text>
+    <text x="24" y="270" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">_autoevolve/.delegation-mutation-habituation.json</text>
+    <text x="24" y="286" font-size="11" fill="#6b7280" font-style="italic">rejected-mutation history (Phase 7)</text>
+
+    <text x="24" y="314" font-size="11" font-weight="700" fill="#9aa5b1" letter-spacing="1">RUN ARTIFACTS</text>
+    <text x="24" y="336" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">_autoevolve/runs/{timestamp}/</text>
+    <text x="24" y="352" font-size="11" fill="#6b7280" font-style="italic">per-cycle diff + before/after baseline</text>
+    <text x="24" y="370" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">_autoevolve/snapshots/</text>
+  </g>
+
+  <g transform="translate(1220, 735)">
+    <rect width="540" height="380" rx="14" fill="#11151c" stroke="#1a1f28" stroke-width="1" filter="url(#sh)"/>
+    <text x="24" y="34" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="11" font-weight="600" fill="#56B6C2" letter-spacing="2">06 / CONSUMERS</text>
+    <text x="24" y="56" font-size="16" font-weight="700" fill="#C8D2DC" font-family="'Poppins', sans-serif">Apply learning</text>
+    <text x="24" y="78" font-size="11" fill="#6b7280">Reads fitness cache, alters routing decisions</text>
+
+    <line x1="24" y1="92" x2="516" y2="92" stroke="#1a1f28"/>
+
+    <text x="24" y="116" font-size="11" font-weight="700" fill="#9aa5b1" letter-spacing="1">PRIMARY CONSUMER</text>
+    <text x="24" y="138" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">.claude/hooks/delegation-enforcer.py</text>
+    <text x="24" y="154" font-size="11" fill="#6b7280" font-style="italic">UserPromptSubmit, computes adaptive threshold</text>
+
+    <text x="24" y="182" font-size="11" font-weight="700" fill="#9aa5b1" letter-spacing="1">TRAIT + LENS ROUTING</text>
+    <text x="24" y="204" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">scripts/metacognitive-synthesizer.py</text>
+    <text x="24" y="220" font-size="11" fill="#6b7280" font-style="italic">trait-fitness bias for personality selection</text>
+
+    <text x="24" y="248" font-size="11" font-weight="700" fill="#9aa5b1" letter-spacing="1">SCHEDULE CONSUMER</text>
+    <text x="24" y="270" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">.claude/hooks/recurring-task-checker.py</text>
+    <text x="24" y="286" font-size="11" fill="#6b7280" font-style="italic">SessionStart hook - auto-runs recalc-fitness</text>
+
+    <text x="24" y="314" font-size="11" font-weight="700" fill="#9aa5b1" letter-spacing="1">STATUSLINE + TELEMETRY</text>
+    <text x="24" y="336" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">~/.claude/statusline.sh</text>
+    <text x="24" y="352" font-size="11" fill="#6b7280" font-style="italic">writes context_pct to /tmp for enforcer</text>
+    <text x="24" y="370" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">.claude/commands/delegation-dashboard.md</text>
+  </g>
+
+  <g transform="translate(40, 1155)">
+    <rect width="1720" height="220" rx="14" fill="#11151c" stroke="#1a1f28" stroke-width="1" filter="url(#sh)"/>
+    <text x="24" y="34" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="11" font-weight="600" fill="#56B6C2" letter-spacing="2">07 / HOOK REGISTRATIONS</text>
+    <text x="24" y="56" font-size="16" font-weight="700" fill="#C8D2DC" font-family="'Poppins', sans-serif">The wiring that makes the system fire automatically</text>
+    <text x="24" y="78" font-size="11" fill="#6b7280">~/.claude/settings.json + .claude/settings.json</text>
+
+    <line x1="24" y1="92" x2="1696" y2="92" stroke="#1a1f28"/>
+
+    <text x="24" y="116" font-size="11" font-weight="700" fill="#56B6C2" letter-spacing="1">STOP CHAIN</text>
+    <text x="24" y="138" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">pos 11 - delegation-outcome-tracker.py (5s timeout, writes gaps + fitness)</text>
+
+    <text x="24" y="166" font-size="11" font-weight="700" fill="#56B6C2" letter-spacing="1">USERPROMPTSUBMIT</text>
+    <text x="24" y="188" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">delegation-enforcer.py (reads fitness, threshold, gates delegation)</text>
+
+    <text x="600" y="116" font-size="11" font-weight="700" fill="#56B6C2" letter-spacing="1">PRETOOLUSE[Task]</text>
+    <text x="600" y="138" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">delegation-outcome-tracker.py (captures task spawn event)</text>
+
+    <text x="600" y="166" font-size="11" font-weight="700" fill="#56B6C2" letter-spacing="1">SESSIONSTART</text>
+    <text x="600" y="188" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">recurring-task-checker.py auto-runs recalc-fitness.py</text>
+
+    <text x="1200" y="116" font-size="11" font-weight="700" fill="#56B6C2" letter-spacing="1">TIER 1 FILTER</text>
+    <text x="1200" y="138" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">_is_real_user_task_prompt() skips system-content prefixes</text>
+
+    <text x="1200" y="166" font-size="11" font-weight="700" fill="#56B6C2" letter-spacing="1">POSTTOOLUSE[Write]</text>
+    <text x="1200" y="188" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">artifact-registration-enforcer.py (auto-registers new components)</text>
+  </g>
+
+  <g transform="translate(40, 1415)">
+    <rect width="850" height="260" rx="14" fill="#11151c" stroke="#1a1f28" stroke-width="1" filter="url(#sh)"/>
+    <text x="24" y="34" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="11" font-weight="600" fill="#56B6C2" letter-spacing="2">08 / UPSTREAM PRODUCERS</text>
+    <text x="24" y="56" font-size="16" font-weight="700" fill="#C8D2DC" font-family="'Poppins', sans-serif">Writers into the system</text>
+
+    <line x1="24" y1="76" x2="826" y2="76" stroke="#1a1f28"/>
+
+    <text x="24" y="104" font-size="13" font-weight="700" fill="#C8D2DC" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace">delegation-outcome-tracker.py</text>
+    <text x="24" y="122" font-size="11" fill="#6b7280">writes -&gt; delegation-gaps.jsonl, cognitive-fitness.jsonl (system="delegation")</text>
+
+    <text x="24" y="148" font-size="13" font-weight="700" fill="#C8D2DC" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace">metacognitive-synthesizer.py</text>
+    <text x="24" y="166" font-size="11" fill="#6b7280">writes -&gt; cognitive-fitness.jsonl (system="trait", "lens", "pulse")</text>
+
+    <text x="24" y="192" font-size="13" font-weight="700" fill="#C8D2DC" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace">autoevolve-optimizer agent (post-mutation)</text>
+    <text x="24" y="210" font-size="11" fill="#6b7280">writes -&gt; cognitive-fitness.jsonl (system="autoevolve")</text>
+
+    <text x="24" y="236" font-size="13" font-weight="700" fill="#C8D2DC" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace">statusline.sh</text>
+    <text x="24" y="254" font-size="11" fill="#6b7280">writes -&gt; /tmp/claude-context-pct-{session_id}.txt (per UserPromptSubmit)</text>
+  </g>
+
+  <g transform="translate(910, 1415)">
+    <rect width="850" height="260" rx="14" fill="#11151c" stroke="#1a1f28" stroke-width="1" filter="url(#sh)"/>
+    <text x="24" y="34" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="11" font-weight="600" fill="#56B6C2" letter-spacing="2">09 / DOWNSTREAM CONSUMERS</text>
+    <text x="24" y="56" font-size="16" font-weight="700" fill="#C8D2DC" font-family="'Poppins', sans-serif">Readers of V2 output</text>
+
+    <line x1="24" y1="76" x2="826" y2="76" stroke="#1a1f28"/>
+
+    <text x="24" y="104" font-size="13" font-weight="700" fill="#C8D2DC" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace">delegation-enforcer.py</text>
+    <text x="24" y="122" font-size="11" fill="#6b7280">reads -&gt; delegation-fitness.json (fitness-bias on threshold, kill-switch gated)</text>
+
+    <text x="24" y="148" font-size="13" font-weight="700" fill="#C8D2DC" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace">metacognitive-synthesizer.py (trait router)</text>
+    <text x="24" y="166" font-size="11" fill="#6b7280">reads -&gt; trait-fitness.json, lens-fitness.json (bias on personality + lens picks)</text>
+
+    <text x="24" y="192" font-size="13" font-weight="700" fill="#C8D2DC" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace">recalc-fitness.py</text>
+    <text x="24" y="210" font-size="11" fill="#6b7280">reads -&gt; cognitive-fitness.jsonl (filter system="delegation", compute EMA)</text>
+
+    <text x="24" y="236" font-size="13" font-weight="700" fill="#C8D2DC" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace">delegation-dashboard.md command</text>
+    <text x="24" y="254" font-size="11" fill="#6b7280">reads -&gt; delegation-fitness.json (human inspection surface)</text>
+  </g>
+
+  <g transform="translate(40, 1715)">
+    <rect width="1720" height="280" rx="14" fill="#11151c" stroke="#1a1f28" stroke-width="1" filter="url(#sh)"/>
+    <text x="24" y="34" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="11" font-weight="600" fill="#56B6C2" letter-spacing="2">10 / PLANS + GOVERNANCE + DOCS</text>
+
+    <line x1="24" y1="56" x2="1696" y2="56" stroke="#1a1f28"/>
+
+    <text x="24" y="86" font-size="11" font-weight="700" fill="#9aa5b1" letter-spacing="1">PLANS (governance source-of-truth)</text>
+    <text x="24" y="108" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">.claude/plans/2026-05-01-autoevolve-v2-self-tuning.md</text>
+    <text x="24" y="123" font-size="11" fill="#6b7280">original V2 spec, Phase 0.5-8.5</text>
+    <text x="24" y="143" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">.claude/plans/2026-05-16-autoevolve-v2-premium.md</text>
+    <text x="24" y="158" font-size="11" fill="#6b7280">Premium Plan 13 phases</text>
+    <text x="24" y="178" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">.claude/plans/2026-05-17-autoevolve-v2-cross-session-summary.md</text>
+    <text x="24" y="193" font-size="11" fill="#6b7280">cross-session audit</text>
+    <text x="24" y="213" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">.claude/plans/2026-05-17-delegation-enforcer-false-positive-fix.md</text>
+    <text x="24" y="228" font-size="11" fill="#6b7280">paused plan (V2 re-enable gated on this)</text>
+
+    <text x="600" y="86" font-size="11" font-weight="700" fill="#9aa5b1" letter-spacing="1">RULES + DOCS</text>
+    <text x="600" y="108" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">.claude/rules/delegation.md</text>
+    <text x="600" y="123" font-size="11" fill="#6b7280">repo rule (kill-switches, mutation_rules block)</text>
+    <text x="600" y="143" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">~/.claude/rules/delegation.md</text>
+    <text x="600" y="158" font-size="11" fill="#6b7280">global rule (drift risk vs repo)</text>
+    <text x="600" y="178" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">_system/delegation.{mmd,svg,png}</text>
+    <text x="600" y="193" font-size="11" fill="#6b7280">diagrams</text>
+    <text x="600" y="213" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">.claude/commands/autoevolve.md</text>
+    <text x="600" y="228" font-size="11" fill="#6b7280">manual trigger command</text>
+
+    <text x="1180" y="86" font-size="11" font-weight="700" fill="#9aa5b1" letter-spacing="1">KAIRN NODES (knowledge graph anchors)</text>
+    <text x="1180" y="108" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">43ee80e3</text>
+    <text x="1180" y="123" font-size="11" fill="#6b7280">adaptive-threshold pattern</text>
+    <text x="1180" y="143" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">fa7fa3a8</text>
+    <text x="1180" y="158" font-size="11" fill="#6b7280">Backward Signal architecture</text>
+    <text x="1180" y="178" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">26e78a43</text>
+    <text x="1180" y="193" font-size="11" fill="#6b7280">V1 open-loop gotcha</text>
+    <text x="1180" y="213" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">7ebee21d / abb07aaf / b3906ce5</text>
+    <text x="1180" y="228" font-size="11" fill="#6b7280">Synthetic-Baseline-Trap / config_locks / Stochastic Resonance</text>
+
+    <line x1="24" y1="248" x2="1696" y2="248" stroke="#1a1f28"/>
+    <text x="24" y="266" font-size="11" fill="#6b7280" font-style="italic">Kill-switches (delegation-config.json under mutation_rules):  v2_tuning_enabled  |  v2_canary_mode  |  exploration_rate=0.10</text>
+  </g>
+
+  <g transform="translate(40, 2035)">
+    <rect width="1720" height="300" rx="14" fill="#11151c" stroke="#1a1f28" stroke-width="1" filter="url(#sh)"/>
+    <text x="24" y="34" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="11" font-weight="600" fill="#56B6C2" letter-spacing="2">11 / SIGNAL FLOW (one cycle)</text>
+
+    <line x1="24" y1="56" x2="1696" y2="56" stroke="#1a1f28"/>
+
+    <g transform="translate(20, 80)">
+      <rect width="200" height="80" rx="10" fill="#0D1017" stroke="#1a1f28"/>
+      <text x="14" y="22" font-size="11" font-weight="700" fill="#56B6C2" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" letter-spacing="1">01 PRODUCER</text>
+      <text x="14" y="46" font-size="11" fill="#C8D2DC">Stop hook fires</text>
+      <text x="14" y="62" font-size="11" fill="#6b7280">writes 1 fitness row</text>
+    </g>
+    <path d="M 235 120 L 285 120" stroke="#56B6C2" stroke-width="1.5" marker-end="url(#arr)" stroke-dasharray="4,3"/>
+
+    <g transform="translate(290, 80)">
+      <rect width="200" height="80" rx="10" fill="#0D1017" stroke="#1a1f28"/>
+      <text x="14" y="22" font-size="11" font-weight="700" fill="#56B6C2" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" letter-spacing="1">02 LEDGER</text>
+      <text x="14" y="44" font-size="11" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">cognitive-fitness.jsonl</text>
+      <text x="14" y="62" font-size="11" fill="#6b7280">+1 row appended</text>
+    </g>
+    <path d="M 505 120 L 555 120" stroke="#56B6C2" stroke-width="1.5" marker-end="url(#arr)" stroke-dasharray="4,3"/>
+
+    <g transform="translate(560, 80)">
+      <rect width="200" height="80" rx="10" fill="#0D1017" stroke="#1a1f28"/>
+      <text x="14" y="22" font-size="11" font-weight="700" fill="#56B6C2" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" letter-spacing="1">03 SCORER</text>
+      <text x="14" y="46" font-size="11" fill="#C8D2DC">SessionStart auto-fires</text>
+      <text x="14" y="62" font-size="11" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#6b7280">recalc-fitness.py</text>
+    </g>
+    <path d="M 775 120 L 825 120" stroke="#56B6C2" stroke-width="1.5" marker-end="url(#arr)" stroke-dasharray="4,3"/>
+
+    <g transform="translate(830, 80)">
+      <rect width="200" height="80" rx="10" fill="#0D1017" stroke="#1a1f28"/>
+      <text x="14" y="22" font-size="11" font-weight="700" fill="#56B6C2" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" letter-spacing="1">04 CACHE</text>
+      <text x="14" y="44" font-size="11" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">delegation-fitness.json</text>
+      <text x="14" y="62" font-size="11" fill="#6b7280">EMA updated</text>
+    </g>
+    <path d="M 1045 120 L 1095 120" stroke="#56B6C2" stroke-width="1.5" marker-end="url(#arr)" stroke-dasharray="4,3"/>
+
+    <g transform="translate(1100, 80)">
+      <rect width="200" height="80" rx="10" fill="#0D1017" stroke="#1a1f28"/>
+      <text x="14" y="22" font-size="11" font-weight="700" fill="#56B6C2" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" letter-spacing="1">05 MUTATION</text>
+      <text x="14" y="46" font-size="11" fill="#C8D2DC">optimizer proposes</text>
+      <text x="14" y="62" font-size="11" fill="#6b7280">epsilon-greedy</text>
+    </g>
+    <path d="M 1315 120 L 1365 120" stroke="#56B6C2" stroke-width="1.5" marker-end="url(#arr)" stroke-dasharray="4,3"/>
+
+    <g transform="translate(1370, 80)">
+      <rect width="200" height="80" rx="10" fill="#0D1017" stroke="#1a1f28"/>
+      <text x="14" y="22" font-size="11" font-weight="700" fill="#56B6C2" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" letter-spacing="1">06 CONSUMER</text>
+      <text x="14" y="46" font-size="11" fill="#C8D2DC">enforcer reads</text>
+      <text x="14" y="62" font-size="11" fill="#6b7280">applies threshold</text>
+    </g>
+
+    <path d="M 1470 165 Q 1470 215 1280 215 L 200 215 Q 120 215 120 195 L 120 165" fill="none" stroke="#56B6C2" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#arr)"/>
+    <text x="780" y="240" text-anchor="middle" font-size="12" fill="#56B6C2" font-style="italic">next UserPromptSubmit - new routing decision feeds back as a new producer row</text>
+
+    <text x="24" y="278" font-size="11" font-weight="700" fill="#9aa5b1" letter-spacing="1">CYCLE LATENCY</text>
+    <text x="160" y="278" font-size="11" fill="#6b7280">~10ms write at Stop. EMA recompute at next SessionStart (typically next session boot, &lt; 24h).</text>
+  </g>
+
+  <g transform="translate(40, 2360)">
+    <text font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="11" font-weight="600" fill="#56B6C2">&gt;_</text>
+    <text x="22" font-size="11" fill="#6b7280">Evolving System / AutoEvolve V2 / 2026-05-19 snapshot</text>
+    <circle cx="1640" cy="-3" r="3" fill="#56B6C2"/>
+    <text x="1650" font-size="11" fill="#6b7280">loop online · build 2.0.13</text>
+  </g>
+</svg>
