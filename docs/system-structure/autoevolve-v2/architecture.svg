@@ -1,0 +1,218 @@
+<svg viewBox="0 0 1800 1400" xmlns="http://www.w3.org/2000/svg" font-family="'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#56B6C2"/>
+    </marker>
+    <marker id="arrLoop" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#9aa5b1"/>
+    </marker>
+    <filter id="sh" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <rect width="1800" height="1400" fill="#0D1017"/>
+
+  <g transform="translate(40, 55)">
+    <text font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="16" font-weight="600" fill="#56B6C2">&gt;_</text>
+    <text x="32" font-size="12" font-weight="600" fill="#56B6C2" letter-spacing="4">OPERATOR REFERENCE PATTERNS</text>
+  </g>
+
+  <text x="900" y="110" text-anchor="middle" font-size="36" font-weight="700" fill="#C8D2DC" font-family="'Poppins', system-ui, sans-serif">Self-Tuning Loop <tspan fill="#56B6C2">.</tspan> Layered Safety</text>
+  <text x="900" y="140" text-anchor="middle" font-size="15" fill="#6b7280">Producer hooks · fitness derivation · mutation proposer · 7-mechanism safety cake · audit log</text>
+  <text x="900" y="162" text-anchor="middle" font-size="12" fill="#4b5563" font-style="italic">Pattern reference for operator-side multi-agent infrastructure</text>
+
+  <!-- CARD 1: 7 SAFETY MECHANISMS -->
+  <g transform="translate(40, 195)">
+    <rect width="540" height="740" rx="14" fill="#11151c" stroke="#1a1f28" stroke-width="1" filter="url(#sh)"/>
+    <text x="24" y="34" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="11" font-weight="600" fill="#56B6C2" letter-spacing="2">01 / SAFETY MECHANISMS</text>
+    <text x="24" y="56" font-size="16" font-weight="700" fill="#C8D2DC" font-family="'Poppins', sans-serif">Seven layers, any can veto</text>
+    <text x="24" y="78" font-size="11" fill="#6b7280">Single-responsibility · independently disablable · combination is what holds</text>
+
+    <line x1="24" y1="92" x2="516" y2="92" stroke="#1a1f28"/>
+
+    <text x="24" y="124" font-size="13" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">1 · Per-field locks</text>
+    <text x="24" y="142" font-size="11" fill="#6b7280" font-style="italic">numerical bounds + monotone-direction per field</text>
+
+    <text x="24" y="178" font-size="13" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">2 · Protected-task denylist</text>
+    <text x="24" y="196" font-size="11" fill="#6b7280" font-style="italic">security · debugging · code review · payment · deploy · audit</text>
+
+    <text x="24" y="232" font-size="13" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">3 · Tuning gate</text>
+    <text x="24" y="250" font-size="11" fill="#6b7280" font-style="italic">feature flag · off = read-only mode</text>
+
+    <text x="24" y="286" font-size="13" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">4 · Canary mode gate</text>
+    <text x="24" y="304" font-size="11" fill="#6b7280" font-style="italic">N% of traffic before global apply · failed canary blocks promotion</text>
+
+    <text x="24" y="340" font-size="13" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">5 · Epsilon-greedy resonance</text>
+    <text x="24" y="358" font-size="11" fill="#6b7280" font-style="italic">ε% random non-best picks · anti-monoculture</text>
+
+    <text x="24" y="394" font-size="13" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">6 · Fallback-traits recovery</text>
+    <text x="24" y="412" font-size="11" fill="#6b7280" font-style="italic">auto-revert to last-known-good on fitness degrade</text>
+
+    <text x="24" y="448" font-size="13" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">7 · Immutable pause-history</text>
+    <text x="24" y="466" font-size="11" fill="#6b7280" font-style="italic">append-only · every kill-switch toggle + rejection</text>
+
+    <line x1="24" y1="495" x2="516" y2="495" stroke="#1a1f28"/>
+
+    <text x="24" y="522" font-size="11" font-weight="700" fill="#9aa5b1" letter-spacing="1">WHY SEVEN</text>
+    <text x="24" y="544" font-size="12" fill="#C8D2DC">No single check decides ship-or-not.</text>
+    <text x="24" y="562" font-size="11" fill="#6b7280" font-style="italic">All seven must pass. Any veto routes to audit log.</text>
+    <text x="24" y="580" font-size="11" fill="#6b7280" font-style="italic">Single-layer bypass is visible immediately.</text>
+
+    <text x="24" y="614" font-size="11" font-weight="700" fill="#9aa5b1" letter-spacing="1">META-CHECK</text>
+    <text x="24" y="636" font-size="12" fill="#C8D2DC">Per-field locks track cumulative trajectory.</text>
+    <text x="24" y="654" font-size="11" fill="#6b7280" font-style="italic">Many small expansions that pass individual gates</text>
+    <text x="24" y="670" font-size="11" fill="#6b7280" font-style="italic">are caught at the trajectory layer.</text>
+    <text x="24" y="700" font-size="11" fill="#9aa5b1">Drift defence against accumulated permission creep.</text>
+  </g>
+
+  <!-- CARD 2: THE LOOP -->
+  <g transform="translate(630, 195)">
+    <rect width="540" height="740" rx="14" fill="#11151c" stroke="#1a1f28" stroke-width="1" filter="url(#sh)"/>
+    <text x="24" y="34" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="11" font-weight="600" fill="#56B6C2" letter-spacing="2">02 / LOOP</text>
+    <text x="24" y="56" font-size="16" font-weight="700" fill="#C8D2DC" font-family="'Poppins', sans-serif">Producer to consumer</text>
+    <text x="24" y="78" font-size="11" fill="#6b7280">Signals in · fitness · proposer · safety cake · apply · loop back</text>
+
+    <line x1="24" y1="92" x2="516" y2="92" stroke="#1a1f28"/>
+
+    <rect x="60" y="115" width="420" height="40" rx="6" fill="#0D1017" stroke="#56B6C2" stroke-width="1.5"/>
+    <text x="270" y="140" text-anchor="middle" font-size="13" font-weight="600" fill="#C8D2DC">Producer hooks</text>
+    <text x="270" y="155" text-anchor="middle" font-size="10" fill="#6b7280">(emit signals)</text>
+    <line x1="270" y1="165" x2="270" y2="188" stroke="#56B6C2" stroke-width="1.5" marker-end="url(#arr)"/>
+
+    <rect x="60" y="190" width="420" height="40" rx="6" fill="#0D1017" stroke="#56B6C2" stroke-width="1.5"/>
+    <text x="270" y="215" text-anchor="middle" font-size="13" font-weight="600" fill="#C8D2DC">Fitness derivation</text>
+    <text x="270" y="230" text-anchor="middle" font-size="10" fill="#6b7280">(signals to composite score)</text>
+    <line x1="270" y1="240" x2="270" y2="263" stroke="#56B6C2" stroke-width="1.5" marker-end="url(#arr)"/>
+
+    <rect x="60" y="265" width="420" height="40" rx="6" fill="#0D1017" stroke="#56B6C2" stroke-width="1.5"/>
+    <text x="270" y="290" text-anchor="middle" font-size="13" font-weight="600" fill="#C8D2DC">Mutation proposer</text>
+    <text x="270" y="305" text-anchor="middle" font-size="10" fill="#6b7280">(candidate config change)</text>
+    <line x1="270" y1="315" x2="270" y2="338" stroke="#56B6C2" stroke-width="1.5" marker-end="url(#arr)"/>
+
+    <rect x="40" y="340" width="460" height="200" rx="8" fill="#2a1818" stroke="#e06c75" stroke-width="1.5"/>
+    <text x="56" y="362" font-size="11" font-weight="700" fill="#e06c75" letter-spacing="1">SAFETY LAYER CAKE</text>
+    <text x="270" y="386" text-anchor="middle" font-size="13" font-weight="700" fill="#C8D2DC" font-family="'Poppins', sans-serif">All seven layers in order</text>
+    <line x1="56" y1="400" x2="484" y2="400" stroke="#e06c75" stroke-dasharray="2 2"/>
+    <text x="56" y="420" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">1. per-field locks</text>
+    <text x="56" y="438" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">2. denylist</text>
+    <text x="56" y="456" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">3. tuning gate</text>
+    <text x="56" y="474" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">4. canary gate</text>
+    <text x="280" y="420" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">5. epsilon-greedy</text>
+    <text x="280" y="438" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">6. fallback-traits</text>
+    <text x="280" y="456" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">7. audit log</text>
+    <text x="270" y="515" text-anchor="middle" font-size="11" fill="#6b7280" font-style="italic">any veto = mutation rejected + logged</text>
+
+    <line x1="270" y1="542" x2="270" y2="565" stroke="#56B6C2" stroke-width="1.5" marker-end="url(#arr)"/>
+
+    <rect x="60" y="567" width="420" height="40" rx="6" fill="#0d2a30" stroke="#56B6C2" stroke-width="1.5"/>
+    <text x="270" y="592" text-anchor="middle" font-size="13" font-weight="700" fill="#C8D2DC">Applied config</text>
+    <line x1="270" y1="617" x2="270" y2="640" stroke="#56B6C2" stroke-width="1.5" marker-end="url(#arr)"/>
+
+    <rect x="60" y="642" width="420" height="40" rx="6" fill="#0D1017" stroke="#56B6C2" stroke-width="1.5"/>
+    <text x="270" y="667" text-anchor="middle" font-size="13" font-weight="600" fill="#C8D2DC">Consumer behaviour</text>
+
+    <!-- Loop arrow back -->
+    <path d="M 480 662 Q 510 662 510 138 Q 510 135 480 135" stroke="#9aa5b1" stroke-width="1.5" fill="none" stroke-dasharray="5 4" marker-end="url(#arrLoop)"/>
+    <text x="528" y="395" font-size="10" fill="#9aa5b1" font-style="italic" transform="rotate(90 528 395)">feedback loop</text>
+
+    <text x="270" y="712" text-anchor="middle" font-size="11" fill="#6b7280" font-style="italic">each cycle: signal change influences next mutation</text>
+  </g>
+
+  <!-- CARD 3: FAILURE MODES -->
+  <g transform="translate(1220, 195)">
+    <rect width="540" height="740" rx="14" fill="#11151c" stroke="#1a1f28" stroke-width="1" filter="url(#sh)"/>
+    <text x="24" y="34" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="11" font-weight="600" fill="#e06c75" letter-spacing="2">03 / FAILURE MODES</text>
+    <text x="24" y="56" font-size="16" font-weight="700" fill="#C8D2DC" font-family="'Poppins', sans-serif">Five risks of self-tuning</text>
+    <text x="24" y="78" font-size="11" fill="#6b7280">What the safety cake mitigates · what it cannot eliminate</text>
+
+    <line x1="24" y1="92" x2="516" y2="92" stroke="#1a1f28"/>
+
+    <text x="24" y="120" font-size="11" font-weight="700" fill="#e06c75" letter-spacing="1">CALIBRATION COST</text>
+    <text x="24" y="142" font-size="12" fill="#C8D2DC">Each layer has thresholds and rules.</text>
+    <text x="24" y="160" font-size="11" fill="#6b7280" font-style="italic">Too strict blocks legitimate improvements.</text>
+    <text x="24" y="176" font-size="11" fill="#6b7280" font-style="italic">Too loose lets bad mutations through.</text>
+    <text x="24" y="192" font-size="11" fill="#9aa5b1">Plan for a week of "everything gets blocked".</text>
+
+    <line x1="24" y1="210" x2="516" y2="210" stroke="#1a1f28"/>
+
+    <text x="24" y="233" font-size="11" font-weight="700" fill="#e06c75" letter-spacing="1">GOODHART RISK</text>
+    <text x="24" y="255" font-size="12" fill="#C8D2DC">Fitness derivation is a proxy.</text>
+    <text x="24" y="273" font-size="11" fill="#6b7280" font-style="italic">Optimising the proxy too hard finds ways</text>
+    <text x="24" y="289" font-size="11" fill="#6b7280" font-style="italic">to game the proxy.</text>
+    <text x="24" y="305" font-size="11" fill="#9aa5b1">Diverse proxies help, not eliminate.</text>
+
+    <line x1="24" y1="323" x2="516" y2="323" stroke="#1a1f28"/>
+
+    <text x="24" y="346" font-size="11" font-weight="700" fill="#e06c75" letter-spacing="1">PAUSE FRICTION</text>
+    <text x="24" y="368" font-size="12" fill="#C8D2DC">Kill-switch stops improvement.</text>
+    <text x="24" y="386" font-size="11" fill="#6b7280" font-style="italic">Long pauses accumulate</text>
+    <text x="24" y="402" font-size="11" fill="#6b7280" font-style="italic">"should have learned by now" debt.</text>
+    <text x="24" y="418" font-size="11" fill="#9aa5b1">Every pause needs a re-enable plan.</text>
+
+    <line x1="24" y1="436" x2="516" y2="436" stroke="#1a1f28"/>
+
+    <text x="24" y="459" font-size="11" font-weight="700" fill="#e06c75" letter-spacing="1">BASELINE DEPENDENCY</text>
+    <text x="24" y="481" font-size="12" fill="#C8D2DC">No baseline = tuning on noise.</text>
+    <text x="24" y="499" font-size="11" fill="#6b7280" font-style="italic">Baseline capture is a required Phase 0 step.</text>
+    <text x="24" y="515" font-size="11" fill="#6b7280" font-style="italic">Synthetic baselines mislead on real data.</text>
+    <text x="24" y="531" font-size="11" fill="#9aa5b1">First real-data window can flag false regression.</text>
+
+    <line x1="24" y1="549" x2="516" y2="549" stroke="#1a1f28"/>
+
+    <text x="24" y="572" font-size="11" font-weight="700" fill="#e06c75" letter-spacing="1">CROSS-TARGET DEDUP</text>
+    <text x="24" y="594" font-size="12" fill="#C8D2DC">Multiple targets sharing a fitness row.</text>
+    <text x="24" y="612" font-size="11" fill="#6b7280" font-style="italic">Double-counts the same signal.</text>
+    <text x="24" y="628" font-size="11" fill="#6b7280" font-style="italic">Schema-level dedup at write is correct.</text>
+    <text x="24" y="644" font-size="11" fill="#9aa5b1">Per-target read filters are fragile workarounds.</text>
+  </g>
+
+  <!-- BOTTOM: SAFETY PROPERTIES -->
+  <g transform="translate(40, 970)">
+    <rect width="1720" height="390" rx="14" fill="#11151c" stroke="#1a1f28" stroke-width="1" filter="url(#sh)"/>
+    <text x="24" y="34" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="11" font-weight="600" fill="#56B6C2" letter-spacing="2">04 / SAFETY PROPERTIES</text>
+    <text x="24" y="56" font-size="16" font-weight="700" fill="#C8D2DC" font-family="'Poppins', sans-serif">What the layered design earns</text>
+    <text x="24" y="78" font-size="11" fill="#6b7280">Three properties that a single-layer self-tuning loop cannot guarantee</text>
+
+    <line x1="24" y1="92" x2="1696" y2="92" stroke="#1a1f28"/>
+
+    <g transform="translate(40, 120)">
+      <rect width="520" height="240" rx="8" fill="#0f1924" stroke="#1a3550" stroke-width="1"/>
+      <text x="20" y="28" font-size="11" font-weight="700" fill="#56B6C2" letter-spacing="1">LAYERED VETO</text>
+      <text x="20" y="58" font-size="14" font-weight="600" fill="#C8D2DC" font-family="'Poppins', sans-serif">No single check decides</text>
+      <text x="20" y="76" font-size="14" font-weight="600" fill="#C8D2DC" font-family="'Poppins', sans-serif">ship-or-not</text>
+      <text x="20" y="110" font-size="12" fill="#9aa5b1">A change has to pass all seven layers.</text>
+      <text x="20" y="128" font-size="12" fill="#9aa5b1">If any layer fails, the audit log shows</text>
+      <text x="20" y="146" font-size="12" fill="#9aa5b1">which one, and the operator can decide if</text>
+      <text x="20" y="164" font-size="12" fill="#9aa5b1">that layer was too aggressive.</text>
+      <text x="20" y="200" font-size="11" fill="#6b7280" font-style="italic">Single-layer bypass is visible.</text>
+      <text x="20" y="218" font-size="11" fill="#6b7280" font-style="italic">No silent failures past the cake.</text>
+    </g>
+
+    <g transform="translate(600, 120)">
+      <rect width="520" height="240" rx="8" fill="#0f1924" stroke="#1a3550" stroke-width="1"/>
+      <text x="20" y="28" font-size="11" font-weight="700" fill="#56B6C2" letter-spacing="1">ACCUMULATED-DRIFT DEFENCE</text>
+      <text x="20" y="58" font-size="14" font-weight="600" fill="#C8D2DC" font-family="'Poppins', sans-serif">Catches many small expansions</text>
+      <text x="20" y="76" font-size="14" font-weight="600" fill="#C8D2DC" font-family="'Poppins', sans-serif">that compound</text>
+      <text x="20" y="110" font-size="12" fill="#9aa5b1">Per-field locks watch the cumulative</text>
+      <text x="20" y="128" font-size="12" fill="#9aa5b1">trajectory, not just the individual mutation.</text>
+      <text x="20" y="146" font-size="12" fill="#9aa5b1">Without a trajectory check, the system</text>
+      <text x="20" y="164" font-size="12" fill="#9aa5b1">passes every gate and still drifts.</text>
+      <text x="20" y="200" font-size="11" fill="#6b7280" font-style="italic">The hardest failure mode is the one</text>
+      <text x="20" y="218" font-size="11" fill="#6b7280" font-style="italic">no individual mutation owns.</text>
+    </g>
+
+    <g transform="translate(1160, 120)">
+      <rect width="520" height="240" rx="8" fill="#0f1924" stroke="#1a3550" stroke-width="1"/>
+      <text x="20" y="28" font-size="11" font-weight="700" fill="#56B6C2" letter-spacing="1">REVERSIBILITY</text>
+      <text x="20" y="58" font-size="14" font-weight="600" fill="#C8D2DC" font-family="'Poppins', sans-serif">Every mutation has a reverse</text>
+      <text x="20" y="92" font-size="12" fill="#9aa5b1">Audit record + fallback-traits enforce</text>
+      <text x="20" y="110" font-size="12" fill="#9aa5b1">reversal at the pipeline level.</text>
+      <text x="20" y="128" font-size="12" fill="#9aa5b1">Bad outcomes trace back to a specific</text>
+      <text x="20" y="146" font-size="12" fill="#9aa5b1">mutation and roll back without re-mutating</text>
+      <text x="20" y="164" font-size="12" fill="#9aa5b1">the rest of the config.</text>
+      <text x="20" y="200" font-size="11" fill="#6b7280" font-style="italic">Reversal does not depend on operator</text>
+      <text x="20" y="218" font-size="11" fill="#6b7280" font-style="italic">discipline alone.</text>
+    </g>
+  </g>
+</svg>

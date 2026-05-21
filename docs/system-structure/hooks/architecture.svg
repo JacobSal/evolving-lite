@@ -1,0 +1,210 @@
+<svg viewBox="0 0 1800 1300" xmlns="http://www.w3.org/2000/svg" font-family="'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#56B6C2"/>
+    </marker>
+    <marker id="arrRed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#e06c75"/>
+    </marker>
+    <filter id="sh" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <rect width="1800" height="1300" fill="#0D1017"/>
+
+  <!-- Top brand strip -->
+  <g transform="translate(40, 55)">
+    <text font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="16" font-weight="600" fill="#56B6C2">&gt;_</text>
+    <text x="32" font-size="12" font-weight="600" fill="#56B6C2" letter-spacing="4">OPERATOR REFERENCE PATTERNS</text>
+  </g>
+
+  <!-- Title -->
+  <text x="900" y="110" text-anchor="middle" font-size="36" font-weight="700" fill="#C8D2DC" font-family="'Poppins', system-ui, sans-serif">Tool-Call Instrumentation Substrate</text>
+  <text x="900" y="140" text-anchor="middle" font-size="15" fill="#6b7280">Event-driven hook chain · per-event responsibilities · cross-cutting safety concerns at substrate level</text>
+  <text x="900" y="162" text-anchor="middle" font-size="12" fill="#4b5563" font-style="italic">Pattern reference for operator-side multi-agent infrastructure</text>
+
+  <!-- CARD 1: EVENTS -->
+  <g transform="translate(40, 195)">
+    <rect width="540" height="640" rx="14" fill="#11151c" stroke="#1a1f28" stroke-width="1" filter="url(#sh)"/>
+    <text x="24" y="34" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="11" font-weight="600" fill="#56B6C2" letter-spacing="2">01 / EVENTS</text>
+    <text x="24" y="56" font-size="16" font-weight="700" fill="#C8D2DC" font-family="'Poppins', sans-serif">Lifecycle taxonomy</text>
+    <text x="24" y="78" font-size="11" fill="#6b7280">8 named events that hooks register against</text>
+
+    <line x1="24" y1="92" x2="516" y2="92" stroke="#1a1f28"/>
+
+    <text x="24" y="124" font-size="13" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">PreToolUse</text>
+    <text x="24" y="142" font-size="11" fill="#6b7280" font-style="italic">before any tool call · permission, sanitisation, routing</text>
+
+    <text x="24" y="178" font-size="13" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">PostToolUse</text>
+    <text x="24" y="196" font-size="11" fill="#6b7280" font-style="italic">after tool returns · telemetry, finding extraction, log</text>
+
+    <text x="24" y="232" font-size="13" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">SessionStart</text>
+    <text x="24" y="250" font-size="11" fill="#6b7280" font-style="italic">new conversation · memory bootup, freshness checks</text>
+
+    <text x="24" y="286" font-size="13" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">UserPromptSubmit</text>
+    <text x="24" y="304" font-size="11" fill="#6b7280" font-style="italic">user message · intent classify, delegation scoring</text>
+
+    <text x="24" y="340" font-size="13" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">Stop</text>
+    <text x="24" y="358" font-size="11" fill="#6b7280" font-style="italic">pause point · auto-archival, learning-loop emit</text>
+
+    <text x="24" y="394" font-size="13" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">SubagentStop</text>
+    <text x="24" y="412" font-size="11" fill="#6b7280" font-style="italic">subagent finished · result sanitise, finding propagate</text>
+
+    <text x="24" y="448" font-size="13" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">PreCompact / PostCompact</text>
+    <text x="24" y="466" font-size="11" fill="#6b7280" font-style="italic">context window pressure · state snapshot, restore</text>
+
+    <text x="24" y="502" font-size="13" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">PermissionDecision</text>
+    <text x="24" y="520" font-size="11" fill="#6b7280" font-style="italic">allow / deny prompt fired · capture for audit</text>
+
+    <line x1="24" y1="555" x2="516" y2="555" stroke="#1a1f28"/>
+    <text x="24" y="580" font-size="11" font-weight="700" fill="#9aa5b1" letter-spacing="1">REGISTRATION</text>
+    <text x="24" y="602" font-size="12" fill="#C8D2DC">Each event accepts N hooks · run in declared order</text>
+    <text x="24" y="622" font-size="11" fill="#6b7280" font-style="italic">any hook can veto via non-zero exit code</text>
+  </g>
+
+  <!-- CARD 2: CHAIN -->
+  <g transform="translate(630, 195)">
+    <rect width="540" height="640" rx="14" fill="#11151c" stroke="#1a1f28" stroke-width="1" filter="url(#sh)"/>
+    <text x="24" y="34" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="11" font-weight="600" fill="#56B6C2" letter-spacing="2">02 / CHAIN</text>
+    <text x="24" y="56" font-size="16" font-weight="700" fill="#C8D2DC" font-family="'Poppins', sans-serif">Tool-call lifecycle</text>
+    <text x="24" y="78" font-size="11" fill="#6b7280">Pre-chain · tool · post-chain · result</text>
+
+    <line x1="24" y1="92" x2="516" y2="92" stroke="#1a1f28"/>
+
+    <!-- Agent -->
+    <rect x="170" y="110" width="200" height="36" rx="6" fill="#0D1017" stroke="#56B6C2" stroke-width="1.5"/>
+    <text x="270" y="133" text-anchor="middle" font-size="13" font-weight="600" fill="#C8D2DC">Agent invokes tool</text>
+    <line x1="270" y1="146" x2="270" y2="170" stroke="#56B6C2" stroke-width="1.5" marker-end="url(#arr)"/>
+
+    <!-- PreToolUse chain box -->
+    <rect x="40" y="172" width="460" height="190" rx="8" fill="#0f1924" stroke="#1a3550" stroke-width="1"/>
+    <text x="56" y="194" font-size="11" font-weight="700" fill="#56B6C2" letter-spacing="1">PRETOOLUSE HOOKS · in order</text>
+
+    <text x="56" y="218" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">Permission check</text>
+    <text x="56" y="234" font-size="11" fill="#6b7280" font-style="italic">denylist (security, deploy, payment) · scope gate</text>
+
+    <text x="56" y="256" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">Input sanitisation</text>
+    <text x="56" y="272" font-size="11" fill="#6b7280" font-style="italic">strip secrets · path-traversal guard · escape shell</text>
+
+    <text x="56" y="294" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">Delegation routing</text>
+    <text x="56" y="310" font-size="11" fill="#6b7280" font-style="italic">score factors · adaptive threshold · personality trait</text>
+
+    <text x="56" y="332" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">Resource budget gate</text>
+    <text x="56" y="348" font-size="11" fill="#6b7280" font-style="italic">token budget · concurrency · cost ceiling</text>
+
+    <line x1="270" y1="370" x2="270" y2="396" stroke="#56B6C2" stroke-width="1.5" marker-end="url(#arr)"/>
+
+    <!-- Tool -->
+    <rect x="170" y="398" width="200" height="36" rx="6" fill="#0D1017" stroke="#9aa5b1" stroke-width="1.5"/>
+    <text x="270" y="421" text-anchor="middle" font-size="13" font-weight="600" fill="#C8D2DC">Tool executes</text>
+    <line x1="270" y1="434" x2="270" y2="458" stroke="#56B6C2" stroke-width="1.5" marker-end="url(#arr)"/>
+
+    <!-- PostToolUse chain box -->
+    <rect x="40" y="460" width="460" height="135" rx="8" fill="#0f1924" stroke="#1a3550" stroke-width="1"/>
+    <text x="56" y="482" font-size="11" font-weight="700" fill="#56B6C2" letter-spacing="1">POSTTOOLUSE HOOKS · capture + classify</text>
+
+    <text x="56" y="506" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">Telemetry capture</text>
+    <text x="56" y="522" font-size="11" fill="#6b7280" font-style="italic">one JSON line per call · append-only stream</text>
+
+    <text x="56" y="544" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">Finding extraction · outcome classification</text>
+    <text x="56" y="560" font-size="11" fill="#6b7280" font-style="italic">errors · learnings · success / silent-fail / error</text>
+
+    <text x="56" y="582" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">Drift detector · findings exchange</text>
+
+    <line x1="270" y1="603" x2="270" y2="615" stroke="#56B6C2" stroke-width="1.5" marker-end="url(#arr)"/>
+  </g>
+
+  <!-- CARD 3: FAILURE MODES -->
+  <g transform="translate(1220, 195)">
+    <rect width="540" height="640" rx="14" fill="#11151c" stroke="#1a1f28" stroke-width="1" filter="url(#sh)"/>
+    <text x="24" y="34" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="11" font-weight="600" fill="#e06c75" letter-spacing="2">03 / FAILURE MODES</text>
+    <text x="24" y="56" font-size="16" font-weight="700" fill="#C8D2DC" font-family="'Poppins', sans-serif">What goes wrong</text>
+    <text x="24" y="78" font-size="11" fill="#6b7280">Three bug classes the substrate must surface</text>
+
+    <line x1="24" y1="92" x2="516" y2="92" stroke="#1a1f28"/>
+
+    <text x="24" y="120" font-size="11" font-weight="700" fill="#e06c75" letter-spacing="1">LATERAL CHANNELS</text>
+    <text x="24" y="142" font-size="12" fill="#C8D2DC">Hooks share state outside the orchestrator:</text>
+    <text x="24" y="162" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#9aa5b1">tmp files · env vars · sqlite · sockets</text>
+    <text x="24" y="186" font-size="11" fill="#6b7280" font-style="italic">Concrete: writer A computes</text>
+    <text x="24" y="202" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#9aa5b1">/tmp/state-{$SESSION_ID}.json</text>
+    <text x="24" y="218" font-size="11" fill="#6b7280" font-style="italic">from runtime UUID, reader B resolves the</text>
+    <text x="24" y="234" font-size="11" fill="#6b7280" font-style="italic">same path from parent PID because env-var</text>
+    <text x="24" y="250" font-size="11" fill="#6b7280" font-style="italic">never exported into B's subshell. Read</text>
+    <text x="24" y="266" font-size="11" fill="#6b7280" font-style="italic">silently returns missing. Both hooks pass</text>
+    <text x="24" y="282" font-size="11" fill="#6b7280" font-style="italic">individual review. Invisible without an</text>
+    <text x="24" y="298" font-size="11" fill="#6b7280" font-style="italic">explicit map of shared channels.</text>
+
+    <line x1="24" y1="320" x2="516" y2="320" stroke="#1a1f28"/>
+
+    <text x="24" y="346" font-size="11" font-weight="700" fill="#e06c75" letter-spacing="1">FAIL-POSTURE PER HOOK</text>
+    <text x="24" y="368" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">fail-open</text>
+    <text x="24" y="384" font-size="11" fill="#6b7280" font-style="italic">good for telemetry · bad for safety checks</text>
+    <text x="24" y="406" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">fail-closed</text>
+    <text x="24" y="422" font-size="11" fill="#6b7280" font-style="italic">enforces · introduces availability dependency</text>
+    <text x="24" y="446" font-size="11" fill="#9aa5b1">Posture is per-hook, not substrate-wide.</text>
+    <text x="24" y="462" font-size="11" fill="#9aa5b1">Inherited defaults are silent bugs.</text>
+
+    <line x1="24" y1="484" x2="516" y2="484" stroke="#1a1f28"/>
+
+    <text x="24" y="510" font-size="11" font-weight="700" fill="#e06c75" letter-spacing="1">SUBAGENT COVERAGE GAP</text>
+    <text x="24" y="532" font-size="12" fill="#C8D2DC">When a subagent spawns its own tool calls,</text>
+    <text x="24" y="548" font-size="12" fill="#C8D2DC">the parent hook chain may not fire.</text>
+    <text x="24" y="572" font-size="11" fill="#6b7280" font-style="italic">Verify explicitly · assuming yes is a</text>
+    <text x="24" y="588" font-size="11" fill="#6b7280" font-style="italic">common bug that escapes per-hook audit.</text>
+    <text x="24" y="612" font-size="11" fill="#9aa5b1">Map sidechain coverage as a substrate property.</text>
+  </g>
+
+  <!-- BOTTOM ROW: 3 safety properties -->
+  <g transform="translate(40, 870)">
+    <rect width="1720" height="390" rx="14" fill="#11151c" stroke="#1a1f28" stroke-width="1" filter="url(#sh)"/>
+    <text x="24" y="34" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="11" font-weight="600" fill="#56B6C2" letter-spacing="2">04 / SAFETY PROPERTIES</text>
+    <text x="24" y="56" font-size="16" font-weight="700" fill="#C8D2DC" font-family="'Poppins', sans-serif">Why the substrate is load-bearing for operator-side safety</text>
+    <text x="24" y="78" font-size="11" fill="#6b7280">Three properties this layer gives an operator that no other layer does</text>
+
+    <line x1="24" y1="92" x2="1696" y2="92" stroke="#1a1f28"/>
+
+    <!-- Property 1 -->
+    <g transform="translate(40, 120)">
+      <rect width="520" height="240" rx="8" fill="#0f1924" stroke="#1a3550" stroke-width="1"/>
+      <text x="20" y="28" font-size="11" font-weight="700" fill="#56B6C2" letter-spacing="1">INSPECTABILITY</text>
+      <text x="20" y="58" font-size="14" font-weight="600" fill="#C8D2DC" font-family="'Poppins', sans-serif">Every tool call passes through</text>
+      <text x="20" y="76" font-size="14" font-weight="600" fill="#C8D2DC" font-family="'Poppins', sans-serif">hooks the operator owns</text>
+      <text x="20" y="110" font-size="12" fill="#9aa5b1">The substrate is the audit point.</text>
+      <text x="20" y="130" font-size="12" fill="#9aa5b1">A PostToolUse hook writing one JSON</text>
+      <text x="20" y="148" font-size="12" fill="#9aa5b1">line per call gives full session</text>
+      <text x="20" y="166" font-size="12" fill="#9aa5b1">reproducibility.</text>
+      <text x="20" y="200" font-size="11" fill="#6b7280" font-style="italic">If a behaviour happened, the line exists.</text>
+      <text x="20" y="218" font-size="11" fill="#6b7280" font-style="italic">No need to recreate the session to audit.</text>
+    </g>
+
+    <!-- Property 2 -->
+    <g transform="translate(600, 120)">
+      <rect width="520" height="240" rx="8" fill="#0f1924" stroke="#1a3550" stroke-width="1"/>
+      <text x="20" y="28" font-size="11" font-weight="700" fill="#56B6C2" letter-spacing="1">COMPOSITIONAL ENFORCEMENT</text>
+      <text x="20" y="58" font-size="14" font-weight="600" fill="#C8D2DC" font-family="'Poppins', sans-serif">Multiple hooks fire on the same</text>
+      <text x="20" y="76" font-size="14" font-weight="600" fill="#C8D2DC" font-family="'Poppins', sans-serif">event without coordinating</text>
+      <text x="20" y="110" font-size="12" fill="#9aa5b1">Permission check, sanitisation,</text>
+      <text x="20" y="128" font-size="12" fill="#9aa5b1">telemetry all attach to PreToolUse</text>
+      <text x="20" y="146" font-size="12" fill="#9aa5b1">independently. New enforcement adds</text>
+      <text x="20" y="164" font-size="12" fill="#9aa5b1">a new hook · removing strips one file.</text>
+      <text x="20" y="200" font-size="11" fill="#6b7280" font-style="italic">No central registry to corrupt.</text>
+      <text x="20" y="218" font-size="11" fill="#6b7280" font-style="italic">Order matters · document or non-determinism creeps in.</text>
+    </g>
+
+    <!-- Property 3 -->
+    <g transform="translate(1160, 120)">
+      <rect width="520" height="240" rx="8" fill="#0f1924" stroke="#1a3550" stroke-width="1"/>
+      <text x="20" y="28" font-size="11" font-weight="700" fill="#56B6C2" letter-spacing="1">LATERAL-CHANNEL AWARENESS</text>
+      <text x="20" y="58" font-size="14" font-weight="600" fill="#C8D2DC" font-family="'Poppins', sans-serif">Race conditions between hooks</text>
+      <text x="20" y="76" font-size="14" font-weight="600" fill="#C8D2DC" font-family="'Poppins', sans-serif">are the operator-side equivalent</text>
+      <text x="20" y="94" font-size="14" font-weight="600" fill="#C8D2DC" font-family="'Poppins', sans-serif">of capability leakage</text>
+      <text x="20" y="128" font-size="12" fill="#9aa5b1">Behaviour emerging from interaction</text>
+      <text x="20" y="146" font-size="12" fill="#9aa5b1">that isn't visible from inspecting</text>
+      <text x="20" y="164" font-size="12" fill="#9aa5b1">either component alone.</text>
+      <text x="20" y="200" font-size="11" fill="#6b7280" font-style="italic">Mapping shared channels is a separate</text>
+      <text x="20" y="218" font-size="11" fill="#6b7280" font-style="italic">discipline · without it, two writers race silently.</text>
+    </g>
+  </g>
+</svg>

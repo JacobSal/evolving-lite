@@ -1,0 +1,229 @@
+<svg viewBox="0 0 1800 1300" xmlns="http://www.w3.org/2000/svg" font-family="'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#56B6C2"/>
+    </marker>
+    <marker id="arrLoop" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#9aa5b1"/>
+    </marker>
+    <marker id="arrRed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#e06c75"/>
+    </marker>
+    <filter id="sh" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <rect width="1800" height="1300" fill="#0D1017"/>
+
+  <g transform="translate(40, 55)">
+    <text font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="16" font-weight="600" fill="#56B6C2">&gt;_</text>
+    <text x="32" font-size="12" font-weight="600" fill="#56B6C2" letter-spacing="4">OPERATOR REFERENCE PATTERNS</text>
+  </g>
+
+  <text x="900" y="110" text-anchor="middle" font-size="36" font-weight="700" fill="#C8D2DC" font-family="'Poppins', system-ui, sans-serif">Adaptive Routing <tspan fill="#56B6C2">.</tspan> Audit Trail</text>
+  <text x="900" y="140" text-anchor="middle" font-size="15" fill="#6b7280">Score factors · adaptive threshold · critical-keyword denylist · per-decision audit</text>
+  <text x="900" y="162" text-anchor="middle" font-size="12" fill="#4b5563" font-style="italic">Pattern reference for operator-side multi-agent infrastructure</text>
+
+  <!-- CARD 1: SCORE FACTORS + THRESHOLD -->
+  <g transform="translate(40, 195)">
+    <rect width="540" height="640" rx="14" fill="#11151c" stroke="#1a1f28" stroke-width="1" filter="url(#sh)"/>
+    <text x="24" y="34" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="11" font-weight="600" fill="#56B6C2" letter-spacing="2">01 / SCORING</text>
+    <text x="24" y="56" font-size="16" font-weight="700" fill="#C8D2DC" font-family="'Poppins', sans-serif">Score factors + threshold</text>
+    <text x="24" y="78" font-size="11" fill="#6b7280">Factors summed · threshold adapts to context</text>
+
+    <line x1="24" y1="92" x2="516" y2="92" stroke="#1a1f28"/>
+
+    <text x="24" y="118" font-size="11" font-weight="700" fill="#9aa5b1" letter-spacing="1">FACTORS</text>
+
+    <text x="24" y="143" font-size="13" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">scope &gt; 2 files</text>
+    <text x="500" y="143" text-anchor="end" font-size="13" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#56B6C2">+2</text>
+    <text x="24" y="159" font-size="11" fill="#6b7280" font-style="italic">multi-file work benefits from dedicated subagent</text>
+
+    <text x="24" y="188" font-size="13" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">bulk operation</text>
+    <text x="500" y="188" text-anchor="end" font-size="13" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#56B6C2">+2</text>
+    <text x="24" y="204" font-size="11" fill="#6b7280" font-style="italic">parallel-friendly · low coordination cost</text>
+
+    <text x="24" y="233" font-size="13" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">research / exploration</text>
+    <text x="500" y="233" text-anchor="end" font-size="13" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#56B6C2">+3</text>
+    <text x="24" y="249" font-size="11" fill="#6b7280" font-style="italic">explore-class subagents are cheap + parallel</text>
+
+    <text x="24" y="278" font-size="13" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">independent task</text>
+    <text x="500" y="278" text-anchor="end" font-size="13" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#56B6C2">+2</text>
+    <text x="24" y="294" font-size="11" fill="#6b7280" font-style="italic">no back-and-forth with parent agent needed</text>
+
+    <text x="24" y="323" font-size="13" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">critical keyword</text>
+    <text x="500" y="323" text-anchor="end" font-size="13" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#e06c75">-10</text>
+    <text x="24" y="339" font-size="11" fill="#6b7280" font-style="italic">production · deploy · password · secret · payment</text>
+
+    <text x="24" y="368" font-size="13" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">operator wants to see</text>
+    <text x="500" y="368" text-anchor="end" font-size="13" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#e06c75">-5</text>
+    <text x="24" y="384" font-size="11" fill="#6b7280" font-style="italic">"show me" / "explain" stays on main agent</text>
+
+    <text x="24" y="413" font-size="13" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">complexity &gt; threshold</text>
+    <text x="500" y="413" text-anchor="end" font-size="13" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#e06c75">-3</text>
+    <text x="24" y="429" font-size="11" fill="#6b7280" font-style="italic">too much delegation overhead at high complexity</text>
+
+    <line x1="24" y1="455" x2="516" y2="455" stroke="#1a1f28"/>
+
+    <text x="24" y="482" font-size="11" font-weight="700" fill="#9aa5b1" letter-spacing="1">ADAPTIVE THRESHOLD FORMULA</text>
+    <text x="24" y="510" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">base = 3.0</text>
+    <text x="24" y="528" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">+ context_load_modifier</text>
+    <text x="24" y="546" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">+ recent_outcome_streak</text>
+    <text x="24" y="564" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">+ active_agent_anti_stampede</text>
+    <text x="24" y="595" font-size="11" fill="#6b7280" font-style="italic">example: -0.5 if context-pct &lt; 40</text>
+    <text x="24" y="611" font-size="11" fill="#6b7280" font-style="italic">-0.3 if last 3 delegations succeeded · +0.5 if 2+ agents active</text>
+  </g>
+
+  <!-- CARD 2: PIPELINE -->
+  <g transform="translate(630, 195)">
+    <rect width="540" height="640" rx="14" fill="#11151c" stroke="#1a1f28" stroke-width="1" filter="url(#sh)"/>
+    <text x="24" y="34" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="11" font-weight="600" fill="#56B6C2" letter-spacing="2">02 / PIPELINE</text>
+    <text x="24" y="56" font-size="16" font-weight="700" fill="#C8D2DC" font-family="'Poppins', sans-serif">Routing decision lifecycle</text>
+    <text x="24" y="78" font-size="11" fill="#6b7280">Score · denylist veto · threshold · decision · audit · outcome · feedback</text>
+
+    <line x1="24" y1="92" x2="516" y2="92" stroke="#1a1f28"/>
+
+    <rect x="120" y="115" width="300" height="40" rx="6" fill="#0D1017" stroke="#56B6C2" stroke-width="1.5"/>
+    <text x="270" y="140" text-anchor="middle" font-size="13" font-weight="600" fill="#C8D2DC">Task input</text>
+    <line x1="270" y1="156" x2="270" y2="180" stroke="#56B6C2" stroke-width="1.5" marker-end="url(#arr)"/>
+
+    <rect x="120" y="182" width="300" height="40" rx="6" fill="#0D1017" stroke="#56B6C2" stroke-width="1.5"/>
+    <text x="270" y="207" text-anchor="middle" font-size="13" font-weight="600" fill="#C8D2DC">Score factors summed</text>
+
+    <!-- Side veto -->
+    <rect x="420" y="170" width="100" height="64" rx="6" fill="#2a1818" stroke="#e06c75" stroke-width="1.5"/>
+    <text x="470" y="190" text-anchor="middle" font-size="10" font-weight="700" fill="#e06c75" letter-spacing="1">DENYLIST</text>
+    <text x="470" y="207" text-anchor="middle" font-size="11" fill="#C8D2DC">hard veto</text>
+    <text x="470" y="223" text-anchor="middle" font-size="10" fill="#6b7280" font-style="italic">never-delegate</text>
+    <path d="M 425 200 L 415 200" stroke="#e06c75" stroke-width="1.5" marker-end="url(#arrRed)"/>
+
+    <line x1="270" y1="223" x2="270" y2="248" stroke="#56B6C2" stroke-width="1.5" marker-end="url(#arr)"/>
+
+    <rect x="120" y="250" width="300" height="40" rx="6" fill="#0D1017" stroke="#56B6C2" stroke-width="1.5"/>
+    <text x="270" y="275" text-anchor="middle" font-size="13" font-weight="600" fill="#C8D2DC">Adaptive threshold check</text>
+    <line x1="270" y1="290" x2="270" y2="315" stroke="#56B6C2" stroke-width="1.5" marker-end="url(#arr)"/>
+
+    <rect x="120" y="317" width="300" height="50" rx="6" fill="#0D1017" stroke="#56B6C2" stroke-width="1.5"/>
+    <text x="270" y="338" text-anchor="middle" font-size="13" font-weight="600" fill="#C8D2DC">Decision</text>
+    <text x="270" y="356" text-anchor="middle" font-size="11" fill="#6b7280" font-style="italic">which agent · which model · which trait</text>
+    <line x1="270" y1="367" x2="270" y2="392" stroke="#56B6C2" stroke-width="1.5" marker-end="url(#arr)"/>
+
+    <rect x="40" y="394" width="280" height="50" rx="6" fill="#0d2a30" stroke="#56B6C2" stroke-width="1.5"/>
+    <text x="180" y="415" text-anchor="middle" font-size="13" font-weight="700" fill="#C8D2DC">Apply</text>
+    <text x="180" y="431" text-anchor="middle" font-size="10" fill="#6b7280" font-style="italic">subagent spawn</text>
+
+    <rect x="340" y="394" width="160" height="50" rx="6" fill="#1a1f28" stroke="#9aa5b1" stroke-width="1"/>
+    <text x="420" y="415" text-anchor="middle" font-size="12" font-weight="600" fill="#9aa5b1">Audit log entry</text>
+    <text x="420" y="431" text-anchor="middle" font-size="10" fill="#6b7280" font-style="italic">score + threshold + decision</text>
+    <line x1="320" y1="419" x2="340" y2="419" stroke="#9aa5b1" stroke-width="1.5"/>
+
+    <line x1="180" y1="444" x2="180" y2="470" stroke="#56B6C2" stroke-width="1.5" marker-end="url(#arr)"/>
+
+    <rect x="40" y="472" width="280" height="50" rx="6" fill="#0D1017" stroke="#56B6C2" stroke-width="1.5"/>
+    <text x="180" y="493" text-anchor="middle" font-size="13" font-weight="600" fill="#C8D2DC">Outcome</text>
+    <text x="180" y="509" text-anchor="middle" font-size="10" fill="#6b7280" font-style="italic">success · silent-fail · error</text>
+
+    <!-- Feedback loop back to threshold -->
+    <path d="M 50 497 Q 20 497 20 275 Q 20 270 115 270" stroke="#9aa5b1" stroke-width="1.5" fill="none" stroke-dasharray="5 4" marker-end="url(#arrLoop)"/>
+    <text x="6" y="395" font-size="10" fill="#9aa5b1" font-style="italic" transform="rotate(-90 6 395)">outcome-tracker feedback</text>
+
+    <line x1="24" y1="552" x2="516" y2="552" stroke="#1a1f28"/>
+    <text x="24" y="578" font-size="11" font-weight="700" fill="#9aa5b1" letter-spacing="1">PERSONALITY-TRAIT INJECTION</text>
+    <text x="24" y="600" font-size="12" fill="#C8D2DC">Operators layer traits onto routing decisions</text>
+    <text x="24" y="616" font-size="11" fill="#6b7280" font-style="italic">curious for explore · cautious for debug · perfectionist for review</text>
+  </g>
+
+  <!-- CARD 3: FAILURE MODES -->
+  <g transform="translate(1220, 195)">
+    <rect width="540" height="640" rx="14" fill="#11151c" stroke="#1a1f28" stroke-width="1" filter="url(#sh)"/>
+    <text x="24" y="34" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="11" font-weight="600" fill="#e06c75" letter-spacing="2">03 / FAILURE MODES</text>
+    <text x="24" y="56" font-size="16" font-weight="700" fill="#C8D2DC" font-family="'Poppins', sans-serif">Where adaptive routing breaks</text>
+    <text x="24" y="78" font-size="11" fill="#6b7280">Five risks the operator must design around</text>
+
+    <line x1="24" y1="92" x2="516" y2="92" stroke="#1a1f28"/>
+
+    <text x="24" y="120" font-size="11" font-weight="700" fill="#e06c75" letter-spacing="1">SCORE-FACTOR DESIGN OPEN</text>
+    <text x="24" y="142" font-size="12" fill="#C8D2DC">What goes into the score is the operator's call.</text>
+    <text x="24" y="160" font-size="11" fill="#6b7280" font-style="italic">Good defaults: scope, complexity, exploration.</text>
+    <text x="24" y="176" font-size="11" fill="#6b7280" font-style="italic">Bad defaults: cost-only, length-only, popularity.</text>
+    <text x="24" y="192" font-size="11" fill="#9aa5b1">Document factor version with each audit entry.</text>
+
+    <line x1="24" y1="210" x2="516" y2="210" stroke="#1a1f28"/>
+
+    <text x="24" y="233" font-size="11" font-weight="700" fill="#e06c75" letter-spacing="1">THRESHOLD COLLAPSE</text>
+    <text x="24" y="255" font-size="12" fill="#C8D2DC">Recent outcomes drive threshold.</text>
+    <text x="24" y="273" font-size="11" fill="#6b7280" font-style="italic">Biased outcomes (bad week) drive biased threshold.</text>
+    <text x="24" y="289" font-size="11" fill="#6b7280" font-style="italic">Threshold tracks the bias if undamped.</text>
+    <text x="24" y="305" font-size="11" fill="#9aa5b1">Slow EMA + exploration floor prevent collapse.</text>
+
+    <line x1="24" y1="323" x2="516" y2="323" stroke="#1a1f28"/>
+
+    <text x="24" y="346" font-size="11" font-weight="700" fill="#e06c75" letter-spacing="1">AUDIT LOG NOISE</text>
+    <text x="24" y="368" font-size="12" fill="#C8D2DC">Router fires on every interaction.</text>
+    <text x="24" y="386" font-size="11" fill="#6b7280" font-style="italic">Large audit stream needs triage.</text>
+    <text x="24" y="402" font-size="11" fill="#6b7280" font-style="italic">Tag entries with class for downstream filters.</text>
+    <text x="24" y="418" font-size="11" fill="#9aa5b1">Priority routing entries separated from routine.</text>
+
+    <line x1="24" y1="436" x2="516" y2="436" stroke="#1a1f28"/>
+
+    <text x="24" y="459" font-size="11" font-weight="700" fill="#e06c75" letter-spacing="1">DENYLIST OBSOLESCENCE</text>
+    <text x="24" y="481" font-size="12" fill="#C8D2DC">Critical-keyword denylist sits outside score.</text>
+    <text x="24" y="499" font-size="11" fill="#6b7280" font-style="italic">Cannot be downgraded by the score.</text>
+    <text x="24" y="515" font-size="11" fill="#6b7280" font-style="italic">Outdated denylist is worse than too-aggressive.</text>
+    <text x="24" y="531" font-size="11" fill="#9aa5b1">Review the list periodically.</text>
+
+    <line x1="24" y1="549" x2="516" y2="549" stroke="#1a1f28"/>
+
+    <text x="24" y="572" font-size="11" font-weight="700" fill="#e06c75" letter-spacing="1">TRAIT-MAPPING DRIFT</text>
+    <text x="24" y="594" font-size="12" fill="#C8D2DC">Personality traits are a separate dimension.</text>
+    <text x="24" y="612" font-size="11" fill="#6b7280" font-style="italic">Ad-hoc overrides accumulate without documentation.</text>
+    <text x="24" y="628" font-size="11" fill="#9aa5b1">Documented mapping = inspectable trait choice.</text>
+  </g>
+
+  <!-- BOTTOM: SAFETY PROPERTIES -->
+  <g transform="translate(40, 870)">
+    <rect width="1720" height="390" rx="14" fill="#11151c" stroke="#1a1f28" stroke-width="1" filter="url(#sh)"/>
+    <text x="24" y="34" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="11" font-weight="600" fill="#56B6C2" letter-spacing="2">04 / SAFETY PROPERTIES</text>
+    <text x="24" y="56" font-size="16" font-weight="700" fill="#C8D2DC" font-family="'Poppins', sans-serif">Why adaptive + auditable beats static rules</text>
+    <text x="24" y="78" font-size="11" fill="#6b7280">Three properties the audit-trail-first design gives an operator</text>
+
+    <line x1="24" y1="92" x2="1696" y2="92" stroke="#1a1f28"/>
+
+    <g transform="translate(40, 120)">
+      <rect width="520" height="240" rx="8" fill="#0f1924" stroke="#1a3550" stroke-width="1"/>
+      <text x="20" y="28" font-size="11" font-weight="700" fill="#56B6C2" letter-spacing="1">REVERSIBILITY</text>
+      <text x="20" y="58" font-size="14" font-weight="600" fill="#C8D2DC" font-family="'Poppins', sans-serif">Decisions are traceable</text>
+      <text x="20" y="92" font-size="12" fill="#9aa5b1">Audit entry contains: inputs that led to it,</text>
+      <text x="20" y="110" font-size="12" fill="#9aa5b1">threshold in effect at the moment, outcome.</text>
+      <text x="20" y="146" font-size="12" fill="#9aa5b1">Operators build rules from the audit log</text>
+      <text x="20" y="164" font-size="12" fill="#9aa5b1">retroactively.</text>
+      <text x="20" y="200" font-size="11" fill="#6b7280" font-style="italic">Router is stateless between decisions.</text>
+      <text x="20" y="218" font-size="11" fill="#6b7280" font-style="italic">Reversal = change factors / threshold formula.</text>
+    </g>
+
+    <g transform="translate(600, 120)">
+      <rect width="520" height="240" rx="8" fill="#0f1924" stroke="#1a3550" stroke-width="1"/>
+      <text x="20" y="28" font-size="11" font-weight="700" fill="#56B6C2" letter-spacing="1">DRIFT DETECTION</text>
+      <text x="20" y="58" font-size="14" font-weight="600" fill="#C8D2DC" font-family="'Poppins', sans-serif">Routing changes are visible</text>
+      <text x="20" y="92" font-size="12" fill="#9aa5b1">Threshold adaptation is the most likely</text>
+      <text x="20" y="110" font-size="12" fill="#9aa5b1">drift source. Exposing it makes the drift</text>
+      <text x="20" y="128" font-size="12" fill="#9aa5b1">visible instead of hidden.</text>
+      <text x="20" y="170" font-size="12" fill="#9aa5b1">Analysis over audit log flags "router</text>
+      <text x="20" y="188" font-size="12" fill="#9aa5b1">routed N% more to X this week than last."</text>
+      <text x="20" y="218" font-size="11" fill="#6b7280" font-style="italic">Drift you can see is drift you can decide on.</text>
+    </g>
+
+    <g transform="translate(1160, 120)">
+      <rect width="520" height="240" rx="8" fill="#0f1924" stroke="#1a3550" stroke-width="1"/>
+      <text x="20" y="28" font-size="11" font-weight="700" fill="#56B6C2" letter-spacing="1">OPERATOR OVERRIDE</text>
+      <text x="20" y="58" font-size="14" font-weight="600" fill="#C8D2DC" font-family="'Poppins', sans-serif">Override on top of score</text>
+      <text x="20" y="92" font-size="12" fill="#9aa5b1">Keyword-based overrides layer on top of</text>
+      <text x="20" y="110" font-size="12" fill="#9aa5b1">the computed score: always-delegate,</text>
+      <text x="20" y="128" font-size="12" fill="#9aa5b1">never-delegate, force-agent.</text>
+      <text x="20" y="170" font-size="12" fill="#9aa5b1">Override on top is safer than override</text>
+      <text x="20" y="188" font-size="12" fill="#9aa5b1">replacing because the score record stays</text>
+      <text x="20" y="206" font-size="12" fill="#9aa5b1">intact for audit.</text>
+    </g>
+  </g>
+</svg>

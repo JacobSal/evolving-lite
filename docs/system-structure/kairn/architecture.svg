@@ -1,0 +1,192 @@
+<svg viewBox="0 0 1800 1300" xmlns="http://www.w3.org/2000/svg" font-family="'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#56B6C2"/>
+    </marker>
+    <filter id="sh" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <rect width="1800" height="1300" fill="#0D1017"/>
+
+  <g transform="translate(40, 55)">
+    <text font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="16" font-weight="600" fill="#56B6C2">&gt;_</text>
+    <text x="32" font-size="12" font-weight="600" fill="#56B6C2" letter-spacing="4">OPERATOR REFERENCE PATTERNS</text>
+  </g>
+
+  <text x="900" y="110" text-anchor="middle" font-size="36" font-weight="700" fill="#C8D2DC" font-family="'Poppins', system-ui, sans-serif">Persistent Knowledge Layer</text>
+  <text x="900" y="140" text-anchor="middle" font-size="15" fill="#6b7280">Typed durable store · capture + retrieval as hook responsibilities · cross-session memory</text>
+  <text x="900" y="162" text-anchor="middle" font-size="12" fill="#4b5563" font-style="italic">Pattern reference for operator-side multi-agent infrastructure</text>
+
+  <!-- CARD 1: RECORD TYPES -->
+  <g transform="translate(40, 195)">
+    <rect width="540" height="640" rx="14" fill="#11151c" stroke="#1a1f28" stroke-width="1" filter="url(#sh)"/>
+    <text x="24" y="34" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="11" font-weight="600" fill="#56B6C2" letter-spacing="2">01 / RECORD TAXONOMY</text>
+    <text x="24" y="56" font-size="16" font-weight="700" fill="#C8D2DC" font-family="'Poppins', sans-serif">Typed records</text>
+    <text x="24" y="78" font-size="11" fill="#6b7280">6 types · provenance per record · pruning policy per type</text>
+
+    <line x1="24" y1="92" x2="516" y2="92" stroke="#1a1f28"/>
+
+    <text x="24" y="124" font-size="13" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">decision</text>
+    <text x="24" y="142" font-size="11" fill="#6b7280" font-style="italic">architectural choice + rejected alternative</text>
+
+    <text x="24" y="178" font-size="13" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">pattern</text>
+    <text x="24" y="196" font-size="11" fill="#6b7280" font-style="italic">reusable approach across two or more occurrences</text>
+
+    <text x="24" y="232" font-size="13" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">gotcha</text>
+    <text x="24" y="250" font-size="11" fill="#6b7280" font-style="italic">non-obvious failure mode hit in the wild</text>
+
+    <text x="24" y="286" font-size="13" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">solution</text>
+    <text x="24" y="304" font-size="11" fill="#6b7280" font-style="italic">specific debugging path that resolved an issue</text>
+
+    <text x="24" y="340" font-size="13" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">workaround</text>
+    <text x="24" y="358" font-size="11" fill="#6b7280" font-style="italic">bypass of a limitation without a real fix · open debt</text>
+
+    <text x="24" y="394" font-size="13" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">preference</text>
+    <text x="24" y="412" font-size="11" fill="#6b7280" font-style="italic">operator correction or stylistic call</text>
+
+    <line x1="24" y1="445" x2="516" y2="445" stroke="#1a1f28"/>
+
+    <text x="24" y="472" font-size="11" font-weight="700" fill="#9aa5b1" letter-spacing="1">PROVENANCE PER RECORD</text>
+    <text x="24" y="496" font-size="12" fill="#C8D2DC">session · agent · trigger · timestamp</text>
+    <text x="24" y="514" font-size="11" fill="#6b7280" font-style="italic">enough to trace a record back to its origin</text>
+
+    <text x="24" y="548" font-size="11" font-weight="700" fill="#9aa5b1" letter-spacing="1">PRUNING POLICY</text>
+    <text x="24" y="572" font-size="12" fill="#C8D2DC">type-specific archival cadence</text>
+    <text x="24" y="590" font-size="11" fill="#6b7280" font-style="italic">gotchas retained, workarounds reviewed,</text>
+    <text x="24" y="606" font-size="11" fill="#6b7280" font-style="italic">low-retrieval-frequency records archived</text>
+  </g>
+
+  <!-- CARD 2: CAPTURE + RETRIEVAL -->
+  <g transform="translate(630, 195)">
+    <rect width="540" height="640" rx="14" fill="#11151c" stroke="#1a1f28" stroke-width="1" filter="url(#sh)"/>
+    <text x="24" y="34" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="11" font-weight="600" fill="#56B6C2" letter-spacing="2">02 / CAPTURE + RETRIEVAL</text>
+    <text x="24" y="56" font-size="16" font-weight="700" fill="#C8D2DC" font-family="'Poppins', sans-serif">Hook-mediated I/O</text>
+    <text x="24" y="78" font-size="11" fill="#6b7280">Producer side appends · consumer side queries</text>
+
+    <line x1="24" y1="92" x2="516" y2="92" stroke="#1a1f28"/>
+
+    <rect x="60" y="115" width="420" height="40" rx="6" fill="#0D1017" stroke="#56B6C2" stroke-width="1.5"/>
+    <text x="270" y="140" text-anchor="middle" font-size="13" font-weight="600" fill="#C8D2DC">Agent (any session)</text>
+    <line x1="270" y1="156" x2="270" y2="178" stroke="#56B6C2" stroke-width="1.5" marker-end="url(#arr)"/>
+
+    <rect x="40" y="180" width="460" height="80" rx="8" fill="#0f1924" stroke="#1a3550" stroke-width="1"/>
+    <text x="56" y="202" font-size="11" font-weight="700" fill="#56B6C2" letter-spacing="1">CAPTURE HOOK</text>
+    <text x="56" y="224" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">append typed record · attach provenance</text>
+    <text x="56" y="244" font-size="11" fill="#6b7280" font-style="italic">fires on trigger events (Stop, correction, decision)</text>
+
+    <line x1="270" y1="262" x2="270" y2="288" stroke="#56B6C2" stroke-width="1.5" marker-end="url(#arr)"/>
+
+    <rect x="40" y="290" width="460" height="100" rx="8" fill="#0d2a30" stroke="#56B6C2" stroke-width="1.5"/>
+    <text x="56" y="316" font-size="11" font-weight="700" fill="#56B6C2" letter-spacing="1">KNOWLEDGE STORE</text>
+    <text x="56" y="340" font-size="14" font-weight="700" fill="#C8D2DC" font-family="'Poppins', sans-serif">durable · typed · append-mostly</text>
+    <text x="56" y="362" font-size="11" fill="#9aa5b1">read by every agent · written via capture · pruned on cadence</text>
+    <text x="56" y="378" font-size="11" fill="#6b7280" font-style="italic">single source of cross-session truth</text>
+
+    <line x1="270" y1="392" x2="270" y2="418" stroke="#56B6C2" stroke-width="1.5" marker-end="url(#arr)"/>
+
+    <rect x="40" y="420" width="460" height="80" rx="8" fill="#0f1924" stroke="#1a3550" stroke-width="1"/>
+    <text x="56" y="442" font-size="11" font-weight="700" fill="#56B6C2" letter-spacing="1">RETRIEVAL HOOK</text>
+    <text x="56" y="464" font-size="12" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" fill="#C8D2DC">keyword + type filter + cross-reference</text>
+    <text x="56" y="484" font-size="11" fill="#6b7280" font-style="italic">fires on need (SessionStart, mid-task lookup)</text>
+
+    <line x1="270" y1="502" x2="270" y2="524" stroke="#56B6C2" stroke-width="1.5" marker-end="url(#arr)"/>
+
+    <rect x="60" y="526" width="420" height="40" rx="6" fill="#0D1017" stroke="#56B6C2" stroke-width="1.5"/>
+    <text x="270" y="551" text-anchor="middle" font-size="13" font-weight="600" fill="#C8D2DC">Agent (later session · maybe other project)</text>
+
+    <line x1="24" y1="585" x2="516" y2="585" stroke="#1a1f28"/>
+    <text x="270" y="608" text-anchor="middle" font-size="11" fill="#6b7280" font-style="italic">writes are append-mostly · reads are filtered · pruning runs on cadence</text>
+  </g>
+
+  <!-- CARD 3: FAILURE MODES -->
+  <g transform="translate(1220, 195)">
+    <rect width="540" height="640" rx="14" fill="#11151c" stroke="#1a1f28" stroke-width="1" filter="url(#sh)"/>
+    <text x="24" y="34" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="11" font-weight="600" fill="#e06c75" letter-spacing="2">03 / FAILURE MODES</text>
+    <text x="24" y="56" font-size="16" font-weight="700" fill="#C8D2DC" font-family="'Poppins', sans-serif">What corrodes the store</text>
+    <text x="24" y="78" font-size="11" fill="#6b7280">Five risks the operator must actively manage</text>
+
+    <line x1="24" y1="92" x2="516" y2="92" stroke="#1a1f28"/>
+
+    <text x="24" y="120" font-size="11" font-weight="700" fill="#e06c75" letter-spacing="1">POLLUTION</text>
+    <text x="24" y="142" font-size="12" fill="#C8D2DC">Accepts every observation, fills with noise.</text>
+    <text x="24" y="160" font-size="11" fill="#6b7280" font-style="italic">Mitigation: archive records older than N days</text>
+    <text x="24" y="176" font-size="11" fill="#6b7280" font-style="italic">with low retrieval frequency.</text>
+
+    <line x1="24" y1="195" x2="516" y2="195" stroke="#1a1f28"/>
+
+    <text x="24" y="218" font-size="11" font-weight="700" fill="#e06c75" letter-spacing="1">RETRIEVAL RELEVANCE</text>
+    <text x="24" y="240" font-size="12" fill="#C8D2DC">Keyword retrieval misses semantic neighbours.</text>
+    <text x="24" y="258" font-size="11" fill="#6b7280" font-style="italic">Degrades past a few thousand records.</text>
+    <text x="24" y="274" font-size="11" fill="#6b7280" font-style="italic">Embedding retrieval is a separate concern.</text>
+
+    <line x1="24" y1="293" x2="516" y2="293" stroke="#1a1f28"/>
+
+    <text x="24" y="316" font-size="11" font-weight="700" fill="#e06c75" letter-spacing="1">TRUST CALIBRATION</text>
+    <text x="24" y="338" font-size="12" fill="#C8D2DC">Records are claims, not truths.</text>
+    <text x="24" y="356" font-size="11" fill="#6b7280" font-style="italic">Auto-generated records can be wrong,</text>
+    <text x="24" y="372" font-size="11" fill="#6b7280" font-style="italic">mis-attributed, premature.</text>
+    <text x="24" y="388" font-size="11" fill="#9aa5b1">Reviewer discipline is the only correction loop.</text>
+
+    <line x1="24" y1="407" x2="516" y2="407" stroke="#1a1f28"/>
+
+    <text x="24" y="430" font-size="11" font-weight="700" fill="#e06c75" letter-spacing="1">STORAGE GROWTH</text>
+    <text x="24" y="452" font-size="12" fill="#C8D2DC">Long-running deployments accumulate.</text>
+    <text x="24" y="470" font-size="11" fill="#6b7280" font-style="italic">Plan archival from day one.</text>
+    <text x="24" y="486" font-size="11" fill="#6b7280" font-style="italic">Weekly pruning beats migration at capacity.</text>
+
+    <line x1="24" y1="505" x2="516" y2="505" stroke="#1a1f28"/>
+
+    <text x="24" y="528" font-size="11" font-weight="700" fill="#e06c75" letter-spacing="1">SCHEMA DRIFT</text>
+    <text x="24" y="550" font-size="12" fill="#C8D2DC">Record types and fields evolve.</text>
+    <text x="24" y="568" font-size="11" fill="#6b7280" font-style="italic">Without versioning discipline, old records</text>
+    <text x="24" y="584" font-size="11" fill="#6b7280" font-style="italic">become unreadable.</text>
+    <text x="24" y="606" font-size="11" fill="#9aa5b1">schema_version per record + migration on read.</text>
+  </g>
+
+  <!-- BOTTOM: SAFETY PROPERTIES -->
+  <g transform="translate(40, 870)">
+    <rect width="1720" height="390" rx="14" fill="#11151c" stroke="#1a1f28" stroke-width="1" filter="url(#sh)"/>
+    <text x="24" y="34" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="11" font-weight="600" fill="#56B6C2" letter-spacing="2">04 / SAFETY PROPERTIES</text>
+    <text x="24" y="56" font-size="16" font-weight="700" fill="#C8D2DC" font-family="'Poppins', sans-serif">Why this layer is load-bearing for operator-side safety</text>
+    <text x="24" y="78" font-size="11" fill="#6b7280">Three properties the persistent layer gives an operator that ephemeral memory does not</text>
+
+    <line x1="24" y1="92" x2="1696" y2="92" stroke="#1a1f28"/>
+
+    <g transform="translate(40, 120)">
+      <rect width="520" height="240" rx="8" fill="#0f1924" stroke="#1a3550" stroke-width="1"/>
+      <text x="20" y="28" font-size="11" font-weight="700" fill="#56B6C2" letter-spacing="1">OPERATOR-CORRECTION DURABILITY</text>
+      <text x="20" y="58" font-size="14" font-weight="600" fill="#C8D2DC" font-family="'Poppins', sans-serif">Corrections outlive sessions</text>
+      <text x="20" y="92" font-size="12" fill="#9aa5b1">A preference record captured in one session</text>
+      <text x="20" y="110" font-size="12" fill="#9aa5b1">is consulted before similar work in future</text>
+      <text x="20" y="128" font-size="12" fill="#9aa5b1">sessions.</text>
+      <text x="20" y="170" font-size="12" fill="#9aa5b1">Without persistence, the same mistake recurs.</text>
+      <text x="20" y="188" font-size="12" fill="#9aa5b1">With it, corrections compound into a falling</text>
+      <text x="20" y="206" font-size="12" fill="#9aa5b1">error rate.</text>
+    </g>
+
+    <g transform="translate(600, 120)">
+      <rect width="520" height="240" rx="8" fill="#0f1924" stroke="#1a3550" stroke-width="1"/>
+      <text x="20" y="28" font-size="11" font-weight="700" fill="#56B6C2" letter-spacing="1">AUDIT TRAIL</text>
+      <text x="20" y="58" font-size="14" font-weight="600" fill="#C8D2DC" font-family="'Poppins', sans-serif">The system's long memory</text>
+      <text x="20" y="92" font-size="12" fill="#9aa5b1">Anything important enough to learn from</text>
+      <text x="20" y="110" font-size="12" fill="#9aa5b1">leaves a record the operator can read,</text>
+      <text x="20" y="128" font-size="12" fill="#9aa5b1">dispute, edit, or remove.</text>
+      <text x="20" y="170" font-size="12" fill="#9aa5b1">"Why did the system do X" is answerable</text>
+      <text x="20" y="188" font-size="12" fill="#9aa5b1">by finding the record that influenced the</text>
+      <text x="20" y="206" font-size="12" fill="#9aa5b1">decision.</text>
+    </g>
+
+    <g transform="translate(1160, 120)">
+      <rect width="520" height="240" rx="8" fill="#0f1924" stroke="#1a3550" stroke-width="1"/>
+      <text x="20" y="28" font-size="11" font-weight="700" fill="#56B6C2" letter-spacing="1">CROSS-PROJECT TRANSFER</text>
+      <text x="20" y="58" font-size="14" font-weight="600" fill="#C8D2DC" font-family="'Poppins', sans-serif">Patterns propagate</text>
+      <text x="20" y="92" font-size="12" fill="#9aa5b1">A gotcha found in project X is available</text>
+      <text x="20" y="110" font-size="12" fill="#9aa5b1">when working on project Y the next day.</text>
+      <text x="20" y="152" font-size="12" fill="#9aa5b1">Compounds operator capacity over time.</text>
+      <text x="20" y="170" font-size="12" fill="#9aa5b1">Reduces cold-start tax on new contexts.</text>
+      <text x="20" y="206" font-size="11" fill="#6b7280" font-style="italic">Cross-project namespaces resolve at retrieval.</text>
+    </g>
+  </g>
+</svg>
