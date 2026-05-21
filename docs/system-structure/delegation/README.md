@@ -1,5 +1,7 @@
 # Adaptive Routing with Audit Trail
 
+![Architecture diagram](./architecture.svg)
+
 A reference pattern for deciding which agent gets which task in a multi-agent system, with the decision, its inputs, and its outcome preserved together for review.
 
 ## The operator-side problem

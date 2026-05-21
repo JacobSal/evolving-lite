@@ -1,5 +1,7 @@
 # Tool-Call Instrumentation Substrate
 
+![Architecture diagram](./architecture.svg)
+
 A reference pattern for placing observability and policy enforcement at the tool-invocation boundary in a multi-agent system, with concrete event taxonomy and lateral-channel discipline.
 
 ## The operator-side problem

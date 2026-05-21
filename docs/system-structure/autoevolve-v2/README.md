@@ -1,5 +1,7 @@
 # Self-Tuning Loop with Layered Safety
 
+![Architecture diagram](./architecture.svg)
+
 A reference pattern for letting a multi-agent system tune its own configuration over time, with seven specific defense-in-depth mechanisms against accumulated drift.
 
 ## The operator-side problem

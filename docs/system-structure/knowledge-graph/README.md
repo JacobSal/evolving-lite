@@ -1,5 +1,7 @@
 # Unified Knowledge Graph
 
+![Architecture diagram](./architecture.svg)
+
 A reference pattern for storing the relationships between the knowledge atoms in a multi-agent system, with typed nodes, typed edges, and auto-inferred derived views.
 
 ## The operator-side problem

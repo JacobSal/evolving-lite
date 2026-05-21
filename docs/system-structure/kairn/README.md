@@ -1,5 +1,7 @@
 # Persistent Knowledge Layer
 
+![Architecture diagram](./architecture.svg)
+
 A reference pattern for a session-spanning typed knowledge store shared across the agents in a multi-agent system, with capture and retrieval as first-class hook responsibilities.
 
 ## The operator-side problem
