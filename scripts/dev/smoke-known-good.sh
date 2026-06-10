@@ -9,8 +9,13 @@ FAIL=0
 
 run_case() {
   local desc="$1" cmd="$2" expected="$3"
-  printf '{"tool_input":{"command":%s}}' "$(python3 -c 'import json,sys;print(json.dumps(sys.argv[1]))' "$cmd")" \
-    | python3 "$HOOK" >/dev/null 2>&1
+  local json
+  if ! json="$(python3 -c 'import json,sys;print(json.dumps(sys.argv[1]))' "$cmd")"; then
+    echo "FAIL: $desc (could not construct JSON input)"
+    FAIL=1
+    return
+  fi
+  printf '{"tool_input":{"command":%s}}' "$json" | python3 "$HOOK" >/dev/null 2>&1
   local actual=$?
   if [ "$actual" -eq "$expected" ]; then
     echo "PASS: $desc (exit $actual)"
