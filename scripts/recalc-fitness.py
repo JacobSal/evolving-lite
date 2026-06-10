@@ -54,6 +54,7 @@ Consumers:
     - future lens/trait selectors read lens-fitness.json / trait-fitness.json
 """
 
+import fcntl
 import json
 import os
 import sys
@@ -109,12 +110,29 @@ DEFAULT_CONFIG = {
 FITNESS_CONFIG_NAME = "fitness-config.json"
 
 
+# Valid ranges for numeric overrides. A value outside its range is rejected
+# (code default kept) - e.g. a zero/negative cold_start_threshold would
+# silently disable blending, an out-of-unit alpha breaks the EMA contract.
+_CONFIG_RANGES = {
+    "window_size": (1, 10_000),
+    "ema_alpha": (0.0, 1.0),
+    "ema_alpha_up": (0.0, 1.0),
+    "ema_alpha_down": (0.0, 1.0),
+    "recovery_floor": (0.0, 1.0),
+    "score_ceil": (0.0, 1.0),
+    "minimum_viable_population": (0, 10_000),
+    "cold_start_threshold": (1, 10_000),
+    "cold_start_default_weight": (0.0, 1.0),
+}
+
+
 def load_config(root: Path) -> dict:
     """Merge fitness-config.json over the code defaults.
 
-    Per-key type check: an override is accepted only when its type matches
-    the default's type (bool/int/float treated leniently for numerics).
-    Fail-open: any read/parse problem returns pure code defaults.
+    Per-key validation: an override is accepted only when its type matches
+    the default's type (bool/int/float treated leniently for numerics) AND,
+    for numerics, it falls inside _CONFIG_RANGES. Fail-open: any read/parse
+    problem returns pure code defaults; an invalid key keeps its default.
     """
     cfg = dict(DEFAULT_CONFIG)
     path = Path(root) / "_graph" / "cache" / FITNESS_CONFIG_NAME
@@ -129,7 +147,9 @@ def load_config(root: Path) -> dict:
             val = overrides[key]
             if isinstance(default, (int, float)) and not isinstance(default, bool):
                 if isinstance(val, (int, float)) and not isinstance(val, bool):
-                    cfg[key] = val
+                    lo, hi = _CONFIG_RANGES.get(key, (float("-inf"), float("inf")))
+                    if lo <= val <= hi:
+                        cfg[key] = val
             elif isinstance(val, type(default)):
                 cfg[key] = val
         return cfg
@@ -158,6 +178,14 @@ def read_ledger(path: Path):
     if not path.exists():
         return events
     with open(path, "r") as f:
+        # Shared lock pairs with the producers' LOCK_EX appends so a
+        # SessionStart recalc never reads a row mid-append from a concurrent
+        # session's Stop handler. Advisory + fail-open: if the lock cannot
+        # be taken the read proceeds (malformed-line guard limits damage).
+        try:
+            fcntl.flock(f.fileno(), fcntl.LOCK_SH)
+        except Exception:
+            pass
         for line_num, line in enumerate(f, 1):
             line = line.strip()
             if not line:
@@ -286,7 +314,14 @@ def _ema_meta(cfg):
 
 
 def cold_start_blend(observed, default, event_count, cfg):
-    """Blend observed score with default when few events exist."""
+    """Blend observed score with default when few events exist.
+
+    Pipeline order note: every call site runs EMA -> cold_start_blend ->
+    apply_ratchet_floor. The floor is deliberately the LAST backstop on the
+    blended value (not on the raw EMA): in the sparse regime the blend
+    usually lifts the score above the floor already, and applying the floor
+    last guarantees the published score never sits below it regardless of
+    how the blend weights are configured."""
     threshold = cfg["cold_start_threshold"]
     default_w = cfg["cold_start_default_weight"]
     if event_count >= threshold:

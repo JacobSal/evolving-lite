@@ -4,7 +4,7 @@
   "delegation_threshold": 3,
   "mutation_rules": {
     "v2_tuning_enabled": true,
-    "_doc": "Global self-tuning switch. When true, the delegation-outcome-tracker appends outcome rows to _memory/analytics/cognitive-fitness.jsonl and recalc-fitness.py turns them into fitness caches; the AutoEvolve optimizer (when ported) additionally self-tunes configs from that signal, guarded by a minimum-sample threshold (no mutation until a task_type has 8 real outcomes), a no-regression auto-revert gate, and a rejected-mutation log. OFF SWITCH: set v2_tuning_enabled to false - this halts fitness-ledger appends AND all config self-tuning in one step. Per-target defaults ship with the AutoEvolve port."
+    "_doc": "Global self-tuning switch. When true, the delegation-outcome-tracker appends outcome rows to _memory/analytics/cognitive-fitness.jsonl and recalc-fitness.py turns them into the fitness caches the delegation hooks read; config self-tuning components additionally use that signal, guarded by a minimum-sample threshold (no tuning until a task_type has 8 real outcomes). OFF SWITCH: set v2_tuning_enabled to false - this halts fitness-ledger appends AND all config self-tuning in one step."
   },
   "task_type_routing": {
     "exploration": {"model": "haiku", "effort": "low", "max_turns": 3},

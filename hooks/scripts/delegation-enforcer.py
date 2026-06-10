@@ -170,12 +170,10 @@ def lookup_fitness(task_type: str) -> float | None:
     try:
         cache = safe_read_json(GRAPH_CACHE_DIR / "delegation-fitness.json")
         entry = (cache.get("scores") or {}).get(task_type) or {}
+        # This plugin's producer (delegation-outcome-tracker) always writes
+        # entity == task_type, so only the exact cell is surfaced. Foreign
+        # entity keys (other producers) get no hint rather than a guessed one.
         value = entry.get(task_type)
-        if value is None and entry:
-            # Entity key may differ from the task_type (e.g. an agent name);
-            # fall back to the entity with the most evidence-neutral pick:
-            # the highest score, deterministic by key on ties.
-            value = max(sorted(entry.items()), key=lambda kv: kv[1])[1]
         if isinstance(value, (int, float)) and 0.0 <= float(value) <= 1.0:
             return float(value)
         return None

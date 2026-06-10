@@ -167,6 +167,26 @@ class TestLoadConfig:
         (cache / "fitness-config.json").write_text("{NOT JSON")
         assert rf.load_config(tmp_path) == rf.DEFAULT_CONFIG
 
+    def test_out_of_range_numerics_rejected(self, tmp_path):
+        # RC finding: a zero/negative cold_start_threshold silently disables
+        # blending, an out-of-unit alpha breaks the EMA contract - both must
+        # be rejected (code default kept), not clamped silently.
+        cache = tmp_path / "_graph" / "cache"
+        cache.mkdir(parents=True)
+        (cache / "fitness-config.json").write_text(json.dumps({
+            "cold_start_threshold": -1,
+            "ema_alpha_down": 1.7,
+            "window_size": 0,
+            "recovery_floor": -0.2,
+            "minimum_viable_population": 4,  # valid, must survive
+        }))
+        cfg = rf.load_config(tmp_path)
+        assert cfg["cold_start_threshold"] == rf.DEFAULT_CONFIG["cold_start_threshold"]
+        assert cfg["ema_alpha_down"] == rf.DEFAULT_CONFIG["ema_alpha_down"]
+        assert cfg["window_size"] == rf.DEFAULT_CONFIG["window_size"]
+        assert cfg["recovery_floor"] == rf.DEFAULT_CONFIG["recovery_floor"]
+        assert cfg["minimum_viable_population"] == 4
+
     def test_wrong_typed_key_ignored(self, tmp_path):
         cache = tmp_path / "_graph" / "cache"
         cache.mkdir(parents=True)
@@ -361,6 +381,20 @@ class TestEnforcerConsumesFitness:
             ctx = out["hookSpecificOutput"]["additionalContext"]
             assert "fitness" in ctx.lower()
             assert "0.8136" in ctx
+        finally:
+            Path(f"/tmp/delegation-pending-{sid}.json").unlink(missing_ok=True)
+
+    def test_no_hint_for_foreign_entity_keys(self, tmp_path):
+        # Only the exact (task_type, task_type) cell is surfaced; a foreign
+        # entity key must produce no hint rather than a guessed score.
+        root = self._enforcer_tree(tmp_path)
+        (root / "_graph" / "cache" / "delegation-fitness.json").write_text(
+            json.dumps({"scores": {"exploration": {"some-agent": 0.9}}}))
+        sid = f"test-{uuid.uuid4().hex[:12]}"
+        try:
+            out = self._fire(root, sid)
+            ctx = out["hookSpecificOutput"]["additionalContext"]
+            assert "fitness" not in ctx.lower()
         finally:
             Path(f"/tmp/delegation-pending-{sid}.json").unlink(missing_ok=True)
 
