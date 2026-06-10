@@ -70,6 +70,11 @@ PY
 check "S3 curated router content survived concurrent-writer discipline" $?
 
 # --- S4: telemetry chain ---------------------------------------------------
+# The delegation enforcer is tier-gated (active from session 3+ by design,
+# dormant on install day). Seed the session counter to simulate steady state -
+# the Doctor's synthetic pulse uses the same seeding.
+mkdir -p _memory
+printf '5' > _memory/.session-count
 printf '{"session_id":"%s","hook_event_name":"UserPromptSubmit","prompt":"find all usages of the config loader across the whole codebase"}' \
   "$CLAUDE_SESSION_ID" | python3 hooks/scripts/delegation-enforcer.py >/dev/null
 test -f "/tmp/delegation-pending-$CLAUDE_SESSION_ID.json"
