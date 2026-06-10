@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Pre-commit leak-scan gate. Enable once per clone:
+#   git config core.hooksPath .githooks
+exec python3 "$(git rev-parse --show-toplevel)/scripts/dev/leak-scan.py"

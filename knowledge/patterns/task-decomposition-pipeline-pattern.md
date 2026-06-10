@@ -31,7 +31,7 @@ complexity: high
 - Inkonsistente Qualität bei ähnlichen Anfragen
 
 **Why this is a problem**:
-Bei beratungsintensiven Themen (Steuern, Finanzen, Auswanderung) brauchen Nutzer vollständige, fundierte Antworten. Eine oberflächliche Antwort kann zu falschen Entscheidungen führen und Vertrauen zerstören.
+Bei beratungsintensiven Themen (Steuern, Finanzen, Recht) brauchen Nutzer vollständige, fundierte Antworten. Eine oberflächliche Antwort kann zu falschen Entscheidungen führen und Vertrauen zerstören.
 
 ---
 
