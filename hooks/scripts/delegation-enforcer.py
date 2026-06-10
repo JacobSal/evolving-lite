@@ -22,6 +22,7 @@ import json
 import os
 import re
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent / "lib"))
@@ -187,6 +188,44 @@ def format_delegation_message(score: int, factors: list, routing: dict) -> str:
     return msg
 
 
+def write_pending_marker(hook_input: dict, score: int, routing: dict,
+                         user_input: str) -> None:
+    """Write the per-session pending marker the delegation-outcome-tracker
+    consumes (PreToolUse marks it resolved; Stop drains it into
+    delegation-gaps.jsonl). O_NOFOLLOW + 0600 against planted symlinks at
+    the predictable /tmp path; fail-open."""
+    try:
+        session_id = (hook_input.get("session_id")
+                      or os.environ.get("CLAUDE_SESSION_ID")
+                      or f"pid-{os.getppid()}")
+        marker = {
+            "task_type": routing.get("task_type", "general"),
+            "score": score,
+            "effective_threshold": DELEGATION_THRESHOLD,
+            "task_description": user_input[:100],
+            "emit_ts": datetime.now(timezone.utc).isoformat(),
+            "resolved": False,
+        }
+        path = Path(f"/tmp/delegation-pending-{session_id}.json")
+        tmp = path.with_suffix(".json.tmp")
+        if tmp.is_symlink():
+            tmp.unlink()
+        fd = os.open(str(tmp), os.O_WRONLY | os.O_CREAT | os.O_TRUNC | os.O_NOFOLLOW, 0o600)
+        try:
+            f = os.fdopen(fd, "w")
+        except Exception:
+            try:
+                os.close(fd)
+            except OSError:
+                pass
+            raise
+        with f:
+            json.dump(marker, f)
+        os.replace(tmp, path)
+    except Exception:
+        pass
+
+
 def main():
     try:
         # Tier gate
@@ -195,7 +234,11 @@ def main():
             sys.exit(0)
 
         hook_input = read_hook_input()
-        user_input = hook_input.get("content", hook_input.get("message", ""))
+        # CC's UserPromptSubmit payload carries the text in "prompt";
+        # "content"/"message" kept as fallbacks for older payload shapes.
+        user_input = (hook_input.get("prompt")
+                      or hook_input.get("content")
+                      or hook_input.get("message", ""))
 
         if not user_input or len(user_input) < MIN_PROMPT_LENGTH:
             write_sentinel("delegation-enforcer", "skip-short")
@@ -219,8 +262,13 @@ def main():
 
         msg = format_delegation_message(score, factors, routing)
 
+        # Backward-signal producer: the delegation-outcome-tracker consumes
+        # this marker at PreToolUse (resolved) + Stop (outcome row).
+        write_pending_marker(hook_input, score, routing, user_input)
+
+        # NOTE: no top-level "decision" key - that shape is rejected by the
+        # hook schema; hookSpecificOutput alone is the valid form.
         output = {
-            "decision": "allow",
             "hookSpecificOutput": {
                 "hookEventName": "UserPromptSubmit",
                 "additionalContext": msg
