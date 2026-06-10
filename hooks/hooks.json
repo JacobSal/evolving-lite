@@ -11,6 +11,36 @@
             "timeout": 10
           }
         ]
+      },
+      {
+        "matcher": "startup|resume",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/graph/coactivation-aggregator.py",
+            "timeout": 15
+          },
+          {
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/graph/compute-hot-pairs.py",
+            "timeout": 15
+          },
+          {
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/graph/synthesis-detector.py",
+            "timeout": 15
+          },
+          {
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/graph/auto-edges.py",
+            "timeout": 15
+          },
+          {
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/graph/auto-routes.py",
+            "timeout": 15
+          }
+        ]
       }
     ],
     "PreToolUse": [
@@ -43,6 +73,16 @@
             "timeout": 10
           }
         ]
+      },
+      {
+        "matcher": "Task|Agent",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/delegation-outcome-tracker.py",
+            "timeout": 10
+          }
+        ]
       }
     ],
     "UserPromptSubmit": [
@@ -71,6 +111,16 @@
             "timeout": 10
           }
         ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/artifact-registration-enforcer.py",
+            "timeout": 10
+          }
+        ]
       }
     ],
     "PreCompact": [
@@ -96,6 +146,11 @@
           {
             "type": "command",
             "command": "python3 ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/auto-archival.py",
+            "timeout": 10
+          },
+          {
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/delegation-outcome-tracker.py",
             "timeout": 10
           }
         ]
