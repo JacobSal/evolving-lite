@@ -7,7 +7,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/scripts/health-sentinel.sh",
+            "command": "/c/Users/jsalm/Documents/GitHub/llm_resume_writer/submodules/evolving-lite/hooks/scripts/health-sentinel.sh",
             "timeout": 10
           }
         ]
@@ -19,7 +19,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/security-tier-check.py",
+            "command": "python3 /c/Users/jsalm/Documents/GitHub/llm_resume_writer/submodules/evolving-lite/hooks/scripts/security-tier-check.py",
             "timeout": 10
           }
         ]
@@ -29,7 +29,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/scripts/context-warning.sh",
+            "command": "/c/Users/jsalm/Documents/GitHub/llm_resume_writer/submodules/evolving-lite/hooks/scripts/context-warning.sh",
             "timeout": 10
           }
         ]
@@ -39,7 +39,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/thinking-recall.py",
+            "command": "python3 /c/Users/jsalm/Documents/GitHub/llm_resume_writer/submodules/evolving-lite/hooks/scripts/thinking-recall.py",
             "timeout": 10
           }
         ]
@@ -50,12 +50,12 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/correction-detector.py",
+            "command": "python3 /c/Users/jsalm/Documents/GitHub/llm_resume_writer/submodules/evolving-lite/hooks/scripts/correction-detector.py",
             "timeout": 10
           },
           {
             "type": "command",
-            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/delegation-enforcer.py",
+            "command": "python3 /c/Users/jsalm/Documents/GitHub/llm_resume_writer/submodules/evolving-lite/hooks/scripts/delegation-enforcer.py",
             "timeout": 10
           }
         ]
@@ -67,7 +67,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/usage-tracker.py",
+            "command": "python3 /c/Users/jsalm/Documents/GitHub/llm_resume_writer/submodules/evolving-lite/hooks/scripts/usage-tracker.py",
             "timeout": 10
           }
         ]
@@ -79,7 +79,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/precompact-extract.py",
+            "command": "python3 /c/Users/jsalm/Documents/GitHub/llm_resume_writer/submodules/evolving-lite/hooks/scripts/precompact-extract.py",
             "timeout": 10
           }
         ]
@@ -90,12 +90,12 @@
         "hooks": [
           {
             "type": "command",
-            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/scripts/session-summary.sh",
+            "command": "/c/Users/jsalm/Documents/GitHub/llm_resume_writer/submodules/evolving-lite/hooks/scripts/session-summary.sh",
             "timeout": 10
           },
           {
             "type": "command",
-            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/auto-archival.py",
+            "command": "python3 /c/Users/jsalm/Documents/GitHub/llm_resume_writer/submodules/evolving-lite/hooks/scripts/auto-archival.py",
             "timeout": 10
           }
         ]
