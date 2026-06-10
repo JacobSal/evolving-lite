@@ -1,0 +1,17 @@
+{
+  "_description": "Injectable configuration for scripts/recalc-fitness.py. Every key here overrides the code default of the same name (same-type values only; wrong-typed or unknown keys are ignored, missing/malformed file falls back to code defaults entirely). Taxonomy tables ship EMPTY on a fresh install: entity/domain names flow in as strings from the producers, so the scorer needs no pre-registered taxonomy. Populate lens_defaults / lens_cognitive_modes / trait_defaults if you add lens or trait producers with known repertoires.",
+  "window_size": 30,
+  "ema_alpha": 0.3,
+  "ema_alpha_up": 0.3,
+  "ema_alpha_down": 0.45,
+  "recovery_floor": 0.15,
+  "score_ceil": 1.0,
+  "minimum_viable_population": 8,
+  "cold_start_threshold": 5,
+  "cold_start_default_weight": 0.8,
+  "lens_defaults": {},
+  "lens_cognitive_modes": {},
+  "static_quick_picks": [],
+  "trait_defaults": {},
+  "stale_trait_task_types": []
+}

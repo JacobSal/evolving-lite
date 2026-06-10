@@ -160,7 +160,31 @@ def determine_routing(text: str, keywords: list, config: dict) -> dict:
     return {"task_type": "general", "model": "sonnet", "effort": "medium", "source": "default"}
 
 
-def format_delegation_message(score: int, factors: list, routing: dict) -> str:
+def lookup_fitness(task_type: str) -> float | None:
+    """Read the per-task-type delegation fitness score from the recalc cache.
+
+    delegation-fitness.json is produced by scripts/recalc-fitness.py from the
+    cognitive-fitness ledger (which this hook's own pending markers feed via
+    the delegation-outcome-tracker - the closed fitness loop). Fail-open:
+    absent cache / absent task_type / malformed value -> None (no hint)."""
+    try:
+        cache = safe_read_json(GRAPH_CACHE_DIR / "delegation-fitness.json")
+        entry = (cache.get("scores") or {}).get(task_type) or {}
+        value = entry.get(task_type)
+        if value is None and entry:
+            # Entity key may differ from the task_type (e.g. an agent name);
+            # fall back to the entity with the most evidence-neutral pick:
+            # the highest score, deterministic by key on ties.
+            value = max(sorted(entry.items()), key=lambda kv: kv[1])[1]
+        if isinstance(value, (int, float)) and 0.0 <= float(value) <= 1.0:
+            return float(value)
+        return None
+    except Exception:
+        return None
+
+
+def format_delegation_message(score: int, factors: list, routing: dict,
+                              fitness: float | None = None) -> str:
     """Format the delegation suggestion message."""
     task_type = routing["task_type"]
     model = routing["model"]
@@ -184,6 +208,10 @@ def format_delegation_message(score: int, factors: list, routing: dict) -> str:
 
     if model == "haiku":
         msg += " Haiku is sufficient and 10x cheaper for this task."
+
+    if fitness is not None:
+        msg += (f" Historical delegation fitness for {task_type}: {fitness}"
+                f" (1.0 = delegations consistently worked out).")
 
     return msg
 
@@ -260,7 +288,8 @@ def main():
         config = safe_read_json(GRAPH_CACHE_DIR / "delegation-config.json")
         routing = determine_routing(user_input, keywords, config)
 
-        msg = format_delegation_message(score, factors, routing)
+        fitness = lookup_fitness(routing.get("task_type", "general"))
+        msg = format_delegation_message(score, factors, routing, fitness)
 
         # Backward-signal producer: the delegation-outcome-tracker consumes
         # this marker at PreToolUse (resolved) + Stop (outcome row).

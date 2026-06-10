@@ -39,6 +39,11 @@
             "type": "command",
             "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/graph/auto-routes.py",
             "timeout": 15
+          },
+          {
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/recalc-fitness.py --trigger session-start",
+            "timeout": 15
           }
         ]
       }

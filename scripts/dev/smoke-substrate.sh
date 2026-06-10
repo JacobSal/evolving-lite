@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Substrate smoke test (Phase 1 gate; later promoted into the Self-Star
-# Doctor's "substrate" junction checks).
+# Substrate smoke test (Phase 1+2 gate; later promoted into the Self-Star
+# Doctor's "substrate" + "fitness" junction checks).
 #
 # Proves on the COMMITTED tree, from cold data:
 #   S1: graph pipeline builds caches from empty (coactivation, hot-pairs)
@@ -8,6 +8,10 @@
 #       + kairn queue + latency ledger)
 #   S3: auto-edges/auto-routes pick up the ARS-created node without data loss
 #   S4: telemetry chain produces a delegation-gaps row + hook-invocations rows
+#   S5: fitness junction - the S4 Stop wrote a cognitive-fitness row (the
+#       shipped mutation_rules.v2_tuning_enabled gate is ON), recalc turns it
+#       into a bounded delegation-fitness score, and the delegation-enforcer
+#       consumer surfaces that score on the next suggestion
 #
 # Run inside the clean-room for the gate: scripts/dev/clean-room.sh bash scripts/dev/smoke-substrate.sh
 set -uo pipefail
@@ -109,6 +113,44 @@ PY
 check "S4 gaps row (was_delegated=true) + hook-invocations telemetry" $?
 test ! -f "/tmp/delegation-pending-$CLAUDE_SESSION_ID.json"
 check "S4 marker unlinked after Stop" $?
+
+# --- S5: fitness junction ----------------------------------------------------
+# S4's Stop already appended a cognitive-fitness row: the committed
+# delegation-config ships mutation_rules.v2_tuning_enabled=true.
+python3 - << PY
+import json, sys
+rows = [json.loads(l) for l in open("_memory/analytics/cognitive-fitness.jsonl")]
+row = rows[-1]
+ok = (row["system"] == "delegation"
+      and row["outcome"] == "positive"
+      and row["details"]["was_delegated"] is True
+      and row["details"]["session"] == "$CLAUDE_SESSION_ID")
+sys.exit(0 if ok else 1)
+PY
+check "S5 Stop appended cognitive-fitness row (v2_tuning_enabled gate ON)" $?
+python3 scripts/recalc-fitness.py --trigger smoke >/dev/null 2>&1
+check "S5 recalc-fitness exits 0" $?
+python3 - << 'PY'
+import json, sys
+ok = True
+for name in ("lens-fitness.json", "trait-fitness.json", "delegation-fitness.json"):
+    d = json.load(open(f"_graph/cache/{name}"))
+    ok = ok and "updated" in d and "scores" in d
+d = json.load(open("_graph/cache/delegation-fitness.json"))
+entry = d["scores"].get("exploration", {})
+score = entry.get("exploration")
+ok = ok and isinstance(score, float) and 0.0 <= score <= 1.0
+inv = json.loads(open("_ledgers/recalc-fitness-invocations.jsonl").read().splitlines()[-1])
+ok = ok and inv["success"] is True and inv["events_read"] >= 1
+sys.exit(0 if ok else 1)
+PY
+check "S5 recalc produced 3 caches + bounded delegation score + invocation row" $?
+# Consumer leg: a fresh suggestion now carries the historical fitness hint.
+S5_OUT=$(printf '{"session_id":"%s","hook_event_name":"UserPromptSubmit","prompt":"find all usages of the config loader across the whole codebase"}' \
+  "$CLAUDE_SESSION_ID" | python3 hooks/scripts/delegation-enforcer.py)
+echo "$S5_OUT" | grep -qi "historical delegation fitness for exploration"
+check "S5 enforcer consumer surfaces the fitness score" $?
+rm -f "/tmp/delegation-pending-$CLAUDE_SESSION_ID.json"
 
 if [ "$FAIL" -eq 0 ]; then
   echo "SUBSTRATE SMOKE: ALL GREEN"
