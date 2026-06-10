@@ -33,6 +33,15 @@ PY
 check "S1 coactivation.json valid schema from empty" $?
 
 # --- S2: ARS synthetic registration --------------------------------------
+# Snapshot the curated router state BEFORE any writer runs (S3 compares
+# against this snapshot instead of a hardcoded fixture value, so curating
+# routes never breaks the gate).
+python3 - << 'PY'
+import json
+router = json.load(open("_graph/cache/context-router.json"))["routes"]
+curated = {k: v for k, v in router.items() if "primary_nodes" in v}
+json.dump(curated, open("/tmp/smoke-curated-routes.json", "w"))
+PY
 mkdir -p commands
 printf '# Smoke Test Command\n\nSynthetic artifact for the substrate smoke.\n' > commands/smoke-test-cmd.md
 printf '{"tool_name":"Write","tool_input":{"file_path":"%s/commands/smoke-test-cmd.md"},"session_id":"%s"}' \
@@ -63,9 +72,12 @@ python3 scripts/graph/generate-core-view.py >/dev/null 2>&1
 check "S3 generate-core-view exits 0" $?
 python3 - << 'PY'
 import json, sys
-# Curated routes survived all writers (lost-update guard).
+# Every curated route (snapshot from before any writer ran) survived all
+# writers byte-identically (lost-update guard).
 router = json.load(open("_graph/cache/context-router.json"))["routes"]
-sys.exit(0 if router["debugging"]["primary_nodes"] == ["knowledge/rules/quick-dsv.md"] else 1)
+curated = json.load(open("/tmp/smoke-curated-routes.json"))
+ok = all(router.get(k) == v for k, v in curated.items())
+sys.exit(0 if ok and curated else 1)
 PY
 check "S3 curated router content survived concurrent-writer discipline" $?
 

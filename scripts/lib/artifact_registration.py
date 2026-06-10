@@ -49,10 +49,10 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
 try:
-    from lib.locked_json_rmw import locked_rmw_json, locked_write_remerge
+    from lib.locked_json_rmw import locked_rmw_json
     from lib.plugin_paths import plugin_root
 except ImportError:  # same-dir import path (scripts/lib on sys.path)
-    from locked_json_rmw import locked_rmw_json, locked_write_remerge
+    from locked_json_rmw import locked_rmw_json
     from plugin_paths import plugin_root
 
 # ---------------------------------------------------------------------------
@@ -354,10 +354,14 @@ def enqueue_kairn_add(
 def upsert_router_route(route_name: str, keywords: List[str], refs: List[str]) -> bool:
     """Add or merge a route into context-router.json. Idempotent on route_name.
 
-    Writes via locked_write_remerge (read-fresh-under-lock, in-place) -
+    Writes via the locked in-place RMW (read-fresh-under-lock) -
     context-router.json is a multi-writer target across concurrent sessions.
     Curated routes using the human-edited `primary_nodes` key are never
     touched; this writer manages node-id `primary`/`secondary` keys only.
+
+    A LockTimeout propagates to the dispatcher's per-target try/except so a
+    real write failure is RECORDED as a failure, never misreported as an
+    idempotent skip.
     """
     if not ROUTER_FILE.exists():
         return False
@@ -392,7 +396,9 @@ def upsert_router_route(route_name: str, keywords: List[str], refs: List[str]) -
             }
         return True
 
-    return locked_write_remerge(ROUTER_FILE, _apply, acquire_timeout_s=0.5)
+    return locked_rmw_json(
+        ROUTER_FILE, lambda doc: (doc, _apply(doc)), acquire_timeout_s=0.5
+    )
 
 
 def upsert_detection_entry(
@@ -411,6 +417,9 @@ def upsert_detection_entry(
     Curation-safety: with preserve_existing=True (default) this is strict
     insert-only - an existing entry is left untouched so hand-curated
     keywords/confidence are never downgraded by auto-generated defaults.
+
+    A LockTimeout propagates to the dispatcher (recorded as a target
+    failure, not an idempotent skip).
     """
     if not DETECTION_FILE.exists():
         return False
@@ -444,7 +453,9 @@ def upsert_detection_entry(
         }
         return True
 
-    return locked_write_remerge(DETECTION_FILE, _apply, acquire_timeout_s=0.5)
+    return locked_rmw_json(
+        DETECTION_FILE, lambda doc: (doc, _apply(doc)), acquire_timeout_s=0.5
+    )
 
 
 def upsert_knowledge_node(
