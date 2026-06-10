@@ -31,3 +31,12 @@ __pycache__/
 # OS
 .DS_Store
 Thumbs.db
+
+# Runtime graph caches (generated from the user's own sessions; cold-data)
+_graph/cache/coactivation.json
+_graph/cache/hot-pairs.json
+_graph/cache/centrality-scores.json
+_graph/cache/synthesis-candidates.json
+_graph/cache/.synthesis-detector-input-fingerprint.json
+_graph/core-nodes.json
+_ledgers/
