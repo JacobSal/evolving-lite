@@ -38,16 +38,6 @@ It runs **once automatically** on your first session and is re-runnable any time
 touching `settings.json`, never overwrites or deletes) and runs its pulse in an isolated
 scratch copy, so it never touches your real data.
 
-## Audit + Prevention
-
-Evolving Lite prevents drift in real-time. [Claude Health](https://github.com/tw93/claude-health) audits your full config on demand. Together they close the loop.
-
-| | Evolving Lite | Claude Health |
-|---|---|---|
-| **When** | Every session (automatic) | On demand (`/health`) |
-| **How** | Hooks, pulse checks, correction pipeline | 6-layer config audit with parallel diagnostics |
-| **Catches** | Drift as it happens | Existing gaps and misconfigurations |
-
 ## What Makes This Different
 
 Most Claude Code tools add features. Evolving Lite adds **feedback loops**.
