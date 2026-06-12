@@ -13,6 +13,16 @@
         ]
       },
       {
+        "matcher": "startup",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/doctor.py --session-start",
+            "timeout": 15
+          }
+        ]
+      },
+      {
         "matcher": "startup|resume",
         "hooks": [
           {

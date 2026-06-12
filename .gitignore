@@ -8,6 +8,7 @@ _memory/projects/*.json
 _memory/plans/*.md
 _memory/.session-count
 _memory/.a3-test
+_memory/.doctor-bootstrapped
 _memory/index.json
 # Runtime security ledgers only (the allowlist.json config IS shipped)
 _memory/security/*.log
