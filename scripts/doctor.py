@@ -34,6 +34,7 @@ Stdlib only. Fail-open: a crash in the Doctor never blocks a session.
 import argparse
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -201,7 +202,10 @@ def _plugin_registered(settings_path: Path, root: Path) -> bool:
         return False
     dirs = data.get("pluginDirectories", []) or []
     rp = str(root)
-    return any(rp == os.path.expanduser(str(d)) or str(root.name) in str(d) for d in dirs)
+    # Exact (expanduser-normalized) match only - a substring match would
+    # false-positive on a similarly-named sibling plugin and silently skip
+    # the consent-gated registration.
+    return any(os.path.expanduser(str(d)) == rp for d in dirs)
 
 
 def _register_plugin(settings_path: Path, root: Path) -> bool:
@@ -255,9 +259,10 @@ def _parse_smoke(stdout: str) -> dict:
             if line.startswith(verdict):
                 rest = line[len(verdict):].strip()
                 token = rest.split()[0] if rest else ""
-                if token.startswith("S") and token[1:2].isdigit():
-                    prefix = token[:2]
-                    results.setdefault(prefix, []).append(verdict == "PASS:")
+                # Full "S<digits>" token (S1..S8 today, S10+ future-safe) - using
+                # token[:2] would mis-bucket S10 into S1.
+                if re.fullmatch(r"S\d+", token):
+                    results.setdefault(token, []).append(verdict == "PASS:")
     return results
 
 
@@ -363,10 +368,11 @@ def build_board(root: Path, pf: dict, wiring: dict, pulse, security, kairn) -> d
         board["security"] = {"status": RED, "detail": f"tier_ok={security.get('tier_ok')} secret={security.get('secret_flagged')} injection={security.get('injection_flagged')}"}
     board["kairn-link"] = kairn
     # Downgrade any junction to RED if a required file is missing under it.
-    if not wiring["ok"]:
+    if not wiring["ok"] and wiring["missing_files"]:
+        # Annotate ALL junctions (incl. RED ones - a missing file is often the
+        # cause of a RED smoke result, so the operator needs the pointer).
         for j in board:
-            if board[j]["status"] == GREEN and wiring["missing_files"]:
-                board[j]["detail"] += " (NOTE: wiring gaps present)"
+            board[j]["detail"] += " (NOTE: wiring gaps present)"
     return board
 
 
@@ -429,7 +435,11 @@ def main() -> int:
     ap.add_argument("--no-heal", action="store_true")
     ap.add_argument("--session-start", action="store_true",
                     help="guarded once-per-install quick run (no pulse)")
-    args = ap.parse_args()
+    try:
+        args = ap.parse_args()
+    except SystemExit:
+        # Bad/unknown args in a hook context must never break the session.
+        return 0
 
     root = _plugin_root()
 

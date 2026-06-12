@@ -1,6 +1,7 @@
 """Self-Star Doctor tests: heal whitelist (R5), board classification, pulses."""
 import importlib.util
 import json
+import sys
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
@@ -72,6 +73,17 @@ def test_heal_recognizes_already_registered_plugin(tmp_path):
     assert not any("register_plugin" in a[0] for a in actions)
 
 
+def test_plugin_registered_no_substring_false_positive(tmp_path):
+    # RC#1: a sibling plugin whose path merely contains the basename must NOT
+    # count as registered (else the real plugin is never registered).
+    settings = tmp_path / "settings.json"
+    sibling = str(tmp_path) + "-fork"
+    settings.write_text(json.dumps({"pluginDirectories": [sibling]}))
+    assert doc._plugin_registered(settings, tmp_path) is False
+    actions = doc.heal(tmp_path, settings_path=settings, consent=lambda a: False)
+    assert any(a[0] == "needs_consent:register_plugin" for a in actions)
+
+
 # --- Board classification ----------------------------------------------------
 
 def test_smoke_junction_all_pass_green():
@@ -94,6 +106,27 @@ def test_parse_smoke_extracts_results():
     r = doc._parse_smoke(out)
     assert r["S4"] == [True]
     assert r["S5"] == [False, True]
+
+
+def test_parse_smoke_multidigit_not_misbucketed():
+    # RC#2: S10 must NOT collapse into S1's bucket; S1abc must be ignored.
+    r = doc._parse_smoke("PASS: S1 a\nPASS: S10 b\nFAIL: S1abc c")
+    assert r["S1"] == [True]
+    assert r["S10"] == [True]
+    assert "S1abc" not in r
+
+
+def test_session_start_emits_valid_json_contract(tmp_path, monkeypatch, capsys):
+    # RC#2: the SessionStart hook output must be a valid JSON line carrying the
+    # CC hook keys. Run against a scratch root so no real marker/ledger is touched.
+    monkeypatch.setattr(doc, "_plugin_root", lambda: tmp_path)
+    monkeypatch.setattr(sys, "argv", ["doctor.py", "--session-start"])
+    rc = doc.main()
+    assert rc == 0
+    line = capsys.readouterr().out.strip()
+    payload = json.loads(line)
+    assert "systemMessage" in payload and payload["continue"] is True
+    assert (tmp_path / doc._MARKER).exists()  # marker written -> guards next run
 
 
 def test_overall_all_green():
