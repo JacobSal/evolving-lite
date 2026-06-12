@@ -1,0 +1,17 @@
+{
+  "description": "Test cases for context-router scoring. Each case = a natural-language input and the route it should map to. Built from lite's shipped context-router routes; one case per route so dropping a route's keywords measurably regresses the composite (used by the persist-gate self-test).",
+  "test_cases": [
+    {"input": "debug this crash exception", "expected_route": "debugging"},
+    {"input": "delegate to a subagent", "expected_route": "delegation"},
+    {"input": "design the system architecture", "expected_route": "planning"},
+    {"input": "recall this from memory", "expected_route": "memory"},
+    {"input": "token window budget compaction", "expected_route": "context"},
+    {"input": "sql injection vulnerability", "expected_route": "security"},
+    {"input": "run the unit test coverage", "expected_route": "testing"},
+    {"input": "optimize the slow latency", "expected_route": "performance"},
+    {"input": "commit and merge the branch", "expected_route": "git"},
+    {"input": "deploy via github actions pipeline", "expected_route": "ci-cd"},
+    {"input": "what changed in the changelog", "expected_route": "evolution"},
+    {"input": "the weather is sunny today", "expected_route": "no_match"}
+  ]
+}

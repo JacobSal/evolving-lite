@@ -40,3 +40,12 @@ _graph/cache/synthesis-candidates.json
 _graph/cache/.synthesis-detector-input-fingerprint.json
 _graph/core-nodes.json
 _ledgers/
+
+# AutoEvolve runtime data (accumulates from the user's own sessions; cold-data).
+# Schema files (config.json, baselines.json, test-cases/, .mutation-habituation.json)
+# ship empty; only the pure-accumulation ledgers + snapshots are user data.
+_autoevolve/outcomes/*.jsonl
+_autoevolve/rejected/*.json
+_autoevolve/snapshots/
+!_autoevolve/outcomes/.gitkeep
+!_autoevolve/rejected/.gitkeep

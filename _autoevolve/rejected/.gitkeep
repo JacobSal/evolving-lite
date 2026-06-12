@@ -1,0 +1,3 @@
+# Rejected-mutation records ({ts}-{target}.json) land here when a mutation scores
+# below baseline (auto-reverted by the persist-gate, or logged by the optimizer).
+# Inspect these to see exactly what self-tuning tried and rolled back.

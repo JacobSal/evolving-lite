@@ -1,0 +1,60 @@
+{
+  "version": "1.0",
+  "description": "Per-project AutoEvolve configuration. Each target is a config artifact the optimizer may improve via mutate-score-revert. Per-target `enabled` is the default map (see _per_target_notes); the GLOBAL one-step off-switch is mutation_rules.v2_tuning_enabled in _graph/cache/delegation-config.json.",
+  "targets": {
+    "detection-index": {
+      "enabled": true,
+      "target_file": "_graph/cache/detection-index.json",
+      "test_cases": "_autoevolve/test-cases/detection-index.json",
+      "scorer": "detection-index",
+      "mvp_sample_threshold": 8,
+      "outcomes_ledger": "_autoevolve/outcomes/detection-index.jsonl",
+      "safety": {
+        "max_iterations_per_run": 50,
+        "cooldown_hours": 6,
+        "require_branch": true,
+        "require_human_review": true
+      }
+    },
+    "context-router": {
+      "enabled": true,
+      "target_file": "_graph/cache/context-router.json",
+      "test_cases": "_autoevolve/test-cases/context-router.json",
+      "scorer": "context-router",
+      "mvp_sample_threshold": 8,
+      "outcomes_ledger": "_autoevolve/outcomes/context-router.jsonl",
+      "safety": {
+        "max_iterations_per_run": 30,
+        "cooldown_hours": 6,
+        "require_branch": true,
+        "require_human_review": false
+      }
+    },
+    "delegation-config": {
+      "enabled": false,
+      "target_file": "_graph/cache/delegation-config.json",
+      "test_cases": null,
+      "scorer": "none",
+      "mvp_sample_threshold": 8,
+      "outcomes_ledger": "_autoevolve/outcomes/delegation-config.jsonl",
+      "safety": {
+        "max_iterations_per_run": 30,
+        "cooldown_hours": 24,
+        "require_branch": true,
+        "require_human_review": true
+      },
+      "_disabled_note": "Ships OFF (per-target default map). delegation-config self-tuning carries demonstrated regression risk upstream, and lite has no deterministic delegation-config scorer for its task_type_routing schema yet. Opting in requires building that scorer first; the persist-gate would then guard it. Until then this target is present-but-disabled and the eligibility gate returns target-disabled."
+    }
+  },
+  "global_safety": {
+    "max_runs_per_day": 3,
+    "git_branch_prefix": "autoevolve",
+    "never_touch_main": true
+  },
+  "_per_target_notes": {
+    "detection-index": "ON. Real headroom on a fresh install (cold-start far from saturation). MVP guard + persist-gate hold fire / auto-revert.",
+    "context-router": "ON. Cleanest improvement record; additive-key schema is safe to mutate.",
+    "delegation-config": "OFF (see target._disabled_note).",
+    "off-switch": "Set _graph/cache/delegation-config.json -> mutation_rules.v2_tuning_enabled=false to halt ALL self-tuning (fitness-ledger appends AND every AutoEvolve target) in one step."
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "description": "Test cases for detection-index scoring. Each case = a natural-language input and the slash-command it should map to. Built from lite's shipped detection-index entries. expected_confidence: high (strong keyword + boost), medium (single boost-5 keyword), none (no_match).",
+  "test_cases": [
+    {"input": "remember this for me", "expected_command": "/remember", "expected_confidence": "high"},
+    {"input": "merke dir das bitte", "expected_command": "/remember", "expected_confidence": "high"},
+    {"input": "lass uns planen wie wir das angehen", "expected_command": "/plan-new", "expected_confidence": "high"},
+    {"input": "create plan for the migration", "expected_command": "/plan-new", "expected_confidence": "high"},
+    {"input": "debug this error in the loader", "expected_command": "/debug", "expected_confidence": "high"},
+    {"input": "was steht an als naechster schritt", "expected_command": "/whats-next", "expected_confidence": "high"},
+    {"input": "brainstorm a few ideas with me", "expected_command": "/sparring", "expected_confidence": "high"},
+    {"input": "code review this change please", "expected_command": "/review", "expected_confidence": "high"},
+    {"input": "neuen hook erstellen fuer automation", "expected_command": "/create-hook", "expected_confidence": "high"},
+    {"input": "show me the changelog of system aenderungen", "expected_command": "/evolution", "expected_confidence": "high"},
+    {"input": "context stats bitte", "expected_command": "/context-stats", "expected_confidence": "medium"},
+    {"input": "denke nach ueber first principles", "expected_command": "/think", "expected_confidence": "high"},
+    {"input": "switch to opus bestes modell", "expected_command": "/opus", "expected_confidence": "high"},
+    {"input": "tell me a joke about cats", "expected_command": "no_match", "expected_confidence": "none"},
+    {"input": "the weather is nice outside today", "expected_command": "no_match", "expected_confidence": "none"}
+  ]
+}

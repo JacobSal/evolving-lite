@@ -1,0 +1,4 @@
+# Per-target outcome ledgers ({target}.jsonl) accumulate here.
+# Ships EMPTY - the mutation-eligibility gate (autoevolve-scorer.py mutation-gate)
+# requires N>=mvp_sample_threshold real outcomes before a target may mutate, so a
+# cold install is provably quiet until usage data arrives.

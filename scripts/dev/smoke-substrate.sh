@@ -12,6 +12,10 @@
 #       shipped mutation_rules.v2_tuning_enabled gate is ON), recalc turns it
 #       into a bounded delegation-fitness score, and the delegation-enforcer
 #       consumer surfaces that score on the next suggestion
+#   S6: autoevolve junction (SC-G) - the mutation-eligibility gate blocks on
+#       cold data, flips eligible only after N=8 real outcomes, the global
+#       off-switch halts it, and the deterministic persist-gate auto-reverts a
+#       planted below-baseline mutation (restoring the snapshot + logging it)
 #
 # Run inside the clean-room for the gate: scripts/dev/clean-room.sh bash scripts/dev/smoke-substrate.sh
 set -uo pipefail
@@ -151,6 +155,65 @@ S5_OUT=$(printf '{"session_id":"%s","hook_event_name":"UserPromptSubmit","prompt
 echo "$S5_OUT" | grep -qi "historical delegation fitness for exploration"
 check "S5 enforcer consumer surfaces the fitness score" $?
 rm -f "/tmp/delegation-pending-$CLAUDE_SESSION_ID.json"
+
+# --- S6: AutoEvolve SC-G (cold-quiet eligibility + deterministic persist-gate)
+AE="scripts/autoevolve-scorer.py"
+OUTLEDGER="_autoevolve/outcomes/context-router.jsonl"
+SNAP="_autoevolve/snapshots/smoke-context-router.json"
+DCFG="_graph/cache/delegation-config.json"
+mkdir -p _autoevolve/outcomes _autoevolve/snapshots _autoevolve/rejected
+
+# S6.1 cold data -> the gate blocks (no real outcomes yet); ZERO mutation allowed
+rm -f "$OUTLEDGER"
+python3 "$AE" mutation-gate context-router >/dev/null 2>&1; [ $? -eq 1 ]
+check "S6 mutation-gate blocks on cold data (insufficient samples)" $?
+
+# S6.2 seed N=8 outcomes -> the gate flips eligible; exactly one scored cycle runs
+for i in $(seq 1 8); do echo '{"ts":"t","outcome":"ok"}' >> "$OUTLEDGER"; done
+python3 "$AE" mutation-gate context-router >/dev/null 2>&1; [ $? -eq 0 ]
+check "S6 mutation-gate eligible after N=8 outcomes" $?
+python3 "$AE" score context-router >/dev/null 2>&1
+check "S6 one scored mutation cycle runs (scorer exit 0)" $?
+
+# S6.3 off-switch halts everything even with outcomes present.
+# Byte-exact backup/restore so a local run leaves delegation-config.json clean.
+DCFG_BAK="$(mktemp)"; cp "$DCFG" "$DCFG_BAK"
+python3 - <<'PY'
+import json
+p = "_graph/cache/delegation-config.json"
+d = json.load(open(p)); d["mutation_rules"]["v2_tuning_enabled"] = False
+json.dump(d, open(p, "w"), indent=2)
+PY
+# Capture first: the gate exits 1 when blocked, and `set -o pipefail` would
+# otherwise propagate that 1 through the pipe and mask grep's match.
+S6_OFF=$(python3 "$AE" mutation-gate context-router 2>&1 || true)
+echo "$S6_OFF" | grep -qi "global-off"
+check "S6 off-switch (v2_tuning_enabled=false) halts mutation" $?
+cp "$DCFG_BAK" "$DCFG"; rm -f "$DCFG_BAK"
+
+# S6.4 persist-gate deterministically reverts a planted below-baseline mutation
+cp _graph/cache/context-router.json "$SNAP"
+python3 - <<'PY'
+import json
+p = "_graph/cache/context-router.json"
+d = json.load(open(p)); d["routes"]["debugging"]["keywords"] = []  # planted regression
+json.dump(d, open(p, "w"), indent=2)
+PY
+python3 "$AE" persist-gate context-router --snapshot "$SNAP" --run-id smoke --desc "planted regression" >/dev/null 2>&1
+[ $? -eq 2 ]   # exit 2 = reverted
+check "S6 persist-gate auto-reverts below-baseline mutation (exit 2)" $?
+python3 - <<'PY'
+import json, sys
+d = json.load(open("_graph/cache/context-router.json"))
+sys.exit(0 if d["routes"]["debugging"]["keywords"] else 1)
+PY
+check "S6 live config restored to snapshot after revert" $?
+ls _autoevolve/rejected/*context-router*.json >/dev/null 2>&1
+check "S6 rejected-mutation record written on revert" $?
+
+# tidy smoke artifacts (all gitignored, but keep local runs clean)
+rm -f "$OUTLEDGER" "$SNAP" _autoevolve/rejected/*context-router*.json
+printf '{\n  "targets": {},\n  "history": []\n}\n' > _autoevolve/baselines.json
 
 if [ "$FAIL" -eq 0 ]; then
   echo "SUBSTRATE SMOKE: ALL GREEN"
