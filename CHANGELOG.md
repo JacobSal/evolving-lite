@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased - Self-* organism
+## v1.1.0 (2026-06-13) - Self-* organism
 
 The complete self-improving loop, ported and genericized from the production Evolving
 system. Cold data: every ledger starts empty and builds from your own sessions.

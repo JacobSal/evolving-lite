@@ -1,7 +1,7 @@
 # Evolving Lite
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.0.0-green.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.1.0-green.svg)](CHANGELOG.md)
 [![Works with Claude Code](https://img.shields.io/badge/works%20with-Claude%20Code-orange.svg)](https://docs.anthropic.com/en/docs/claude-code)
 
 
@@ -38,8 +38,15 @@ It runs **once automatically** on your first session and is re-runnable any time
 touching `settings.json`, never overwrites or deletes) and runs its pulse in an isolated
 scratch copy, so it never touches your real data.
 
-For a broader one-shot audit of your *entire* Claude Code config (beyond this plugin),
-[Claude Health](https://github.com/tw93/claude-health) is a good complement.
+## Audit + Prevention
+
+Evolving Lite prevents drift in real-time. [Claude Health](https://github.com/tw93/claude-health) audits your full config on demand. Together they close the loop.
+
+| | Evolving Lite | Claude Health |
+|---|---|---|
+| **When** | Every session (automatic) | On demand (`/health`) |
+| **How** | Hooks, pulse checks, correction pipeline | 6-layer config audit with parallel diagnostics |
+| **Catches** | Drift as it happens | Existing gaps and misconfigurations |
 
 ## What Makes This Different
 

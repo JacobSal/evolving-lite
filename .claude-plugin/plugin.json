@@ -1,6 +1,6 @@
 {
   "name": "evolving-lite",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Self-evolving Claude Code system that learns from corrections, manages context, and improves every session",
   "author": {
     "name": "PrimeLine AI",
