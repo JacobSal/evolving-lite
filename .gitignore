@@ -41,6 +41,21 @@ _graph/cache/.synthesis-detector-input-fingerprint.json
 _graph/core-nodes.json
 _ledgers/
 
+# Cognitive-fitness caches (recomputed from the user's own telemetry; cold-data)
+_graph/cache/delegation-fitness.json
+_graph/cache/lens-fitness.json
+_graph/cache/trait-fitness.json
+*.lock
+
+# Steward runtime (findings/markers/archives accrue from the user's own sessions;
+# steward-config.json ships, everything else is generated). Cold-data.
+_inbox/steward-findings.jsonl
+_inbox/steward-actions-pending.jsonl
+_graph/cache/steward-audit-marker.json
+_graph/cache/steward-retirement-marker.json
+_archive/
+_autonomous/
+
 # AutoEvolve runtime data (accumulates from the user's own sessions; cold-data).
 # Schema files (config.json, baselines.json, test-cases/, .mutation-habituation.json)
 # ship empty; only the pure-accumulation ledgers + snapshots are user data.

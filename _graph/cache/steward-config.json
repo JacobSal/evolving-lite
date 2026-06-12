@@ -1,0 +1,13 @@
+{
+  "_comment": "Steward configuration. Edit any key to tune the steward checks. Missing keys fall back to the in-code defaults in scripts/steward_checks/common.py. All values here are the shipped defaults.",
+  "followup_marker_keywords": ["follow-up", "followup", "wiedervorlage"],
+  "followup_upcoming_window_days": 7,
+  "followup_lookback_days": 30,
+  "audit_reports_dirname": "audit-reports",
+  "audit_stale_threshold_days": 8,
+  "audit_never_audited_is_ok": true,
+  "retirement_critical_allowlist": [],
+  "retirement_uninstalled_stale_days": 90,
+  "retirement_installed_stale_days": 60,
+  "retirement_session_count_threshold": 10
+}

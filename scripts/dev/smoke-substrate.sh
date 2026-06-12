@@ -16,6 +16,10 @@
 #       cold data, flips eligible only after N=8 real outcomes, the global
 #       off-switch halts it, and the deterministic persist-gate auto-reverts a
 #       planted below-baseline mutation (restoring the snapshot + logging it)
+#   S7: steward junction - the three checks emit ZERO findings on the clean repo
+#       (cold-baseline), a planted overdue follow-up IS surfaced (positive
+#       control), and the actuator does NOT auto-archive while the verifier
+#       spine is absent (Invariant-B fail-closed; the spine ships in a later phase)
 #
 # Run inside the clean-room for the gate: scripts/dev/clean-room.sh bash scripts/dev/smoke-substrate.sh
 set -uo pipefail
@@ -214,6 +218,47 @@ check "S6 rejected-mutation record written on revert" $?
 # tidy smoke artifacts (all gitignored, but keep local runs clean)
 rm -f "$OUTLEDGER" "$SNAP" _autoevolve/rejected/*context-router*.json
 printf '{\n  "targets": {},\n  "history": []\n}\n' > _autoevolve/baselines.json
+
+# --- S7: Steward apparatus (cold-baseline ZERO + positive control + fail-closed actuator)
+# S7.1 all three checks emit ZERO findings on the clean repo (cold-baseline)
+python3 - <<'PY'
+import sys; sys.path.insert(0, "scripts")
+import datetime
+from steward_checks import audit, followup, retirement
+d = datetime.date(2026, 6, 12)
+total = (audit.run_check(today=d).findings_count
+         + followup.run_check(today=d).findings_count
+         + retirement.run_check(today=d).findings_count)
+sys.exit(0 if total == 0 else 1)
+PY
+check "S7 steward checks emit ZERO findings on clean repo (cold-baseline)" $?
+
+# S7.2 planted positive control: an overdue follow-up IS surfaced
+mkdir -p _handoffs
+printf -- '- Follow-up 2026-06-01: smoke positive control\n' > _handoffs/smoke-steward-followup.md
+python3 - <<'PY'
+import sys; sys.path.insert(0, "scripts")
+import datetime
+from steward_checks import followup
+res = followup.run_check(today=datetime.date(2026, 6, 12))
+sys.exit(0 if any("smoke positive control" in f.title for f in res.findings) else 1)
+PY
+check "S7 planted overdue follow-up IS surfaced (positive control)" $?
+rm -f _handoffs/smoke-steward-followup.md; rmdir _handoffs 2>/dev/null || true
+
+# S7.3 actuator does NOT auto-archive pre-spine (Invariant-B fail-closed)
+SMOKE_FIND="$(mktemp)"
+printf '%s\n' '{"module":"retirement","severity":"P2","title":"smoke ghost","detail":"Confidence: HIGH (not registered in hooks.json = never fires)","source":"hooks/scripts/smoke-ghost.py","item_id":"smoke-ghost","maintainer_decision":"silent"}' > "$SMOKE_FIND"
+S7_ARCH=$(python3 - "$SMOKE_FIND" <<'PY'
+import sys, pathlib; sys.path.insert(0, "scripts")
+import steward_actuator as m
+s = m.run_actuator(findings_path=pathlib.Path(sys.argv[1]), dry_run=True)
+print(s["autonomous_archived"])
+PY
+)
+[ "$S7_ARCH" = "0" ]
+check "S7 actuator does NOT auto-archive pre-spine (fail-closed)" $?
+rm -f "$SMOKE_FIND"
 
 if [ "$FAIL" -eq 0 ]; then
   echo "SUBSTRATE SMOKE: ALL GREEN"
