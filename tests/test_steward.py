@@ -260,8 +260,12 @@ def _load_actuator(tmp_path, mod_name):
 
 def test_actuator_spine_fail_closed_blocks_archive(tmp_path):
     act = _load_actuator(tmp_path, "act_failclosed")
-    assert act._SPINE_AVAILABLE is False          # no spine module yet
-    assert act._is_spine_path("anything") is True  # fail-closed stub
+    # Force the fail-closed (pre-spine) state explicitly so this contract test is
+    # robust whether or not the spine module is present on the ambient sys.path
+    # (Phase 5 ships scripts/lib/verifier/spine.py; this test still pins the
+    # pre-spine behaviour the actuator must fall back to if the registry is gone).
+    act._SPINE_AVAILABLE = False
+    act._is_spine_path = lambda p: True  # fail-closed stub: cannot prove NOT-spine
     sd = tmp_path / "hooks" / "scripts"
     sd.mkdir(parents=True)
     (sd / "dead.py").write_text("# dead")
@@ -335,8 +339,13 @@ def test_actuator_followup_emits_pending(tmp_path):
 
 def test_actuator_dead_finding_dormant_without_spine(tmp_path):
     """End-to-end: a HIGH-confidence dead finding does NOT get archived while the
-    spine is absent (Phase-4 fail-closed contract)."""
+    spine is absent (Phase-4 fail-closed contract). Forced explicitly so the test
+    pins the fail-closed fallback regardless of ambient spine availability (the
+    spine module ships in Phase 5; spine-PRESENT archiving is covered in
+    test_verifier_spine.py)."""
     act = _load_actuator(tmp_path, "act_dormant")
+    act._SPINE_AVAILABLE = False
+    act._is_spine_path = lambda p: True  # fail-closed stub
     sd = tmp_path / "hooks" / "scripts"
     sd.mkdir(parents=True)
     (sd / "ghost.py").write_text("# dead")

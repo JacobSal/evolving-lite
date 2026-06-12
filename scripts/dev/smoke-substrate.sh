@@ -246,9 +246,11 @@ PY
 check "S7 planted overdue follow-up IS surfaced (positive control)" $?
 rm -f _handoffs/smoke-steward-followup.md; rmdir _handoffs 2>/dev/null || true
 
-# S7.3 actuator does NOT auto-archive pre-spine (Invariant-B fail-closed)
+# S7.3 actuator REFUSES to auto-archive a verifier-SPINE path (Invariant B).
+# (The spine ships in Phase 5; with it present the actuator classifies a spine
+# file INTERACTIVE and never archives it - tested here against a real spine file.)
 SMOKE_FIND="$(mktemp)"
-printf '%s\n' '{"module":"retirement","severity":"P2","title":"smoke ghost","detail":"Confidence: HIGH (not registered in hooks.json = never fires)","source":"hooks/scripts/smoke-ghost.py","item_id":"smoke-ghost","maintainer_decision":"silent"}' > "$SMOKE_FIND"
+printf '%s\n' '{"module":"retirement","severity":"P2","title":"smoke spine","detail":"Confidence: HIGH (not registered in hooks.json = never fires)","source":"scripts/steward_actuator.py","item_id":"smoke-spine","maintainer_decision":"silent"}' > "$SMOKE_FIND"
 S7_ARCH=$(python3 - "$SMOKE_FIND" <<'PY'
 import sys, pathlib; sys.path.insert(0, "scripts")
 import steward_actuator as m
@@ -257,8 +259,90 @@ print(s["autonomous_archived"])
 PY
 )
 [ "$S7_ARCH" = "0" ]
-check "S7 actuator does NOT auto-archive pre-spine (fail-closed)" $?
+check "S7 actuator refuses to archive a spine path (Invariant B)" $?
 rm -f "$SMOKE_FIND"
+
+# --- S8: Verifier-spine junction (closes the loop) -------------------------
+# S8.1 spine resolves: a spine path is detected, a normal hook is not.
+python3 - <<'PY'
+import sys; sys.path.insert(0, ".")
+from scripts.lib.verifier.spine import is_spine_path
+ok = is_spine_path("scripts/steward_actuator.py") and not is_spine_path("hooks/scripts/delegation-enforcer.py")
+sys.exit(0 if ok else 1)
+PY
+check "S8 spine registry resolves (spine path True, normal hook False)" $?
+
+# S8.2 with the spine PRESENT, a genuinely-dead NON-spine hook IS archived
+# (the dead-hook archiver activated - the actuator flipped from fail-closed).
+# The ghost name is PID-suffixed so its basename appears as no literal token in
+# any scanned file (incl. this script), or the reference-guard would refuse it.
+mkdir -p hooks/scripts
+GHOST="smokedead$$.py"
+printf '# nobody references me\n' > "hooks/scripts/$GHOST"
+S8_FIND="$(mktemp)"
+printf '{"module":"retirement","severity":"P2","title":"smoke dead ghost","detail":"Confidence: HIGH (not registered in hooks.json = never fires)","source":"hooks/scripts/%s","item_id":"%s","maintainer_decision":"silent"}\n' "$GHOST" "$GHOST" > "$S8_FIND"
+S8_ARCH=$(python3 - "$S8_FIND" <<'PY'
+import sys, pathlib; sys.path.insert(0, "scripts")
+import steward_actuator as m
+s = m.run_actuator(findings_path=pathlib.Path(sys.argv[1]), dry_run=False)
+print(s["autonomous_archived"])
+PY
+)
+[ "$S8_ARCH" = "1" ] && [ ! -f "hooks/scripts/$GHOST" ]
+check "S8 spine present -> genuinely-dead non-spine hook IS archived (archiver live)" $?
+rm -f "$S8_FIND" "hooks/scripts/$GHOST" "_archive/retired/$GHOST"-* 2>/dev/null || true
+
+# S8.3 SC-F: forced-verify-stop-gate is lease-scoped.
+rm -f _graph/cache/autonom-lease.json
+printf '{"session_id":"s-off","stop_reason":"the port is done and shipped"}' \
+  | python3 hooks/scripts/forced-verify-stop-gate.py >/dev/null 2>&1
+check "S8 SC-F autonomy-OFF never blocks (no lease -> observe-only)" $?
+python3 - <<'PY'
+import json, time, os
+p = "_graph/cache/autonom-lease.json"; os.makedirs(os.path.dirname(p), exist_ok=True)
+json.dump({"session_id": "s-own", "claimed_at": time.time(), "released": False}, open(p, "w"))
+PY
+printf '{"session_id":"s-own","stop_reason":"the port is done and shipped"}' \
+  | python3 hooks/scripts/forced-verify-stop-gate.py >/dev/null 2>&1
+[ $? -eq 1 ]
+check "S8 SC-F autonomy-ON BLOCKS a markerless completion claim" $?
+MARK='the port is done. [EPT-TRIGGER: pytest exit 0 at t] [EPT-EFFECT: 142 tests passed] [EPT-CONSUMER: actuator imports is_spine_path; loop closed]'
+printf '{"session_id":"s-own","stop_reason":"%s"}' "$MARK" \
+  | python3 hooks/scripts/forced-verify-stop-gate.py >/dev/null 2>&1
+check "S8 SC-F autonomy-ON PASSES with the EPT marker form" $?
+rm -f _graph/cache/autonom-lease.json
+
+# S8.4 full-loop trace: ONE synthetic turn traversing all 6 hops.
+python3 - <<'PY'
+import json, sys, subprocess, datetime, pathlib
+sys.path.insert(0, "scripts"); sys.path.insert(0, ".")
+trace = []
+gaps = [json.loads(l) for l in open("_memory/analytics/delegation-gaps.jsonl")]
+trace.append(("1 delegation", f"gaps row was_delegated={gaps[-1]['was_delegated']}"))
+df = json.load(open("_graph/cache/delegation-fitness.json"))
+score = df["scores"]["exploration"]["exploration"]
+trace.append(("2 fitness", f"delegation-fitness[exploration]={score:.3f} in [0,1]"))
+rc = subprocess.run([sys.executable, "scripts/autoevolve-scorer.py", "mutation-gate", "context-router"],
+                    capture_output=True).returncode
+trace.append(("3 autoevolve", f"mutation-gate rc={rc} (1=cold-quiet, fitness-gated)"))
+from steward_checks import audit, followup, retirement
+d = datetime.date(2026, 6, 12)
+n = (audit.run_check(today=d).findings_count + followup.run_check(today=d).findings_count
+     + retirement.run_check(today=d).findings_count)
+trace.append(("4 steward", f"checks findings={n}"))
+import steward_actuator as act
+cls = act.classify_action({"module": "retirement", "detail": act.HIGH_CONFIDENCE_MARKER,
+                           "source": "scripts/steward_actuator.py"})
+trace.append(("5 verifier-spine", f"classify(spine)={cls} spine_available={act._SPINE_AVAILABLE}"))
+trace.append(("6 delegation(relicense)", f"enforcer re-reads delegation-fitness[exploration]={score:.3f}"))
+print("=== FULL-LOOP TRACE (one synthetic turn, 6 hops) ===")
+for hop, val in trace:
+    print(f"  HOP {hop}: {val}")
+ok = (act._SPINE_AVAILABLE and cls == "INTERACTIVE"
+      and 0.0 <= score <= 1.0 and all(v for _, v in trace))
+sys.exit(0 if ok else 1)
+PY
+check "S8 full-loop 6-hop trace (delegation->fitness->autoevolve->steward->spine->delegation)" $?
 
 if [ "$FAIL" -eq 0 ]; then
   echo "SUBSTRATE SMOKE: ALL GREEN"

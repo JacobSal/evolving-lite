@@ -64,3 +64,7 @@ _autoevolve/rejected/*.json
 _autoevolve/snapshots/
 !_autoevolve/outcomes/.gitkeep
 !_autoevolve/rejected/.gitkeep
+
+# Autonomy lease + stop-gate observations (runtime, cold-data)
+_graph/cache/autonom-lease.json
+_ledgers/stop-gate-observations.jsonl
