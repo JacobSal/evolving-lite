@@ -284,6 +284,37 @@ def test_persist_gate_reverts_regression_atomically(tmp_path):
     assert Path(res["rejected_log"]).exists()
 
 
+def test_persist_gate_reports_error_when_restore_fails(tmp_path, monkeypatch):
+    """RC#1: if the atomic restore itself fails, the gate must NOT claim a
+    successful revert - it returns action=error so the caller halts."""
+    live = tmp_path / "live.json"
+    snap = tmp_path / "snap.json"
+    live.write_text('{"v": "mutated-bad"}')
+    snap.write_text('{"v": "original-good"}')
+    scores = {str(snap): 0.75, str(live): 0.71}
+
+    def _boom(*a, **k):
+        raise OSError("simulated replace failure")
+
+    monkeypatch.setattr(ae.os, "replace", _boom)
+    res = ae.enforce_persist_gate(
+        tmp_path, "context-router", live, snap,
+        score_fn=lambda t, p: scores[str(p)])
+    assert res["action"] == "error"
+    assert res["reverted_to_snapshot"] is False
+    assert "atomic restore failed" in res["reason"]
+
+
+def test_count_outcomes_ignores_malformed_lines(tmp_path):
+    """RC#9: corrupt/garbage lines must NOT count toward the MVP gate."""
+    led = tmp_path / "_autoevolve" / "outcomes" / "context-router.jsonl"
+    led.parent.mkdir(parents=True, exist_ok=True)
+    led.write_text('{"ok":1}\nGARBAGE NOT JSON\n{"ok":2}\n{broken\n{"ok":3}\n')
+    n = ae.count_outcomes(tmp_path, "context-router",
+                          {"outcomes_ledger": "_autoevolve/outcomes/context-router.jsonl"})
+    assert n == 3  # only the 3 valid JSON lines
+
+
 def test_persist_gate_skips_non_deterministic_target(tmp_path):
     snap = tmp_path / "snap.json"
     snap.write_text("{}")

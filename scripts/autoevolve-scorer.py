@@ -460,8 +460,18 @@ def count_outcomes(root, target, target_cfg=None):
     if not path.exists():
         return 0
     try:
+        n = 0
         with open(path) as f:
-            return sum(1 for line in f if line.strip())
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    json.loads(line)
+                except ValueError:
+                    continue  # ignore malformed lines - garbage must not open the gate
+                n += 1
+        return n
     except OSError:
         return 0
 
@@ -652,10 +662,18 @@ def enforce_persist_gate(root, target, live_config_path, snapshot_path,
         try:
             shutil.copyfile(snapshot_path, tmp_path)
             os.replace(tmp_path, live_config_path)
+            result["reverted_to_snapshot"] = True
+        except Exception as e:
+            # The restore itself failed (e.g. permissions). Do NOT report a
+            # successful revert - the mutated config is still live. Surface a
+            # loud error so the caller halts instead of trusting a revert that
+            # never happened.
+            result["action"] = "error"
+            result["reason"] = f"atomic restore failed: {e}"
+            return result
         finally:
             if Path(tmp_path).exists():
                 Path(tmp_path).unlink()
-        result["reverted_to_snapshot"] = True
         log_path = record_rejected_mutation(
             root=root,
             target=target,
@@ -781,8 +799,10 @@ def main():
         result = enforce_persist_gate(root, target, live, snapshot,
                                       run_id=run_id, mutation_description=desc)
         print(json.dumps(result, indent=2, ensure_ascii=False))
-        # exit 0 = kept, 2 = reverted (regression caught), 3 = skip/error
-        sys.exit({"keep": 0, "revert": 2}.get(result.get("action"), 3))
+        # exit 0 = kept, 2 = reverted (regression caught), 3 = skip
+        # (non-deterministic target), 4 = error (scoring/restore failed - the
+        # gate did NOT run; the caller must STOP and investigate, not continue).
+        sys.exit({"keep": 0, "revert": 2, "skip": 3, "error": 4}.get(result.get("action"), 4))
 
     else:
         print(f"ERROR: Unknown command '{command}'", file=sys.stderr)

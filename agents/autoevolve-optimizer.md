@@ -45,7 +45,9 @@ FOR each iteration (1 .. budget):
        python3 scripts/autoevolve-scorer.py persist-gate {target} \
          --snapshot _autoevolve/snapshots/pre-{target}-{ts}.json \
          --run-id {branch} --desc "{one-line mutation summary}"
-     exit 0 = kept, exit 2 = auto-reverted (regression caught), exit 3 = skip/error
+     exit 0 = kept, exit 2 = auto-reverted (regression caught), exit 3 = skip
+     (non-deterministic target). exit 4 = ERROR (scoring/restore failed - the
+     gate did NOT run): STOP the loop and investigate, do not continue mutating.
   7. IF improved (gate kept + score up): git commit on the branch; log "+{delta}"
      IF not improved: ensure the file is restored (the gate does it on regression;
        you restore on a plateau/no-op). Record the rejected mutation:
