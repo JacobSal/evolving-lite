@@ -1,0 +1,4 @@
+{
+  "description": "User-merge allowlist for security-tier-check. Add regex patterns here to permit commands the 10-tier classifier would otherwise block. Matched case-insensitively against the full bash command string. Ships empty.",
+  "patterns": []
+}

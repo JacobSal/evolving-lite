@@ -16,6 +16,7 @@ import json
 import os
 import re
 import sys
+from datetime import datetime
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent / "lib"))
@@ -29,9 +30,36 @@ def load_tiers() -> dict:
 
 
 def load_allowlist() -> list:
+    """User-merge allowlist: patterns the user trusts override tier classification.
+
+    Ships as _memory/security/allowlist.json (empty patterns array); the user adds
+    regexes to permit commands the tiers would otherwise block.
+    """
     allowlist_file = PLUGIN_ROOT / "_memory" / "security" / "allowlist.json"
     data = safe_read_json(allowlist_file)
     return data.get("patterns", [])
+
+
+def log_injection_attempt(command: str, tier: int, name: str) -> None:
+    """Record a blocked prompt-injection command to the shared injection ledger.
+
+    Same sink the sanitizer writes to, so all injection events live in one place.
+    """
+    log_dir = PLUGIN_ROOT / "_memory" / "security"
+    try:
+        log_dir.mkdir(parents=True, exist_ok=True)
+        entry = {
+            "timestamp": datetime.now().isoformat(),
+            "source": "security-tier-check",
+            "tier": tier,
+            "name": name,
+            "action": "block",
+            "command": command[:200],
+        }
+        with open(log_dir / "injection-attempts.jsonl", "a") as f:
+            f.write(json.dumps(entry) + "\n")
+    except OSError:
+        pass  # logging failure must never break the gate
 
 
 def is_allowlisted(command: str, allowlist: list) -> bool:
@@ -82,6 +110,8 @@ def main():
     name = result.get("name", "")
 
     if action == "BLOCK":
+        if name == "PROMPT_INJECTION":
+            log_injection_attempt(command, tier, name)
         print(json.dumps({"error": f"BLOCKED [Tier {tier} {name}]: Command not allowed. {command[:80]}"}))
         write_sentinel("security-tier-check", "block")
         sys.exit(2)
@@ -96,9 +126,13 @@ def main():
         write_sentinel("security-tier-check", "ok")
         sys.exit(0)
     elif action == "LOG":
-        # Tiers 1-2: Log for audit trail (package installs, permission changes)
-        from common import log_evolution_event
-        log_evolution_event("security_log", f"Tier {tier} {name}: {command[:100]}", source="security-tier-check")
+        # Tiers 1-2: log for audit trail (package installs, permission changes).
+        # Logging must never block the command - hence the defensive guard.
+        try:
+            from common import log_evolution_event
+            log_evolution_event("security_log", f"Tier {tier} {name}: {command[:100]}", source="security-tier-check")
+        except Exception:
+            pass
         write_sentinel("security-tier-check", "ok")
         sys.exit(0)
     else:
@@ -107,4 +141,11 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    # Fail-open: a crash in the gate must never block a tool call (exit 0).
+    # SystemExit (the intended exit codes 0/2) propagates normally.
+    try:
+        main()
+    except SystemExit:
+        raise
+    except Exception:
+        sys.exit(0)

@@ -9,7 +9,9 @@ _memory/plans/*.md
 _memory/.session-count
 _memory/.a3-test
 _memory/index.json
-_memory/security/
+# Runtime security ledgers only (the allowlist.json config IS shipped)
+_memory/security/*.log
+_memory/security/*.jsonl
 
 # Keep pre-warmed experiences (shipped with plugin)
 !_memory/experiences/_prewarmed/
