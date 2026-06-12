@@ -166,7 +166,7 @@ def check_retirement(
                 confidence = "Confidence: LOW (test/shared-lib; manual review only)"
                 severity = Severity.P2
             try:
-                source = str(path.relative_to(REPO_ROOT))
+                source = str(path.relative_to(repo_root))
             except ValueError:
                 source = str(path)
             findings.append(StewardFinding(

@@ -129,12 +129,15 @@ def scan_followup_dir(
     marker_keywords: list[str],
     upcoming_window_days: int,
     lookback_days: int,
+    repo_root: Optional[Path] = None,
 ) -> list[StewardFinding]:
     """Scan *.md files (non-recursive) under source_dir for follow-up markers.
 
     Limited to files modified within lookback_days. Never raises.
     """
     findings: list[StewardFinding] = []
+    if repo_root is None:
+        repo_root = REPO_ROOT
     try:
         if not source_dir.exists() or not source_dir.is_dir():
             return []
@@ -164,7 +167,7 @@ def scan_followup_dir(
                 if RESOLUTION_MARKER_RE.search(line):
                     continue
                 try:
-                    source_path = str(md_file.relative_to(REPO_ROOT))
+                    source_path = str(md_file.relative_to(repo_root))
                 except ValueError:
                     source_path = str(md_file)
                 findings.append(
@@ -211,6 +214,7 @@ def run_check(
             keywords,
             upcoming_window_days=int(cfg["followup_upcoming_window_days"]),
             lookback_days=int(cfg["followup_lookback_days"]),
+            repo_root=repo_root,
         )
     except Exception as e:
         write_failure_ledger(MODULE_NAME, e, "run_check outer")

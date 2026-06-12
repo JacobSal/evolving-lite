@@ -36,6 +36,7 @@ import fcntl
 import json
 import os
 import re
+import shlex
 import shutil
 import sys
 import time
@@ -199,7 +200,13 @@ def _resolve_hook_path(finding: dict[str, Any]) -> Optional[Path]:
     source = finding.get("source", "")
     if not source:
         return None
-    candidate = REPO_ROOT / source
+    # Containment guard (RC#1): a finding row's `source` is untrusted input. A
+    # `..` traversal must never let archive_dead_hook move a file outside the
+    # plugin root. Resolve and require the result to live under REPO_ROOT.
+    candidate = (REPO_ROOT / source).resolve()
+    root = REPO_ROOT.resolve()
+    if root not in candidate.parents:
+        return None
     if candidate.exists():
         return candidate
     return None
@@ -308,7 +315,10 @@ def is_safe_to_autonomously_archive(
         return False, "file not found on disk"
     if _is_spine_path(source):
         return False, f"verification/safety-spine file (never auto-archive): {source}"
-    hook_path = repo_root / source
+    # Containment guard (RC#1): reject a `source` that escapes the repo root.
+    hook_path = (repo_root / source).resolve()
+    if repo_root.resolve() not in hook_path.parents:
+        return False, f"path escapes repo root (rejected): {source}"
     if not hook_path.exists():
         return False, "file not found on disk"
     if _is_test_file(source):
@@ -353,7 +363,7 @@ def archive_dead_hook(finding: dict[str, Any], dry_run: bool = False) -> dict[st
         rel_archive = str(archive_path.relative_to(REPO_ROOT))
     except ValueError:
         rel_archive = str(archive_path)
-    revert_cmd = f"cp {abs_archive} {abs_original}"
+    revert_cmd = f"cp {shlex.quote(abs_archive)} {shlex.quote(abs_original)}"
 
     ledger_record: dict[str, Any] = {
         "ts": time.time(),
@@ -539,6 +549,11 @@ def run_actuator(findings_path: Path = FINDINGS_PATH, dry_run: bool = False) -> 
                         continue
                     emit_manual_retirement_pending(finding, reason, dry_run=dry_run)
                     summary["downgraded_to_supervised"] += 1
+                    continue
+                # RC#2: a human who reviewed this file as KEEP must never have it
+                # autonomously archived, even if it now passes the dead-hook guard.
+                if finding.get("item_id", "") in reviewed_keep:
+                    summary["reviewed_keep_suppressed"] += 1
                     continue
                 result = archive_dead_hook(finding, dry_run=dry_run)
                 if result["ok"]:

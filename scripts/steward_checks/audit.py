@@ -126,7 +126,7 @@ def check_audit_freshness(
         report_path, report_date = latest
         days_overdue = (today - report_date).days
         try:
-            source = str(report_path.relative_to(REPO_ROOT))
+            source = str(report_path.relative_to(repo_root))
         except ValueError:
             source = str(report_path)
         if days_overdue > stale_threshold_days:
