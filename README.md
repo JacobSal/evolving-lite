@@ -17,15 +17,29 @@
 
 *2 min demo: Claude recalls past decisions, learns from a correction, and applies it automatically — no prompt needed.*
 
-## Audit + Prevention
+## Self-Star Doctor (`/health`)
 
-Evolving Lite prevents drift in real-time. [Claude Health](https://github.com/tw93/claude-health) audits your full config on demand. Together they close the loop.
+Evolving Lite ships its own install-time health assistant. The **Self-Star Doctor**
+runs a synthetic pulse through every junction of the self-improving loop and prints a
+green/yellow/red board:
 
-| | Evolving Lite | Claude Health |
-|---|---|---|
-| **When** | Every session (automatic) | On demand (`/health`) |
-| **How** | Hooks, pulse checks, correction pipeline | 6-layer config audit with parallel diagnostics |
-| **Catches** | Drift as it happens | Existing gaps and misconfigurations |
+```
+ ✓ delegation       GREEN  synthetic prompt -> valid delegation decision row
+ ✓ fitness          GREEN  event -> bounded cognitive-fitness score, read back
+ ✓ autoevolve       GREEN  optimizer present, kill-switches OK, one scored cycle
+ ✓ steward          GREEN  zero false findings on a clean repo
+ ✓ verifier-spine   GREEN  EPT spine resolves; markerless claim blocked
+ ✓ security         GREEN  tier-check classifies + scanner flags a planted secret
+ ✓ kairn-link       GREEN  Kairn installed + reachable
+```
+
+It runs **once automatically** on your first session and is re-runnable any time with
+`/health`. It heals conservatively (creates only missing empty scaffolding, asks before
+touching `settings.json`, never overwrites or deletes) and runs its pulse in an isolated
+scratch copy, so it never touches your real data.
+
+For a broader one-shot audit of your *entire* Claude Code config (beyond this plugin),
+[Claude Health](https://github.com/tw93/claude-health) is a good complement.
 
 ## What Makes This Different
 
@@ -38,6 +52,49 @@ Most Claude Code tools add features. Evolving Lite adds **feedback loops**.
 **It heals itself.** Every hook writes a sentinel file proving it ran. Run the `health-monitor` agent to check all sentinels — silent failures don't stay silent.
 
 **It gets leaner, not fatter.** Old experiences decay. Stale sessions get archived. The system prunes itself so it stays fast at month 6 the same way it was at day 1.
+
+## Self-Evolution is ON
+
+Evolving Lite **self-tunes its own delegation config from your sessions** out of the
+box. AutoEvolve watches the outcomes of delegation decisions and adjusts the routing
+config when it sees a real, repeated signal. This is the headline feature - and it is
+on by default - so here is exactly how it is kept safe and how to turn it off.
+
+**Guardrails that ship with it (so a fresh install never tunes on noise):**
+- It holds fire on thin data: no config mutation happens for a task type until it has
+  crossed a minimum sample threshold (N=8 real outcomes). A day-1 install mutates nothing.
+- An asymmetric trust model (lose-trust-fast) plus a floor prevents a single bad batch
+  from swinging the config.
+- A **no-regression guard**: a proposed mutation only persists if it scores at least as
+  well as the current static baseline. Anything below baseline is automatically reverted
+  and logged.
+- It is **per-target**: only targets that empirically improve self-tune; the rest stay off.
+
+**Turn it off in one step.** Set this in `_graph/cache/delegation-config.json`:
+
+```json
+"mutation_rules": { "v2_tuning_enabled": false }
+```
+
+That halts all config self-tuning immediately.
+
+**Inspect / revert what it changed.** Every reverted mutation is recorded in
+`_autoevolve/rejected/`. Applied changes live in `_graph/cache/delegation-config.json`
+(plain JSON) - diff it against git to see exactly what moved, and revert any line by hand.
+
+> Note: this switch controls **only** AutoEvolve's config self-tuning. The separate
+> autonomy layer (the unsupervised `/autonom`-style loop with the EPT stop-gate) ships
+> **off** by default and is a deliberate, documented opt-in.
+
+## Honest Scope
+
+Evolving Lite is a **reference implementation** of a complete self-improving agent loop -
+it is heavy by design (delegation + fitness + autoevolve + steward + an EPT verifier-spine
++ a security tier system + a graph/memory substrate). **[Kairn](https://github.com/primeline-ai/kairn)
+is a required prerequisite** (`pip install kairn-ai`) for the memory layer; the Self-Star
+Doctor will tell you if it is missing. If you want lightweight session memory only, the
+[Starter System](https://github.com/primeline-ai/claude-code-starter-system) is the smaller
+entry point. See [docs/JUNCTIONS.md](docs/JUNCTIONS.md) for the file-level map of all 7 junctions.
 
 ## Quick Install
 
@@ -125,6 +182,7 @@ All commands are optional. The system works fully automatically without using an
 
 | Command | What it does |
 |---------|-------------|
+| `/health` | Run the Self-Star Doctor - green/yellow/red board across all 7 junctions |
 | `/debug` | 4-phase structured debugging (observe → hypothesize → test → fix) |
 | `/plan-new` | Plan complex work with discovery phase and kill criteria |
 | `/remember` | Explicitly save a learning, decision, or pattern to memory |

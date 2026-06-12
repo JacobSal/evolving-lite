@@ -35,12 +35,21 @@ Last: {last_progress_summary}
 Next: {next_step}
 ```
 
-If this is the first session ever (no progress), announce:
+If this is the first session ever (no progress), announce with a short, visible
+cold-start sequence so the system does not feel inert on day 1:
 
 ```
-Evolving Lite v1.0 | First session | {prewarmed_count} pre-warmed experiences loaded
-Ready to work. The system learns from your corrections automatically.
+Evolving Lite v1.0 | First session
+  [1/3] Loading {prewarmed_count} pre-warmed experiences ... ok
+  [2/3] Tier 1 (Safety) active: context warnings, bash security, hook sentinels
+  [3/3] Self-Star Doctor: wiring verified (run /health for the full board)
+Ready. The system learns from your corrections automatically and self-tunes its
+delegation routing from your sessions (see "Self-Evolution is ON" in the README).
 ```
+
+The Self-Star Doctor also runs a quick wiring + preflight check automatically on this
+first session. If it reports a missing prerequisite (most often Kairn), surface that to
+the user and point them at `/health` and `pip install kairn-ai`.
 
 ## 4. Pick One Task
 

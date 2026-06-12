@@ -1,5 +1,32 @@
 # Changelog
 
+## Unreleased - Self-* organism
+
+The complete self-improving loop, ported and genericized from the production Evolving
+system. Cold data: every ledger starts empty and builds from your own sessions.
+
+### Added
+- **Self-Star Doctor** (`scripts/doctor.py`, `/health`): install-time health assistant
+  with a green/yellow/red board across 7 junctions (delegation, fitness, autoevolve,
+  steward, verifier-spine, security, kairn-link). Conservative create-only heal
+  (consent-gated on `settings.json`, never overwrites/deletes). Runs its synthetic pulse
+  in an isolated scratch copy - never touches your real data. Dual trigger: a guarded
+  once-per-install SessionStart check + the re-runnable `/health`.
+- **Self-* loop**: cognitive-fitness scoring, AutoEvolve config self-tuning (on by
+  default with sparse-data guards + a no-regression auto-revert; one-step off-switch
+  documented in the README), a steward maintenance engine, and an EPT verifier-spine
+  with an opt-in autonomy layer (off by default).
+- **Security apparatus**: a content-scanner (prompt-injection + planted-secret detection
+  on fetched content), an agent-output sanitizer, and an injection-attempt ledger + a
+  user-merge allowlist on the existing 10-tier bash classifier.
+- **Substrate**: graph-compute pipeline, artifact registration, concurrency-safe
+  telemetry writers.
+- `docs/JUNCTIONS.md`: file-level inventory of all 7 junctions.
+
+### Requires
+- [Kairn](https://github.com/primeline-ai/kairn) (`pip install kairn-ai`) as a prerequisite
+  for the memory layer. The Doctor detects and guides if it is absent.
+
 ## v1.0.0 (2026-03-17)
 
 Initial release.
