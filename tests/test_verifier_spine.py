@@ -261,3 +261,20 @@ def test_hook_subprocess_autonomy_on_passes_with_markers(tmp_path):
     )
     rc, out = _run_hook_subprocess(tmp_path, {"session_id": "s-own", "stop_reason": claim})
     assert rc == 0
+
+
+def test_hook_subprocess_markers_with_trailing_prose_pass(tmp_path):
+    """RC fix: a summary sentence AFTER the final marker must not false-block."""
+    lease = tmp_path / "_graph" / "cache" / "autonom-lease.json"
+    lease.parent.mkdir(parents=True)
+    import time as _t
+    lease.write_text(json.dumps({"session_id": "s-own", "claimed_at": _t.time(), "released": False}))
+    claim = (
+        "The port is done. "
+        "[EPT-TRIGGER: pytest run at 12:00Z exit 0] "
+        "[EPT-EFFECT: test_verifier_spine.py all PASSED] "
+        "[EPT-CONSUMER: steward_actuator imports is_spine_path] "
+        "Loop is closed and the gate is green. Phase 5 complete."
+    )
+    rc, out = _run_hook_subprocess(tmp_path, {"session_id": "s-own", "stop_reason": claim})
+    assert rc == 0

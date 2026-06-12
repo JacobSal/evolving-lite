@@ -133,7 +133,16 @@ def _extract_markers(last_text: str):
         # while still delimiting consecutive markers.
         pat = r"\[EPT-" + marker + r":\s*(.*?)\s*\](?=\s*(?:\[EPT-|$))"
         m = _re.search(pat, last_text, _re.IGNORECASE | _re.DOTALL)
-        return m.group(1).strip() if m else ""
+        if m:
+            return m.group(1).strip()
+        # Fallback (additive; the strict path above is unchanged): the strict
+        # anchor misses when prose follows the FINAL marker (e.g. a session
+        # appends a summary sentence after [EPT-CONSUMER: ...]). Take content up
+        # to the first ']'. Only fires on a strict miss, so it never weakens the
+        # inner-']' tolerance for consecutive markers.
+        m2 = _re.search(r"\[EPT-" + marker + r":\s*(.*?)\s*\]", last_text,
+                        _re.IGNORECASE | _re.DOTALL)
+        return m2.group(1).strip() if m2 else ""
 
     return EPTEvidence(
         trigger=_extract("TRIGGER"),
