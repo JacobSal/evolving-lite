@@ -44,7 +44,7 @@ def should_run() -> bool:
     if not FREQUENCY_FILE.exists():
         return True
     try:
-        last_run = float(FREQUENCY_FILE.read_text().strip())
+        last_run = float(FREQUENCY_FILE.read_text(encoding="utf-8").strip())
         return (time.time() - last_run) > 86400  # 24 hours
     except (ValueError, OSError):
         return True

@@ -59,7 +59,7 @@ def write_sentinel(hook_name: str, status: str = "ok") -> None:
             "ts": time.time(),
             "status": status,
             "session": session_id
-        }))
+        }), encoding="utf-8")
     except OSError:
         pass  # Sentinel failure is non-fatal
 
@@ -72,7 +72,7 @@ def get_session_count() -> int:
     """Read persistent session counter."""
     counter_file = MEMORY_DIR / ".session-count"
     try:
-        return int(counter_file.read_text().strip())
+        return int(counter_file.read_text(encoding="utf-8").strip())
     except (FileNotFoundError, ValueError, OSError):
         return 0
 
@@ -135,7 +135,7 @@ def safe_write_json(filepath: Path, data: dict) -> bool:
             suffix=".tmp",
             prefix=filepath.stem + "_"
         )
-        with os.fdopen(fd, "w") as f:
+        with os.fdopen(fd, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=2, ensure_ascii=False)
             f.write("\n")
         os.replace(tmp_path, filepath)
@@ -154,8 +154,8 @@ def safe_read_json(filepath: Path, default: dict = None) -> dict:
     if default is None:
         default = {}
     try:
-        return json.loads(filepath.read_text())
-    except (FileNotFoundError, json.JSONDecodeError, OSError):
+        return json.loads(filepath.read_text(encoding="utf-8"))
+    except (FileNotFoundError, json.JSONDecodeError, OSError, UnicodeDecodeError):
         return default
 
 
@@ -168,7 +168,7 @@ def safe_write_text(filepath: Path, content: str) -> bool:
             suffix=".tmp",
             prefix=filepath.stem + "_"
         )
-        with os.fdopen(fd, "w") as f:
+        with os.fdopen(fd, "w", encoding="utf-8") as f:
             f.write(content)
         os.replace(tmp_path, filepath)
         return True
