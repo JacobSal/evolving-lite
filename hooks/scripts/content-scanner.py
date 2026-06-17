@@ -199,7 +199,7 @@ def _log(tool_name: str, source: str, matches: list) -> None:
             "categories": sorted({m["category"] for m in act}),
             "severity": "HIGH" if any(m["severity"] == "HIGH" for m in act) else ("MEDIUM" if act else "NONE"),
         }
-        with open(log_dir / "audit.log", "a") as f:
+        with open(log_dir / "audit.log", "a", encoding="utf-8") as f:
             f.write(json.dumps(entry) + "\n")
     except OSError as e:  # pragma: no cover
         print(f"WARNING: content-scanner log failed: {e}", file=sys.stderr)

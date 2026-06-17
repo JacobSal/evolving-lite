@@ -215,7 +215,7 @@ def log_detection(result: SanitizationResult, file_path: str = "") -> None:
         "content_length": result.original_length,
     }
     try:
-        with open(log_path, "a") as f:
+        with open(log_path, "a", encoding="utf-8") as f:
             f.write(json.dumps(entry) + "\n")
         _rotate_log_if_needed(log_path)
     except OSError as exc:  # pragma: no cover
@@ -224,12 +224,12 @@ def log_detection(result: SanitizationResult, file_path: str = "") -> None:
 
 def _rotate_log_if_needed(log_path: Path) -> None:
     try:
-        with open(log_path, "r") as f:
+        with open(log_path, "r", encoding="utf-8") as f:
             lines = f.readlines()
         if len(lines) > MAX_LOG_LINES:
             fd, tmp_path = tempfile.mkstemp(dir=log_path.parent, suffix=".tmp")
             try:
-                with os.fdopen(fd, "w") as f:
+                with os.fdopen(fd, "w", encoding="utf-8") as f:
                     f.writelines(lines[-KEEP_LOG_LINES:])
                 os.replace(tmp_path, log_path)
             except Exception:

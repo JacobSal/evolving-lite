@@ -41,6 +41,15 @@ import sys
 import tempfile
 from pathlib import Path
 
+# Windows: the default console codec is cp1252, which cannot encode the board's
+# check/cross glyphs nor decode UTF-8 source files. Force UTF-8 so a standalone
+# `python doctor.py` (without -X utf8 / PYTHONUTF8) still renders + reads cleanly.
+for _stream in (sys.stdout, sys.stderr):
+    try:
+        _stream.reconfigure(encoding="utf-8")
+    except Exception:  # pragma: no cover - older/odd stream objects
+        pass
+
 sys.path.insert(0, str(Path(__file__).resolve().parent / "lib"))
 try:
     from plugin_paths import plugin_root as _plugin_root
@@ -92,6 +101,33 @@ _JUNCTION_S = {
 # Preflight
 # ---------------------------------------------------------------------------
 
+def _find_bash() -> str:
+    """Locate a real Git Bash, avoiding the WSL launcher at System32\\bash.exe.
+
+    On Windows the system PATH puts ``C:\\Windows\\System32\\bash.exe`` (the WSL
+    launcher) ahead of Git Bash, so a bare ``bash`` execs ``/bin/bash`` inside
+    the WSL VM and fails on a Windows-path script. Prefer an explicit Git Bash.
+    """
+    candidates = []
+    for var in ("CLAUDE_CODE_GIT_BASH", "GIT_BASH", "EVOLVING_BASH"):
+        v = os.environ.get(var)
+        if v:
+            candidates.append(v)
+    found = shutil.which("bash")
+    if found and "system32" not in found.lower():
+        candidates.append(found)
+    candidates += [
+        r"C:\Program Files\Git\bin\bash.exe",
+        r"C:\Program Files\Git\usr\bin\bash.exe",
+        r"C:\Program Files (x86)\Git\bin\bash.exe",
+        os.path.expandvars(r"%LOCALAPPDATA%\Programs\Git\bin\bash.exe"),
+    ]
+    for c in candidates:
+        if c and Path(c).exists():
+            return c
+    return found or "bash"
+
+
 def _run(cmd, timeout=20):
     try:
         return subprocess.run(cmd, capture_output=True, text=True, timeout=timeout)
@@ -119,7 +155,7 @@ def _kairn_mcp_registered() -> bool:
     ]
     for p in candidates:
         try:
-            txt = p.read_text()
+            txt = p.read_text(encoding="utf-8")
         except OSError:
             continue
         if '"kairn"' in txt or "kairn-ai" in txt or "kn_" in txt:
@@ -135,7 +171,7 @@ def wiring_verify(root: Path) -> dict:
     missing = [rel for rel in REQUIRED_FILES if not (root / rel).exists()]
     hooks_ok, hook_events = True, []
     try:
-        hooks = json.loads((root / "hooks" / "hooks.json").read_text()).get("hooks", {})
+        hooks = json.loads((root / "hooks" / "hooks.json").read_text(encoding="utf-8")).get("hooks", {})
         hook_events = sorted(hooks.keys())
         hooks_ok = all(ev in hooks for ev in REQUIRED_HOOK_EVENTS)
     except (OSError, json.JSONDecodeError):
@@ -144,7 +180,7 @@ def wiring_verify(root: Path) -> dict:
     configs_ok = True
     for rel in ("_graph/cache/delegation-config.json", "hooks/security-tiers.json"):
         try:
-            json.loads((root / rel).read_text())
+            json.loads((root / rel).read_text(encoding="utf-8"))
         except (OSError, json.JSONDecodeError):
             configs_ok = False
     return {"missing_files": missing, "hooks_ok": hooks_ok, "hook_events": hook_events,
@@ -176,7 +212,7 @@ def heal(root: Path, settings_path: Path | None = None,
         gk = root / rel / ".gitkeep"
         if not gk.exists():
             try:
-                gk.write_text("")
+                gk.write_text("", encoding="utf-8")
                 actions.append(("created_file", f"{rel}/.gitkeep"))
             except OSError:
                 actions.append(("failed_file", f"{rel}/.gitkeep"))
@@ -197,7 +233,7 @@ def heal(root: Path, settings_path: Path | None = None,
 
 def _plugin_registered(settings_path: Path, root: Path) -> bool:
     try:
-        data = json.loads(settings_path.read_text())
+        data = json.loads(settings_path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError):
         return False
     dirs = data.get("pluginDirectories", []) or []
@@ -210,11 +246,11 @@ def _plugin_registered(settings_path: Path, root: Path) -> bool:
 
 def _register_plugin(settings_path: Path, root: Path) -> bool:
     try:
-        data = json.loads(settings_path.read_text()) if settings_path.exists() else {}
+        data = json.loads(settings_path.read_text(encoding="utf-8")) if settings_path.exists() else {}
         data.setdefault("pluginDirectories", [])
         if str(root) not in data["pluginDirectories"]:
             data["pluginDirectories"].append(str(root))
-        settings_path.write_text(json.dumps(data, indent=2))
+        settings_path.write_text(json.dumps(data, indent=2), encoding="utf-8")
         return True
     except (OSError, json.JSONDecodeError):
         return False
@@ -246,7 +282,7 @@ def _make_scratch(root: Path) -> Path:
                     child.unlink(missing_ok=True)
     inbox = dest / "_inbox" / "steward-actions-pending.jsonl"
     if inbox.exists():
-        inbox.write_text("")
+        inbox.write_text("", encoding="utf-8")
     return scratch
 
 
@@ -271,8 +307,8 @@ def run_substrate_pulse(root: Path) -> dict:
     scratch = _make_scratch(root)
     try:
         dest = scratch / "plugin"
-        env = dict(os.environ, CLAUDE_PLUGIN_ROOT=str(dest))
-        r = subprocess.run(["bash", "scripts/dev/smoke-substrate.sh"], cwd=dest,
+        env = dict(os.environ, CLAUDE_PLUGIN_ROOT=str(dest), PYTHONUTF8="1")
+        r = subprocess.run([_find_bash(), "scripts/dev/smoke-substrate.sh"], cwd=dest,
                            capture_output=True, text=True, timeout=180, env=env)
         return {"results": _parse_smoke(r.stdout), "raw": r.stdout, "rc": r.returncode}
     except (OSError, subprocess.SubprocessError) as e:
@@ -452,7 +488,7 @@ def main() -> int:
         res = run(root, do_pulse=False, do_heal=True, settings_path=None)
         try:
             marker.parent.mkdir(parents=True, exist_ok=True)
-            marker.write_text("1")
+            marker.write_text("1", encoding="utf-8")
         except OSError:
             pass
         msg = (f"Evolving-Lite Doctor: wiring {'OK' if res['wiring']['ok'] else 'GAPS'} | "

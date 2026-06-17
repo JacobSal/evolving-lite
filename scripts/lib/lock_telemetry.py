@@ -140,7 +140,7 @@ def _append_row(row: Dict[str, Any]) -> None:
         line = json.dumps(row, separators=(",", ":")) + "\n"
         try:
             import fcntl  # POSIX-only; Windows takes the ImportError fallback.
-            with open(path, "a") as f:
+            with open(path, "a", encoding="utf-8") as f:
                 try:
                     fcntl.flock(f.fileno(), fcntl.LOCK_EX)
                     f.write(line)
@@ -151,7 +151,7 @@ def _append_row(row: Dict[str, Any]) -> None:
                         pass
         except ImportError:
             # Sub-PIPE_BUF (4096) O_APPEND writes are atomic without fcntl.
-            with open(path, "a") as f:
+            with open(path, "a", encoding="utf-8") as f:
                 f.write(line)
     except Exception:  # noqa: BLE001 - fail-open contract
         return

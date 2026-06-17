@@ -52,7 +52,7 @@ HOOKS_DIR = PLUGIN_ROOT / "hooks"
 def write_sentinel(hook_name: str, status: str = "ok") -> None:
     """Write sentinel marker proving hook executed successfully."""
     session_id = os.environ.get("CLAUDE_SESSION_ID", str(os.getppid()))
-    sentinel_file = Path(f"/tmp/evolving-lite-sentinel-{hook_name}-{session_id}.json")
+    sentinel_file = Path(tempfile.gettempdir()) / f"evolving-lite-sentinel-{hook_name}-{session_id}.json"
     try:
         sentinel_file.write_text(json.dumps({
             "hook": hook_name,
@@ -80,7 +80,7 @@ def get_session_count() -> int:
 def increment_session_count() -> int:
     """Increment session counter with per-session guard against double-increment."""
     session_id = os.environ.get("CLAUDE_SESSION_ID", str(os.getppid()))
-    flag_file = Path(f"/tmp/evolving-lite-session-counted-{session_id}")
+    flag_file = Path(tempfile.gettempdir()) / f"evolving-lite-session-counted-{session_id}"
 
     # Guard: only increment once per session
     if flag_file.exists():
@@ -92,7 +92,7 @@ def increment_session_count() -> int:
 
     # Set flag so we don't double-increment
     try:
-        flag_file.write_text(str(count))
+        flag_file.write_text(str(count), encoding="utf-8")
     except OSError:
         pass
 
@@ -241,7 +241,7 @@ def log_evolution_event(event_type: str, summary: str, source: str = "system") -
         "session": get_session_count()
     }
     try:
-        with open(log_file, "a") as f:
+        with open(log_file, "a", encoding="utf-8") as f:
             f.write(json.dumps(entry) + "\n")
     except OSError:
         pass

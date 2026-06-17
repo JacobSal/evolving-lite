@@ -28,7 +28,7 @@ def main():
         print(f"ERROR: {KB_PATH} not found", file=sys.stderr)
         sys.exit(1)
 
-    with open(KB_PATH) as f:
+    with open(KB_PATH, encoding="utf-8") as f:
         kb = json.load(f)
 
     core_nodes = [n for n in kb["nodes"] if n.get("partition") == "core"]

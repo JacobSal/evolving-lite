@@ -22,6 +22,7 @@ import json
 import os
 import re
 import sys
+import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -232,13 +233,13 @@ def write_pending_marker(hook_input: dict, score: int, routing: dict,
             "emit_ts": datetime.now(timezone.utc).isoformat(),
             "resolved": False,
         }
-        path = Path(f"/tmp/delegation-pending-{session_id}.json")
+        path = Path(tempfile.gettempdir()) / f"delegation-pending-{session_id}.json"
         tmp = path.with_suffix(".json.tmp")
         if tmp.is_symlink():
             tmp.unlink()
-        fd = os.open(str(tmp), os.O_WRONLY | os.O_CREAT | os.O_TRUNC | os.O_NOFOLLOW, 0o600)
+        fd = os.open(str(tmp), os.O_WRONLY | os.O_CREAT | os.O_TRUNC | getattr(os, "O_NOFOLLOW", 0), 0o600)
         try:
-            f = os.fdopen(fd, "w")
+            f = os.fdopen(fd, "w", encoding="utf-8")
         except Exception:
             try:
                 os.close(fd)

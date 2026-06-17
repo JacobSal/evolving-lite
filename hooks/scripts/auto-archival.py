@@ -145,7 +145,7 @@ def main():
         # Update frequency marker
         ANALYTICS_DIR.mkdir(parents=True, exist_ok=True)
         try:
-            FREQUENCY_FILE.write_text(str(time.time()))
+            FREQUENCY_FILE.write_text(str(time.time()), encoding="utf-8")
         except OSError:
             pass
 

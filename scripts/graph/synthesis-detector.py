@@ -46,7 +46,7 @@ def load_coactivation():
     if not COACTIVATION_FILE.exists():
         return {}
 
-    with open(COACTIVATION_FILE) as f:
+    with open(COACTIVATION_FILE, encoding="utf-8") as f:
         data = json.load(f)
 
     pairs = {}
@@ -63,7 +63,7 @@ def load_node_names():
     if not NODES_FILE.exists():
         return {}
 
-    with open(NODES_FILE) as f:
+    with open(NODES_FILE, encoding="utf-8") as f:
         data = json.load(f)
 
     names = {}
@@ -160,7 +160,7 @@ def load_existing_candidates():
     if not OUTPUT_FILE.exists():
         return set()
 
-    with open(OUTPUT_FILE) as f:
+    with open(OUTPUT_FILE, encoding="utf-8") as f:
         data = json.load(f)
 
     existing = set()
@@ -210,7 +210,7 @@ def _read_cached_fingerprint():
     """Returns cached fingerprint string or None on miss/error. Fail-open."""
     try:
         if INPUT_FINGERPRINT_FILE.exists():
-            return json.loads(INPUT_FINGERPRINT_FILE.read_text()).get("fingerprint")
+            return json.loads(INPUT_FINGERPRINT_FILE.read_text(encoding="utf-8")).get("fingerprint")
     except (OSError, json.JSONDecodeError):
         pass
     return None
@@ -223,7 +223,7 @@ def _write_cached_fingerprint(fp):
         INPUT_FINGERPRINT_FILE.write_text(json.dumps({
             "fingerprint": fp,
             "updated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-        }))
+        }), encoding="utf-8")
     except OSError:
         pass
 
@@ -304,7 +304,7 @@ def main():
 
     # Load existing file or create new
     if OUTPUT_FILE.exists():
-        with open(OUTPUT_FILE) as f:
+        with open(OUTPUT_FILE, encoding="utf-8") as f:
             output = json.load(f)
     else:
         output = {

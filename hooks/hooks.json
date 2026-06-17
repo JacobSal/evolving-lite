@@ -1,5 +1,5 @@
 {
-  "description": "Evolving Lite hook registrations - all tiers registered, tier gates enforced inside each script",
+  "description": "Evolving Lite hook registrations - all tiers registered, tier gates enforced inside each script. Paths use ${CLAUDE_PLUGIN_ROOT} (substituted by Claude Code). Python invoked with -X utf8 and shell scripts via bash for cross-platform (Windows Git Bash) safety.",
   "hooks": {
     "SessionStart": [
       {
@@ -7,7 +7,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/c/Users/jsalm/Documents/GitHub/llm_resume_writer/submodules/evolving-lite/hooks/scripts/health-sentinel.sh",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/health-sentinel.sh",
             "timeout": 10
           }
         ]
@@ -17,7 +17,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/doctor.py --session-start",
+            "command": "python3 -X utf8 ${CLAUDE_PLUGIN_ROOT}/scripts/doctor.py --session-start",
             "timeout": 15
           }
         ]
@@ -27,37 +27,37 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/graph/coactivation-aggregator.py",
+            "command": "python3 -X utf8 ${CLAUDE_PLUGIN_ROOT}/scripts/graph/coactivation-aggregator.py",
             "timeout": 15
           },
           {
             "type": "command",
-            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/graph/compute-hot-pairs.py",
+            "command": "python3 -X utf8 ${CLAUDE_PLUGIN_ROOT}/scripts/graph/compute-hot-pairs.py",
             "timeout": 15
           },
           {
             "type": "command",
-            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/graph/synthesis-detector.py",
+            "command": "python3 -X utf8 ${CLAUDE_PLUGIN_ROOT}/scripts/graph/synthesis-detector.py",
             "timeout": 15
           },
           {
             "type": "command",
-            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/graph/auto-edges.py",
+            "command": "python3 -X utf8 ${CLAUDE_PLUGIN_ROOT}/scripts/graph/auto-edges.py",
             "timeout": 15
           },
           {
             "type": "command",
-            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/graph/auto-routes.py",
+            "command": "python3 -X utf8 ${CLAUDE_PLUGIN_ROOT}/scripts/graph/auto-routes.py",
             "timeout": 15
           },
           {
             "type": "command",
-            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/recalc-fitness.py --trigger session-start",
+            "command": "python3 -X utf8 ${CLAUDE_PLUGIN_ROOT}/scripts/recalc-fitness.py --trigger session-start",
             "timeout": 15
           },
           {
             "type": "command",
-            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/steward-checker.py",
+            "command": "python3 -X utf8 ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/steward-checker.py",
             "timeout": 15
           }
         ]
@@ -69,7 +69,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 /c/Users/jsalm/Documents/GitHub/llm_resume_writer/submodules/evolving-lite/hooks/scripts/security-tier-check.py",
+            "command": "python3 -X utf8 ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/security-tier-check.py",
             "timeout": 10
           }
         ]
@@ -79,7 +79,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/c/Users/jsalm/Documents/GitHub/llm_resume_writer/submodules/evolving-lite/hooks/scripts/context-warning.sh",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/context-warning.sh",
             "timeout": 10
           }
         ]
@@ -89,7 +89,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 /c/Users/jsalm/Documents/GitHub/llm_resume_writer/submodules/evolving-lite/hooks/scripts/thinking-recall.py",
+            "command": "python3 -X utf8 ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/thinking-recall.py",
             "timeout": 10
           }
         ]
@@ -99,7 +99,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/delegation-outcome-tracker.py",
+            "command": "python3 -X utf8 ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/delegation-outcome-tracker.py",
             "timeout": 10
           }
         ]
@@ -110,12 +110,12 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 /c/Users/jsalm/Documents/GitHub/llm_resume_writer/submodules/evolving-lite/hooks/scripts/correction-detector.py",
+            "command": "python3 -X utf8 ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/correction-detector.py",
             "timeout": 10
           },
           {
             "type": "command",
-            "command": "python3 /c/Users/jsalm/Documents/GitHub/llm_resume_writer/submodules/evolving-lite/hooks/scripts/delegation-enforcer.py",
+            "command": "python3 -X utf8 ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/delegation-enforcer.py",
             "timeout": 10
           }
         ]
@@ -127,7 +127,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 /c/Users/jsalm/Documents/GitHub/llm_resume_writer/submodules/evolving-lite/hooks/scripts/usage-tracker.py",
+            "command": "python3 -X utf8 ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/usage-tracker.py",
             "timeout": 10
           }
         ]
@@ -137,7 +137,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/artifact-registration-enforcer.py",
+            "command": "python3 -X utf8 ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/artifact-registration-enforcer.py",
             "timeout": 10
           }
         ]
@@ -147,7 +147,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/content-scanner.py",
+            "command": "python3 -X utf8 ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/content-scanner.py",
             "timeout": 10
           }
         ]
@@ -159,7 +159,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 /c/Users/jsalm/Documents/GitHub/llm_resume_writer/submodules/evolving-lite/hooks/scripts/precompact-extract.py",
+            "command": "python3 -X utf8 ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/precompact-extract.py",
             "timeout": 10
           }
         ]
@@ -170,22 +170,22 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/c/Users/jsalm/Documents/GitHub/llm_resume_writer/submodules/evolving-lite/hooks/scripts/session-summary.sh",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/session-summary.sh",
             "timeout": 10
           },
           {
             "type": "command",
-            "command": "python3 /c/Users/jsalm/Documents/GitHub/llm_resume_writer/submodules/evolving-lite/hooks/scripts/auto-archival.py",
+            "command": "python3 -X utf8 ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/auto-archival.py",
             "timeout": 10
           },
           {
             "type": "command",
-            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/delegation-outcome-tracker.py",
+            "command": "python3 -X utf8 ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/delegation-outcome-tracker.py",
             "timeout": 10
           },
           {
             "type": "command",
-            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/forced-verify-stop-gate.py",
+            "command": "python3 -X utf8 ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/forced-verify-stop-gate.py",
             "timeout": 10
           }
         ]
