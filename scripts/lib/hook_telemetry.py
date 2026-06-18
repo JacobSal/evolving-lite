@@ -80,7 +80,9 @@ def _project_dir() -> Path:
 # Design constraints: same fail-open invariant as the rest of this module.
 # O_NOFOLLOW guards against symlink TOCTOU attacks.
 
-_MARKER_DIR_DEFAULT = os.path.join(tempfile.gettempdir(), "hook-active")
+# EVOLVING_TMP unifies the temp namespace across bash+Python hooks (see
+# common.py evolving_tmp_dir); default stays the OS tempdir.
+_MARKER_DIR_DEFAULT = os.path.join(os.environ.get("EVOLVING_TMP") or tempfile.gettempdir(), "hook-active")
 _MARKER_DIR_MODE = 0o700
 
 

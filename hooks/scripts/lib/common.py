@@ -46,13 +46,37 @@ HOOKS_DIR = PLUGIN_ROOT / "hooks"
 
 
 # ============================================================
+# SHARED TEMP NAMESPACE
+# ============================================================
+
+def evolving_tmp_dir() -> Path:
+    """Single temp namespace shared by the bash and Python hooks.
+
+    On Windows, a bash hook's `/tmp` (the Git-Bash MSYS mount) and Python's
+    `tempfile.gettempdir()` (`%TEMP%`) can resolve to DIFFERENT directories,
+    so a sentinel written by one language is invisible to the other. We pin
+    both to a plugin-rooted dir that each language computes identically
+    (`<plugin_root>/_runtime`), eliminating the split. Override with
+    $EVOLVING_TMP to relocate (or to unify every hook's temp files in one
+    place). Fail-open: mkdir errors are swallowed by the callers.
+    """
+    override = os.environ.get("EVOLVING_TMP")
+    d = Path(override) if override else (PLUGIN_ROOT / "_runtime")
+    try:
+        d.mkdir(parents=True, exist_ok=True)
+    except OSError:
+        pass
+    return d
+
+
+# ============================================================
 # SENTINEL SYSTEM
 # ============================================================
 
 def write_sentinel(hook_name: str, status: str = "ok") -> None:
     """Write sentinel marker proving hook executed successfully."""
     session_id = os.environ.get("CLAUDE_SESSION_ID", str(os.getppid()))
-    sentinel_file = Path(tempfile.gettempdir()) / f"evolving-lite-sentinel-{hook_name}-{session_id}.json"
+    sentinel_file = evolving_tmp_dir() / f"evolving-lite-sentinel-{hook_name}-{session_id}.json"
     try:
         sentinel_file.write_text(json.dumps({
             "hook": hook_name,
@@ -80,7 +104,7 @@ def get_session_count() -> int:
 def increment_session_count() -> int:
     """Increment session counter with per-session guard against double-increment."""
     session_id = os.environ.get("CLAUDE_SESSION_ID", str(os.getppid()))
-    flag_file = Path(tempfile.gettempdir()) / f"evolving-lite-session-counted-{session_id}"
+    flag_file = evolving_tmp_dir() / f"evolving-lite-session-counted-{session_id}"
 
     # Guard: only increment once per session
     if flag_file.exists():
