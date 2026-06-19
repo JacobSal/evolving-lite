@@ -5,16 +5,11 @@
   "problem": "Context feels bloated so you run /clear to start fresh, but subsequent tool calls are noticeably slower and cost more",
   "solution": "Use compaction (auto or manual) which summarizes the conversation while keeping the cached system prompt and file contents intact. Only use /clear when you genuinely need a clean topic switch",
   "root_cause": "Claude Code caches the system prompt and recently-read files in a prompt cache; /clear invalidates that cache entirely, forcing a cold re-read on the next turn",
-  "tags": [
-    "context-management",
-    "performance",
-    "cache"
-  ],
+  "tags": ["context-management", "performance", "cache"],
   "confidence": 0.93,
   "effective_relevance": 90,
-  "access_count": 1,
+  "access_count": 0,
   "created": "2026-03-17T00:00:00",
   "source": "prewarmed",
-  "claude_code_version": "2.1.77",
-  "last_accessed": "2026-06-19T01:22:07.660917"
+  "claude_code_version": "2.1.77"
 }

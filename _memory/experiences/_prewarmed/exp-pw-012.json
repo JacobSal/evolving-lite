@@ -5,16 +5,11 @@
   "problem": "You make a significant architectural decision mid-session, it gets compacted away, and two sessions later you repeat the same analysis or make the opposite choice",
   "solution": "When you reach a non-obvious decision (why you chose library A over B, why you structured data this way), save it as an experience entry right then. One sentence of reasoning is enough to prevent rediscovery",
   "root_cause": "Compaction keeps outcomes but discards the reasoning chain. Without saved rationale, future sessions treat settled questions as open ones",
-  "tags": [
-    "session-continuity",
-    "decisions",
-    "memory"
-  ],
+  "tags": ["session-continuity", "decisions", "memory"],
   "confidence": 0.92,
   "effective_relevance": 86,
-  "access_count": 6,
+  "access_count": 0,
   "created": "2026-03-17T00:00:00",
   "source": "prewarmed",
-  "claude_code_version": "2.1.77",
-  "last_accessed": "2026-06-18T23:59:21.226501"
+  "claude_code_version": "2.1.77"
 }

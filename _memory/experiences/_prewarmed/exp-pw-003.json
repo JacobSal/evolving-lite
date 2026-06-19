@@ -5,16 +5,11 @@
   "problem": "Code works in one shell or machine but fails in another with no obvious code difference",
   "solution": "Print env vars at the point of failure: check NODE_ENV, PATH, and any service URLs. Use `printenv | grep <prefix>` to surface hidden mismatches between environments",
   "root_cause": "Shell profiles, .env files, and IDE terminals each load different environment contexts; what is set in one is invisible to another",
-  "tags": [
-    "debugging",
-    "environment",
-    "configuration"
-  ],
+  "tags": ["debugging", "environment", "configuration"],
   "confidence": 0.92,
   "effective_relevance": 82,
-  "access_count": 8,
+  "access_count": 0,
   "created": "2026-03-17T00:00:00",
   "source": "prewarmed",
-  "claude_code_version": "2.1.77",
-  "last_accessed": "2026-06-18T23:58:54.506834"
+  "claude_code_version": "2.1.77"
 }

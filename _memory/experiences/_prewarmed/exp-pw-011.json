@@ -5,16 +5,11 @@
   "problem": "Responses feel slow so you restart Claude Code, losing all context, cache, and session state - and the next session is just as slow after a few turns",
   "solution": "Check context usage first. If it is above 60%, trigger compaction. The slowness is inference time scaling with context length, not a client bug. Restarting does not fix it and destroys your session state",
   "root_cause": "Inference latency scales with context window size; at 150K+ tokens, responses are genuinely slower. Compaction reduces active context and restores speed without losing work",
-  "tags": [
-    "session-continuity",
-    "performance",
-    "compaction"
-  ],
-  "confidence": 0.9,
+  "tags": ["session-continuity", "performance", "compaction"],
+  "confidence": 0.90,
   "effective_relevance": 81,
-  "access_count": 2,
+  "access_count": 0,
   "created": "2026-03-17T00:00:00",
   "source": "prewarmed",
-  "claude_code_version": "2.1.77",
-  "last_accessed": "2026-06-19T13:55:28.402867"
+  "claude_code_version": "2.1.77"
 }

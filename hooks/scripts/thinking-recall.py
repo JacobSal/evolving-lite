@@ -163,17 +163,23 @@ def main():
             }
         }))
 
-        # Update access count on matched experiences
+        # Update access count on matched experiences.
+        # Skip pre-warmed seeds: they ship with the plugin and are git-tracked,
+        # so mutating them dirties every clone's working tree. Nothing consumes
+        # access_count on seeds anyway (auto-archival skips source == "prewarmed").
         for m in matches:
             exp = m["experience"]
             exp_file = Path(exp.get("_file", ""))
-            if exp_file.exists():
-                data = safe_read_json(exp_file)
-                if data:
-                    data["access_count"] = data.get("access_count", 0) + 1
-                    data["last_accessed"] = datetime.now().isoformat()
-                    from common import safe_write_json
-                    safe_write_json(exp_file, data)
+            if not exp_file.exists():
+                continue
+            if exp_file.parent == PREWARMED_DIR:
+                continue
+            data = safe_read_json(exp_file)
+            if data:
+                data["access_count"] = data.get("access_count", 0) + 1
+                data["last_accessed"] = datetime.now().isoformat()
+                from common import safe_write_json
+                safe_write_json(exp_file, data)
 
         write_sentinel("thinking-recall", "injected")
 

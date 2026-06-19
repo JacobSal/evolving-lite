@@ -5,16 +5,11 @@
   "problem": "Reading a 2000-line file to find a 10-line function wastes context and slows the turn",
   "solution": "Use the Read tool's offset and limit parameters, or use Grep first to find the line number, then read only that region with a 20-30 line window around it",
   "root_cause": "Large files read in full can consume thousands of context tokens for content you will never reference; targeted reads keep the window clean",
-  "tags": [
-    "context-management",
-    "read",
-    "large-files"
-  ],
+  "tags": ["context-management", "read", "large-files"],
   "confidence": 0.91,
   "effective_relevance": 83,
-  "access_count": 6,
+  "access_count": 0,
   "created": "2026-03-17T00:00:00",
   "source": "prewarmed",
-  "claude_code_version": "2.1.77",
-  "last_accessed": "2026-06-19T01:22:07.666594"
+  "claude_code_version": "2.1.77"
 }

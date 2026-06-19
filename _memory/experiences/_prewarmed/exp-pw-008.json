@@ -5,16 +5,11 @@
   "problem": "You resume after compaction and start working, but the plan you were following got summarized away and you drift off-track",
   "solution": "After any compaction event, explicitly check: what task was I on, what is the next step, and is my todo list still accurate. Re-read the plan file if needed before touching any code",
   "root_cause": "Compaction summarizes conversation history aggressively; structured task lists and multi-step plans are often collapsed into a single sentence in the summary",
-  "tags": [
-    "context-management",
-    "compaction",
-    "continuity"
-  ],
+  "tags": ["context-management", "compaction", "continuity"],
   "confidence": 0.86,
   "effective_relevance": 79,
-  "access_count": 4,
+  "access_count": 0,
   "created": "2026-03-17T00:00:00",
   "source": "prewarmed",
-  "claude_code_version": "2.1.77",
-  "last_accessed": "2026-06-19T13:00:11.515025"
+  "claude_code_version": "2.1.77"
 }

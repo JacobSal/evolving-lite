@@ -5,16 +5,11 @@
   "problem": "You jump straight into the codebase after a break and make a change that conflicts with a decision made in the previous session",
   "solution": "Before writing any code on resumption, read the most recent handoff or session summary. It takes 30 seconds and surfaces blockers, decisions, and context that are no longer in your active memory",
   "root_cause": "Human memory degrades over hours and days; the handoff file is the authoritative record of where the session left off, not your recollection",
-  "tags": [
-    "session-continuity",
-    "handoff",
-    "resumption"
-  ],
+  "tags": ["session-continuity", "handoff", "resumption"],
   "confidence": 0.91,
   "effective_relevance": 84,
-  "access_count": 2,
+  "access_count": 0,
   "created": "2026-03-17T00:00:00",
   "source": "prewarmed",
-  "claude_code_version": "2.1.77",
-  "last_accessed": "2026-06-19T13:00:46.305229"
+  "claude_code_version": "2.1.77"
 }

@@ -5,16 +5,11 @@
   "problem": "Test fails after a refactor and you immediately assume your change broke something, leading to reverting correct code",
   "solution": "Check whether the test was testing implementation details rather than behavior - if the test assumes a specific internal structure that you legitimately changed, the test needs updating, not your code",
   "root_cause": "Tests written against implementation details become brittle; a failing test after a refactor is not always a regression",
-  "tags": [
-    "debugging",
-    "testing",
-    "refactoring"
-  ],
+  "tags": ["debugging", "testing", "refactoring"],
   "confidence": 0.88,
   "effective_relevance": 80,
-  "access_count": 2,
+  "access_count": 0,
   "created": "2026-03-17T00:00:00",
   "source": "prewarmed",
-  "claude_code_version": "2.1.77",
-  "last_accessed": "2026-06-18T13:24:08.961068"
+  "claude_code_version": "2.1.77"
 }

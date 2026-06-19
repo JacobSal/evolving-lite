@@ -5,16 +5,11 @@
   "problem": "First instinct is to guess what went wrong and start making changes, which wastes turns on the wrong fix",
   "solution": "Scroll to the bottom of the traceback first - the root exception is almost always the last 3-5 lines, not the middle of the stack",
   "root_cause": "Long tracebacks make the real error visually hard to find; the top of the stack is where execution started, not where it broke",
-  "tags": [
-    "debugging",
-    "errors",
-    "tracebacks"
-  ],
+  "tags": ["debugging", "errors", "tracebacks"],
   "confidence": 0.95,
   "effective_relevance": 88,
-  "access_count": 1,
+  "access_count": 0,
   "created": "2026-03-17T00:00:00",
   "source": "prewarmed",
-  "claude_code_version": "2.1.77",
-  "last_accessed": "2026-06-18T13:43:00.749524"
+  "claude_code_version": "2.1.77"
 }

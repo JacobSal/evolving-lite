@@ -5,17 +5,11 @@
   "problem": "Pre-commit hook rejects your commit, you fix the issue and run `git commit --amend`, which modifies the last good commit instead of creating a new one for your actual change",
   "solution": "After a hook failure, the commit did NOT happen - there is nothing to amend. Fix the issue, re-stage your files, and run `git commit` fresh with a new message",
   "root_cause": "A failed commit leaves the working tree dirty and the HEAD unchanged. --amend in this state rewrites the previous successful commit, potentially destroying its changes",
-  "tags": [
-    "claude-code",
-    "git",
-    "hooks",
-    "commits"
-  ],
+  "tags": ["claude-code", "git", "hooks", "commits"],
   "confidence": 0.95,
   "effective_relevance": 86,
-  "access_count": 35,
+  "access_count": 0,
   "created": "2026-03-17T00:00:00",
   "source": "prewarmed",
-  "claude_code_version": "2.1.77",
-  "last_accessed": "2026-06-19T13:56:24.760210"
+  "claude_code_version": "2.1.77"
 }
