@@ -39,7 +39,7 @@ def parse_events():
         return []
 
     events = []
-    with open(ANALYTICS_FILE) as f:  # Let open() exceptions propagate to caller
+    with open(ANALYTICS_FILE, encoding="utf-8") as f:  # Let open() exceptions propagate to caller
         for line in f:
             line = line.strip()
             if not line:

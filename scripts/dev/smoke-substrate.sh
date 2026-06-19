@@ -24,7 +24,12 @@
 # Run inside the clean-room for the gate: scripts/dev/clean-room.sh bash scripts/dev/smoke-substrate.sh
 set -uo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")/../.."
-export CLAUDE_PLUGIN_ROOT="$(pwd)"
+# Native (Windows) form of cwd: Git Bash `pwd -W` yields C:/... which the native
+# Python interpreter resolves correctly. On Linux/macOS `pwd -W` fails -> plain
+# pwd. Use this wherever a path STRING is handed to Python (env auto-conversion
+# does not fire for paths embedded inside JSON built by printf).
+PWD_NATIVE="$(pwd -W 2>/dev/null || pwd)"
+export CLAUDE_PLUGIN_ROOT="$PWD_NATIVE"
 export CLAUDE_SESSION_ID="smoke-substrate-$$"
 FAIL=0
 
@@ -57,7 +62,7 @@ PY
 mkdir -p commands
 printf '# Smoke Test Command\n\nSynthetic artifact for the substrate smoke.\n' > commands/smoke-test-cmd.md
 printf '{"tool_name":"Write","tool_input":{"file_path":"%s/commands/smoke-test-cmd.md"},"session_id":"%s"}' \
-  "$(pwd)" "$CLAUDE_SESSION_ID" | python3 hooks/scripts/artifact-registration-enforcer.py
+  "$PWD_NATIVE" "$CLAUDE_SESSION_ID" | python3 hooks/scripts/artifact-registration-enforcer.py
 check "S2 ARS enforcer exits 0" $?
 python3 - << 'PY'
 import json, sys

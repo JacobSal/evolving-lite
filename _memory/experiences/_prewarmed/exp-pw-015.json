@@ -5,11 +5,16 @@
   "problem": "You delegate 'look into the codebase for how auth works' and get back a sprawling summary that does not answer the question you actually had",
   "solution": "Frame delegation prompts as: 'Find all files that call verifyToken() and return the file paths and the line numbers where it is called.' Specific inputs, specific expected output format, zero ambiguity",
   "root_cause": "Open-ended prompts cause sub-agents to over-explore and return summaries instead of answers; precise prompts constrain the search space and produce usable output",
-  "tags": ["delegation", "prompting", "specificity"],
-  "confidence": 0.90,
+  "tags": [
+    "delegation",
+    "prompting",
+    "specificity"
+  ],
+  "confidence": 0.9,
   "effective_relevance": 83,
-  "access_count": 0,
+  "access_count": 3,
   "created": "2026-03-17T00:00:00",
   "source": "prewarmed",
-  "claude_code_version": "2.1.77"
+  "claude_code_version": "2.1.77",
+  "last_accessed": "2026-06-18T08:41:12.973302"
 }

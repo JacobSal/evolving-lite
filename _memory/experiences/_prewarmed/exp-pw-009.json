@@ -5,11 +5,16 @@
   "problem": "You write 'done' or 'feature complete' at session end, then return hours later and spend 10 minutes reconstructing what to do next",
   "solution": "Always add a 'next:' line at the end of your progress note: 'next: wire up the validation to the form submit handler in checkout.tsx'. Specific enough that you can start immediately without re-reading code",
   "root_cause": "Completion notes describe what happened; next-step notes describe what to do. They require different information and both are needed for smooth resumption",
-  "tags": ["session-continuity", "handoff", "productivity"],
+  "tags": [
+    "session-continuity",
+    "handoff",
+    "productivity"
+  ],
   "confidence": 0.94,
   "effective_relevance": 87,
-  "access_count": 0,
+  "access_count": 15,
   "created": "2026-03-17T00:00:00",
   "source": "prewarmed",
-  "claude_code_version": "2.1.77"
+  "claude_code_version": "2.1.77",
+  "last_accessed": "2026-06-19T13:56:12.767814"
 }

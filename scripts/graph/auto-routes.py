@@ -58,7 +58,7 @@ MIN_OVERLAP = 2
 
 def load_json(path: Path) -> dict:
     try:
-        with open(path) as f:
+        with open(path, encoding="utf-8") as f:
             return json.load(f)
     except (json.JSONDecodeError, OSError) as e:
         print(f"Error loading {path}: {e}", file=sys.stderr)

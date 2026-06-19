@@ -158,6 +158,7 @@ def main():
         injection = format_injection(matches)
         print(json.dumps({
             "hookSpecificOutput": {
+                "hookEventName": "PreToolUse",
                 "additionalContext": injection
             }
         }))

@@ -106,7 +106,7 @@ def main() -> int:
             rel = str(fp.relative_to(REPO_ROOT)) if fp.is_relative_to(REPO_ROOT) else str(fp)
             if not _scannable(rel) or not fp.is_file():
                 continue
-            all_hits.extend(scan_text(rel, fp.read_text(errors="ignore")))
+            all_hits.extend(scan_text(rel, fp.read_text(errors="ignore", encoding="utf-8")))
         n = len(args)
     else:
         paths = staged_paths()

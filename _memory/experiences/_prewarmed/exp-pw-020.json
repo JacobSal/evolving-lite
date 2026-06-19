@@ -5,11 +5,17 @@
   "problem": "You run `cat somefile.ts` in a Bash tool call and get raw output with no line numbers, no syntax awareness, and potential permission issues on restricted paths",
   "solution": "Use the Read tool directly with the file path. It returns line-numbered output, handles binary detection, respects tool permissions correctly, and integrates with the Edit tool's line-reference system",
   "root_cause": "Bash cat/head/tail bypass the tool layer's file access model and produce plain text that is harder to reference for subsequent edits. The Read tool is purpose-built for this workflow",
-  "tags": ["claude-code", "tools", "read", "best-practices"],
+  "tags": [
+    "claude-code",
+    "tools",
+    "read",
+    "best-practices"
+  ],
   "confidence": 0.94,
   "effective_relevance": 84,
-  "access_count": 0,
+  "access_count": 22,
   "created": "2026-03-17T00:00:00",
   "source": "prewarmed",
-  "claude_code_version": "2.1.77"
+  "claude_code_version": "2.1.77",
+  "last_accessed": "2026-06-19T13:00:46.310237"
 }

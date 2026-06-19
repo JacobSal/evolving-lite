@@ -1,0 +1,9 @@
+# Shell hooks MUST stay LF-only. CRLF line endings break bash on macOS/Linux
+# (`/bin/bash^M: bad interpreter`) and are fragile even under Git Bash. eol=lf
+# overrides a contributor's core.autocrlf=true so these scripts are always
+# checked out and committed with LF, on every platform.
+*.sh text eol=lf
+
+# Python hooks are invoked cross-platform via run-py.sh; keep them LF too so a
+# shebang or here-doc never inherits a stray CR.
+*.py text eol=lf

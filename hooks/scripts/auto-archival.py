@@ -44,7 +44,7 @@ def should_run() -> bool:
     if not FREQUENCY_FILE.exists():
         return True
     try:
-        last_run = float(FREQUENCY_FILE.read_text().strip())
+        last_run = float(FREQUENCY_FILE.read_text(encoding="utf-8").strip())
         return (time.time() - last_run) > 86400  # 24 hours
     except (ValueError, OSError):
         return True
@@ -145,7 +145,7 @@ def main():
         # Update frequency marker
         ANALYTICS_DIR.mkdir(parents=True, exist_ok=True)
         try:
-            FREQUENCY_FILE.write_text(str(time.time()))
+            FREQUENCY_FILE.write_text(str(time.time()), encoding="utf-8")
         except OSError:
             pass
 

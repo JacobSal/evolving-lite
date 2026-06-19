@@ -5,11 +5,17 @@
   "problem": "You use a full-size model to search for a function name or find which files import a module, spending unnecessary tokens on a mechanical task",
   "solution": "Delegate file search, pattern matching, and directory exploration to a haiku sub-agent. It handles Glob, Grep, and Read tasks accurately and returns in fewer tokens than it costs to describe the task to a larger model",
   "root_cause": "File search is a low-reasoning task; the bottleneck is I/O not intelligence. Haiku's speed and cost advantage is largest exactly where reasoning depth does not matter",
-  "tags": ["delegation", "cost", "haiku", "search"],
+  "tags": [
+    "delegation",
+    "cost",
+    "haiku",
+    "search"
+  ],
   "confidence": 0.93,
   "effective_relevance": 85,
-  "access_count": 0,
+  "access_count": 13,
   "created": "2026-03-17T00:00:00",
   "source": "prewarmed",
-  "claude_code_version": "2.1.77"
+  "claude_code_version": "2.1.77",
+  "last_accessed": "2026-06-18T15:31:38.829592"
 }

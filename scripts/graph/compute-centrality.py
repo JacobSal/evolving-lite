@@ -85,14 +85,14 @@ KATZ_ALPHA = 0.005
 
 def load_edges():
     """Load and return edges from edges.json."""
-    with open(EDGES_PATH) as f:
+    with open(EDGES_PATH, encoding="utf-8") as f:
         data = json.load(f)
     return data.get("edges", [])
 
 
 def load_nodes():
     """Load all node IDs from knowledge-nodes.json."""
-    with open(NODES_PATH) as f:
+    with open(NODES_PATH, encoding="utf-8") as f:
         data = json.load(f)
     return {n["id"] for n in data.get("nodes", [])}
 
@@ -102,7 +102,7 @@ def load_coactivation():
     if not COACTIVATION_PATH.exists():
         return {}
     try:
-        with open(COACTIVATION_PATH) as f:
+        with open(COACTIVATION_PATH, encoding="utf-8") as f:
             data = json.load(f)
         pairs = data.get("node_pairs", {})
         return {k: v.get("weighted_count", 0) for k, v in pairs.items()}
@@ -231,7 +231,7 @@ def build_output(scores, all_node_ids, G):
 def validate_output(output_path):
     """Validate the output JSON schema."""
     try:
-        with open(output_path) as f:
+        with open(output_path, encoding="utf-8") as f:
             data = json.load(f)
 
         required_keys = ["schema_version", "algorithm", "updated", "total_nodes", "scores"]
