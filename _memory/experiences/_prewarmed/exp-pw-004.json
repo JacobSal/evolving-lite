@@ -5,11 +5,16 @@
   "problem": "Async bugs are hard to trace because the execution order is non-obvious and errors surface far from their origin",
   "solution": "Insert a console.log or equivalent before and after each await in the suspect function. The last log before silence or an error pinpoints exactly where execution stalled or threw",
   "root_cause": "Async errors often get swallowed or rethrown with lost stack context; logging at await boundaries makes the timeline visible",
-  "tags": ["debugging", "async", "logging"],
+  "tags": [
+    "debugging",
+    "async",
+    "logging"
+  ],
   "confidence": 0.87,
   "effective_relevance": 78,
-  "access_count": 0,
+  "access_count": 3,
   "created": "2026-03-17T00:00:00",
   "source": "prewarmed",
-  "claude_code_version": "2.1.77"
+  "claude_code_version": "2.1.77",
+  "last_accessed": "2026-06-18T23:59:21.238547"
 }
