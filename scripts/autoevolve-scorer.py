@@ -51,7 +51,7 @@ from scripts.lib.plugin_paths import plugin_root  # noqa: E402
 def load_json(path):
     """Load JSON file, return None on failure."""
     try:
-        with open(path, "r") as f:
+        with open(path, "r", encoding="utf-8") as f:
             return json.load(f)
     except (FileNotFoundError, json.JSONDecodeError) as e:
         print(f"ERROR: Cannot load {path}: {e}", file=sys.stderr)
@@ -62,7 +62,7 @@ def save_json(path, data):
     """Save JSON file with pretty printing."""
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    with open(path, "w") as f:
+    with open(path, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
 
 
@@ -461,7 +461,7 @@ def count_outcomes(root, target, target_cfg=None):
         return 0
     try:
         n = 0
-        with open(path) as f:
+        with open(path, encoding="utf-8") as f:
             for line in f:
                 line = line.strip()
                 if not line:

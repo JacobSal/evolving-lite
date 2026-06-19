@@ -15,9 +15,16 @@ fi
 # Ensure memory directories exist
 mkdir -p "${PLUGIN_ROOT}/_memory/experiences" "${PLUGIN_ROOT}/_memory/analytics" "${PLUGIN_ROOT}/_memory/sessions" "${PLUGIN_ROOT}/_memory/projects" 2>/dev/null
 
+# Shared temp namespace (see common.py evolving_tmp_dir): bash `/tmp` and
+# Python's tempfile.gettempdir() can diverge on Windows, so both pin here.
+RUNTIME_DIR="${EVOLVING_TMP:-${PLUGIN_ROOT}/_runtime}"
+mkdir -p "$RUNTIME_DIR" 2>/dev/null
+# Bound growth: drop session-scoped runtime files older than a week.
+find "$RUNTIME_DIR" -type f -mtime +7 -delete 2>/dev/null || true
+
 # Session counter (ONLY place this is incremented)
 session_id="${CLAUDE_SESSION_ID:-$$}"
-flag_file="/tmp/evolving-lite-session-counted-${session_id}"
+flag_file="${RUNTIME_DIR}/evolving-lite-session-counted-${session_id}"
 counter_file="${PLUGIN_ROOT}/_memory/.session-count"
 session_count=0
 if [[ -f "$counter_file" ]]; then
@@ -53,7 +60,7 @@ fi
 total_exp=$((exp_count + pw_count))
 
 # Write sentinel
-sentinel_file="/tmp/evolving-lite-sentinel-health-${session_id}.json"
+sentinel_file="${RUNTIME_DIR}/evolving-lite-sentinel-health-${session_id}.json"
 echo "{\"hook\":\"health-sentinel\",\"ts\":$(date +%s),\"status\":\"ok\",\"session\":\"${session_id}\"}" > "$sentinel_file" 2>/dev/null
 
 echo "{\"systemMessage\": \"Evolving Lite v1.0 | Session ${session_count} | Tier ${tier} (${tier_label}) | ${total_exp} experiences\", \"continue\": true}"

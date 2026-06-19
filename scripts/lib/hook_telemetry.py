@@ -49,6 +49,7 @@ from __future__ import annotations
 import json
 import os
 import sys
+import tempfile
 import time
 import traceback
 from contextlib import contextmanager
@@ -79,7 +80,9 @@ def _project_dir() -> Path:
 # Design constraints: same fail-open invariant as the rest of this module.
 # O_NOFOLLOW guards against symlink TOCTOU attacks.
 
-_MARKER_DIR_DEFAULT = "/tmp/hook-active"
+# EVOLVING_TMP unifies the temp namespace across bash+Python hooks (see
+# common.py evolving_tmp_dir); default stays the OS tempdir.
+_MARKER_DIR_DEFAULT = os.path.join(os.environ.get("EVOLVING_TMP") or tempfile.gettempdir(), "hook-active")
 _MARKER_DIR_MODE = 0o700
 
 
@@ -122,7 +125,7 @@ def _write_marker(session_id: str, pid: int, hook: str) -> None:
         p = _marker_path(session_id, pid, hook)
         fd = os.open(
             str(p),
-            os.O_WRONLY | os.O_CREAT | os.O_TRUNC | os.O_NOFOLLOW,
+            os.O_WRONLY | os.O_CREAT | os.O_TRUNC | getattr(os, "O_NOFOLLOW", 0),
             0o600,
         )
         try:
@@ -179,7 +182,7 @@ def _append_row(row: Dict[str, Any]) -> None:
         # PIPE_BUF (4096 on macOS/Linux). Our rows are well under that.
         try:
             import fcntl
-            with open(path, "a") as f:
+            with open(path, "a", encoding="utf-8") as f:
                 try:
                     fcntl.flock(f.fileno(), fcntl.LOCK_EX)
                     f.write(line)
@@ -191,7 +194,7 @@ def _append_row(row: Dict[str, Any]) -> None:
         except ImportError:
             # No fcntl (eg. Windows): plain append. O_APPEND atomicity
             # alone is sufficient for sub-PIPE_BUF writes.
-            with open(path, "a") as f:
+            with open(path, "a", encoding="utf-8") as f:
                 f.write(line)
     except Exception:  # noqa: BLE001 - fail-open contract
         return

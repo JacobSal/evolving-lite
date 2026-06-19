@@ -25,7 +25,15 @@ handoffs, no parallel sessions).
 from __future__ import annotations
 
 import datetime
-import fcntl
+try:
+    import fcntl  # POSIX file locking
+except ImportError:  # Windows: degrade to best-effort lock-free (no fcntl)
+    class _NoFcntl:
+        LOCK_EX = LOCK_UN = LOCK_NB = LOCK_SH = 0
+        @staticmethod
+        def flock(*_a, **_k):
+            return None
+    fcntl = _NoFcntl()
 import io
 import json
 import os
@@ -166,7 +174,7 @@ def run_plan_rot(today: datetime.date) -> list[StewardFinding]:
 
         index_path = REPO_ROOT / "_memory" / "index.json"
         try:
-            data = json.loads(index_path.read_text())
+            data = json.loads(index_path.read_text(encoding="utf-8"))
         except (json.JSONDecodeError, OSError):
             return []
         plan_rel = data.get("active_plan") or (

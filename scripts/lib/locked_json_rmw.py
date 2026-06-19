@@ -46,7 +46,15 @@ lock-free pass (correctness then relies on low concurrency, as before).
 from __future__ import annotations
 
 import errno
-import fcntl
+try:
+    import fcntl  # POSIX file locking
+except ImportError:  # Windows: degrade to best-effort lock-free (no fcntl)
+    class _NoFcntl:
+        LOCK_EX = LOCK_UN = LOCK_NB = LOCK_SH = 0
+        @staticmethod
+        def flock(*_a, **_k):
+            return None
+    fcntl = _NoFcntl()
 import json
 import os
 import time

@@ -54,7 +54,15 @@ Consumers:
     - future lens/trait selectors read lens-fitness.json / trait-fitness.json
 """
 
-import fcntl
+try:
+    import fcntl  # POSIX file locking
+except ImportError:  # Windows: degrade to best-effort lock-free (no fcntl)
+    class _NoFcntl:
+        LOCK_EX = LOCK_UN = LOCK_NB = LOCK_SH = 0
+        @staticmethod
+        def flock(*_a, **_k):
+            return None
+    fcntl = _NoFcntl()
 import json
 import os
 import sys
@@ -137,7 +145,7 @@ def load_config(root: Path) -> dict:
     cfg = dict(DEFAULT_CONFIG)
     path = Path(root) / "_graph" / "cache" / FITNESS_CONFIG_NAME
     try:
-        with open(path) as f:
+        with open(path, encoding="utf-8") as f:
             overrides = json.load(f)
         if not isinstance(overrides, dict):
             return cfg
@@ -177,7 +185,7 @@ def read_ledger(path: Path):
     events = []
     if not path.exists():
         return events
-    with open(path, "r") as f:
+    with open(path, "r", encoding="utf-8") as f:
         # Shared lock pairs with the producers' LOCK_EX appends so a
         # SessionStart recalc never reads a row mid-append from a concurrent
         # session's Stop handler. Advisory + fail-open: if the lock cannot
@@ -456,7 +464,7 @@ def _warn_if_stale_skiplist_collides_with_live_config(root, cfg):
         cfg_path = Path(root) / "_graph" / "cache" / "delegation-config.json"
         if not cfg_path.exists():
             return  # nothing to validate against, skip silently
-        with open(cfg_path) as f:
+        with open(cfg_path, encoding="utf-8") as f:
             dcfg = json.load(f)
         live_trait_types = {
             k for k, v in (dcfg.get("task_types") or {}).items()
@@ -636,7 +644,7 @@ def log_invocation(ledger_path: Path, record) -> None:
     """Append one JSON line to the invocation ledger. Fail-open: never raise."""
     try:
         ledger_path.parent.mkdir(parents=True, exist_ok=True)
-        with open(ledger_path, "a") as f:
+        with open(ledger_path, "a", encoding="utf-8") as f:
             f.write(json.dumps(record, separators=(",", ":")) + "\n")
     except Exception as exc:
         print(f"WARNING: failed to append invocation ledger: {exc}", file=sys.stderr)

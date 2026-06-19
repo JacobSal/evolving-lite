@@ -210,10 +210,17 @@ _CLASSIFY_RULES = _load_classify_rules()
 
 
 def _normalize_path(path: str) -> str:
-    """Convert absolute paths to repo-relative; strip leading ./."""
-    p = path.strip()
-    if p.startswith(str(REPO_ROOT) + "/"):
-        p = p[len(str(REPO_ROOT)) + 1:]
+    """Convert absolute paths to repo-relative; strip leading ./.
+
+    Separator-agnostic: Claude Code passes native paths (backslashes on
+    Windows) while REPO_ROOT stringifies with the OS separator and the
+    classify rules are written with '/'. Normalize both sides to '/' so the
+    prefix-strip and downstream regex matching work on every platform.
+    """
+    p = path.strip().replace("\\", "/")
+    root = str(REPO_ROOT).replace("\\", "/")
+    if p.startswith(root + "/"):
+        p = p[len(root) + 1:]
     if p.startswith("./"):
         p = p[2:]
     return p

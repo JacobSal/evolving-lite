@@ -53,7 +53,7 @@ def _read_habituation() -> dict:
     if not HABITUATION_FILE.exists():
         return {"counts": {}, "last_seen": {}, "version": "1.0"}
     try:
-        with open(HABITUATION_FILE) as f:
+        with open(HABITUATION_FILE, encoding="utf-8") as f:
             data = json.load(f)
         if not isinstance(data, dict):
             return {"counts": {}, "last_seen": {}, "version": "1.0"}
@@ -69,7 +69,7 @@ def _write_habituation(data: dict) -> None:
     """Atomic write via tmp+rename."""
     HABITUATION_FILE.parent.mkdir(parents=True, exist_ok=True)
     tmp = HABITUATION_FILE.with_suffix(".json.tmp")
-    with open(tmp, "w") as f:
+    with open(tmp, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
     os.replace(tmp, HABITUATION_FILE)
 
@@ -77,7 +77,7 @@ def _write_habituation(data: dict) -> None:
 def _v2_canary_enabled() -> bool:
     """Read v2_canary_mode switch. False on any read error (fail-closed)."""
     try:
-        with open(DELEGATION_CONFIG) as f:
+        with open(DELEGATION_CONFIG, encoding="utf-8") as f:
             cfg = json.load(f)
         return bool(cfg.get("mutation_rules", {}).get("v2_canary_mode", False))
     except Exception:

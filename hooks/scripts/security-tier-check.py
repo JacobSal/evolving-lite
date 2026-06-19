@@ -56,7 +56,7 @@ def log_injection_attempt(command: str, tier: int, name: str) -> None:
             "action": "block",
             "command": command[:200],
         }
-        with open(log_dir / "injection-attempts.jsonl", "a") as f:
+        with open(log_dir / "injection-attempts.jsonl", "a", encoding="utf-8") as f:
             f.write(json.dumps(entry) + "\n")
     except OSError:
         pass  # logging failure must never break the gate

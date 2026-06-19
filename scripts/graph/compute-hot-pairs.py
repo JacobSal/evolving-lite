@@ -27,7 +27,7 @@ def main():
         print("No coactivation.json found, skipping hot-pairs computation.")
         return
 
-    with open(COACTIVATION_FILE) as f:
+    with open(COACTIVATION_FILE, encoding="utf-8") as f:
         data = json.load(f)
 
     node_pairs = data.get("node_pairs", {})

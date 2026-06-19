@@ -21,11 +21,20 @@ Safety:
 
 from __future__ import annotations
 
-import fcntl
+try:
+    import fcntl  # POSIX file locking
+except ImportError:  # Windows: degrade to best-effort lock-free (no fcntl)
+    class _NoFcntl:
+        LOCK_EX = LOCK_UN = LOCK_NB = LOCK_SH = 0
+        @staticmethod
+        def flock(*_a, **_k):
+            return None
+    fcntl = _NoFcntl()
 import json
 import os
 import signal
 import sys
+import tempfile
 import time
 from datetime import datetime, timezone
 from pathlib import Path
@@ -50,8 +59,15 @@ INVOCATION_LEDGER = (
 )
 
 
+def _evolving_tmp() -> str:
+    # EVOLVING_TMP unifies the temp namespace across bash+Python hooks (see
+    # common.py evolving_tmp_dir); default stays the OS tempdir. The writer
+    # (delegation-enforcer) resolves this identically.
+    return os.environ.get("EVOLVING_TMP") or tempfile.gettempdir()
+
+
 def _pending_marker_path(session_id: str) -> Path:
-    return Path(f"/tmp/delegation-pending-{session_id}.json")
+    return Path(_evolving_tmp()) / f"delegation-pending-{session_id}.json"
 
 
 def _resolve_session_id(input_data: Optional[Dict]) -> str:
@@ -74,7 +90,7 @@ def _read_marker(session_id: str) -> Optional[Dict]:
     if not path.exists():
         return None
     try:
-        with open(path) as f:
+        with open(path, encoding="utf-8") as f:
             return json.load(f)
     except Exception:
         return None
@@ -89,9 +105,9 @@ def _write_marker(session_id: str, marker: Dict) -> None:
         # hardening - a planted symlink degrades to a single miss, fail-open).
         if tmp.is_symlink():
             tmp.unlink()
-        fd = os.open(str(tmp), os.O_WRONLY | os.O_CREAT | os.O_TRUNC | os.O_NOFOLLOW, 0o600)
+        fd = os.open(str(tmp), os.O_WRONLY | os.O_CREAT | os.O_TRUNC | getattr(os, "O_NOFOLLOW", 0), 0o600)
         try:
-            f = os.fdopen(fd, "w")
+            f = os.fdopen(fd, "w", encoding="utf-8")
         except Exception:
             try:
                 os.close(fd)
@@ -125,7 +141,7 @@ def _unlink_marker(session_id: str) -> None:
 # =========================================================================
 
 def _quality_signal_path(session_id: str) -> Path:
-    return Path(f"/tmp/quality-signal-{session_id}.json")
+    return Path(_evolving_tmp()) / f"quality-signal-{session_id}.json"
 
 
 def _quality_signal_mode() -> str:
@@ -138,7 +154,7 @@ def _read_quality_verdict(session_id: str) -> Optional[Dict]:
     if not path.exists():
         return None
     try:
-        with open(path) as f:
+        with open(path, encoding="utf-8") as f:
             data = json.load(f)
         return data if isinstance(data, dict) else None
     except Exception:
@@ -196,7 +212,7 @@ def _log_invocation(session_id: str, event: str, action: str, reason: str,
             "duration_ms": duration_ms,
             "error": error,
         }
-        with open(INVOCATION_LEDGER, "a") as f:
+        with open(INVOCATION_LEDGER, "a", encoding="utf-8") as f:
             try:
                 fcntl.flock(f.fileno(), fcntl.LOCK_EX)
             except OSError:
@@ -221,7 +237,7 @@ def _append_gap_entry(session_id: str, marker: Dict, was_delegated: bool) -> boo
             "emit_ts": marker.get("emit_ts"),
             "source": "delegation-outcome-tracker.py",
         }
-        with open(GAPS_FILE, "a") as f:
+        with open(GAPS_FILE, "a", encoding="utf-8") as f:
             try:
                 fcntl.flock(f.fileno(), fcntl.LOCK_EX)
             except OSError:
@@ -239,7 +255,7 @@ def _append_gap_entry(session_id: str, marker: Dict, was_delegated: bool) -> boo
 def _v2_tuning_enabled() -> bool:
     """Read the AutoEvolve kill-switch. False on any read error."""
     try:
-        with open(DELEGATION_CONFIG) as f:
+        with open(DELEGATION_CONFIG, encoding="utf-8") as f:
             cfg = json.load(f)
         return bool(cfg.get("mutation_rules", {}).get("v2_tuning_enabled", False))
     except Exception:
@@ -321,7 +337,7 @@ def _write_fitness_from_gap(session_id: str, marker: Dict, was_delegated: bool) 
     # File-I/O exceptions intentionally propagate to handle_stop's try/except
     # so the "fitness bridge write failed" stderr line is reachable.
     FITNESS_FILE.parent.mkdir(parents=True, exist_ok=True)
-    with open(FITNESS_FILE, "a") as f:
+    with open(FITNESS_FILE, "a", encoding="utf-8") as f:
         try:
             fcntl.flock(f.fileno(), fcntl.LOCK_EX)
         except OSError:

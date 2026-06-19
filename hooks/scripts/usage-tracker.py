@@ -40,7 +40,7 @@ def _append_history_event(hook_input: dict, tool_name: str) -> None:
         line = json.dumps(row) + "\n"
         try:
             import fcntl
-            with open(history_file, "a") as f:
+            with open(history_file, "a", encoding="utf-8") as f:
                 try:
                     fcntl.flock(f.fileno(), fcntl.LOCK_EX)
                     f.write(line)
@@ -50,7 +50,7 @@ def _append_history_event(hook_input: dict, tool_name: str) -> None:
                     except OSError:
                         pass
         except ImportError:
-            with open(history_file, "a") as f:
+            with open(history_file, "a", encoding="utf-8") as f:
                 f.write(line)
     except Exception:
         pass
