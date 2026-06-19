@@ -233,7 +233,10 @@ def write_pending_marker(hook_input: dict, score: int, routing: dict,
             "emit_ts": datetime.now(timezone.utc).isoformat(),
             "resolved": False,
         }
-        path = Path(tempfile.gettempdir()) / f"delegation-pending-{session_id}.json"
+        # EVOLVING_TMP unifies the temp namespace across bash+Python hooks
+        # (see common.py evolving_tmp_dir); default stays the OS tempdir. The
+        # reader (delegation-outcome-tracker) resolves this identically.
+        path = Path(os.environ.get("EVOLVING_TMP") or tempfile.gettempdir()) / f"delegation-pending-{session_id}.json"
         tmp = path.with_suffix(".json.tmp")
         if tmp.is_symlink():
             tmp.unlink()

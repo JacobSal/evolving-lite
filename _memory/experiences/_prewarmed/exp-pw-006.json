@@ -5,11 +5,16 @@
   "problem": "You need to explore an unfamiliar part of the codebase but context is already at 60-70%, making every read expensive",
   "solution": "Spin up a sub-agent with the Explore task type and a specific question. The agent runs in its own context window and returns a compact summary (~200 tokens) instead of dumping raw file contents into your window",
   "root_cause": "Reading files directly inflates your context linearly; sub-agents pay the exploration cost in their own window and hand back only the answer",
-  "tags": ["context-management", "delegation", "exploration"],
+  "tags": [
+    "context-management",
+    "delegation",
+    "exploration"
+  ],
   "confidence": 0.89,
   "effective_relevance": 85,
-  "access_count": 0,
+  "access_count": 9,
   "created": "2026-03-17T00:00:00",
   "source": "prewarmed",
-  "claude_code_version": "2.1.77"
+  "claude_code_version": "2.1.77",
+  "last_accessed": "2026-06-18T13:24:08.961068"
 }

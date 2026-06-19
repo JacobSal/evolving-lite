@@ -5,11 +5,16 @@
   "problem": "You edit CLAUDE.md to add a new rule or constraint, then continue working in the same session expecting the agent to follow it immediately",
   "solution": "After editing CLAUDE.md, start a new session for the changes to take effect. In the current session, state the new rule explicitly in the chat if you need it followed right now",
   "root_cause": "CLAUDE.md is read once when the session initializes and injected into the system prompt. It is not re-read on each turn; mid-session edits are invisible to the running context",
-  "tags": ["claude-code", "claude-md", "session"],
+  "tags": [
+    "claude-code",
+    "claude-md",
+    "session"
+  ],
   "confidence": 0.97,
   "effective_relevance": 89,
-  "access_count": 0,
+  "access_count": 4,
   "created": "2026-03-17T00:00:00",
   "source": "prewarmed",
-  "claude_code_version": "2.1.77"
+  "claude_code_version": "2.1.77",
+  "last_accessed": "2026-06-18T15:49:10.345755"
 }

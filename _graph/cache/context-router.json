@@ -3,129 +3,423 @@
   "description": "Evolving Lite context router - maps keywords to relevant knowledge",
   "routes": {
     "debugging": {
-      "keywords": ["debug", "bug", "error", "fix", "crash", "exception", "traceback", "broken", "not working", "fails"],
-      "primary_nodes": ["knowledge/rules/quick-dsv.md"],
-      "patterns": ["react"]
+      "keywords": [
+        "debug",
+        "bug",
+        "error",
+        "fix",
+        "crash",
+        "exception",
+        "traceback",
+        "broken",
+        "not working",
+        "fails"
+      ],
+      "primary_nodes": [
+        "knowledge/rules/quick-dsv.md"
+      ],
+      "patterns": [
+        "react"
+      ]
     },
     "delegation": {
-      "keywords": ["delegate", "delegation", "sub-agent", "subagent", "explore", "search codebase", "find all", "research"],
-      "primary_nodes": ["knowledge/rules/delegation.md"],
-      "patterns": ["delegation-request"]
+      "keywords": [
+        "delegate",
+        "delegation",
+        "sub-agent",
+        "subagent",
+        "explore",
+        "search codebase",
+        "find all",
+        "research"
+      ],
+      "primary_nodes": [
+        "knowledge/rules/delegation.md"
+      ],
+      "patterns": [
+        "delegation-request"
+      ]
     },
     "planning": {
-      "keywords": ["plan", "planning", "architecture", "design", "structure", "roadmap", "strategy", "complex project"],
-      "primary_nodes": ["knowledge/rules/quick-dsv.md"],
-      "patterns": ["task-decomposition-pipeline", "interview-before-implement"]
+      "keywords": [
+        "plan",
+        "planning",
+        "architecture",
+        "design",
+        "structure",
+        "roadmap",
+        "strategy",
+        "complex project"
+      ],
+      "primary_nodes": [
+        "knowledge/rules/quick-dsv.md"
+      ],
+      "patterns": [
+        "task-decomposition-pipeline",
+        "interview-before-implement"
+      ]
     },
     "memory": {
-      "keywords": ["remember", "memory", "experience", "recall", "forget", "session", "handoff", "continue"],
-      "primary_nodes": ["knowledge/rules/domain-memory-bootup.md"],
-      "patterns": ["memory-architecture"]
+      "keywords": [
+        "remember",
+        "memory",
+        "experience",
+        "recall",
+        "forget",
+        "session",
+        "handoff",
+        "continue"
+      ],
+      "primary_nodes": [
+        "knowledge/rules/domain-memory-bootup.md"
+      ],
+      "patterns": [
+        "memory-architecture"
+      ]
     },
     "context": {
-      "keywords": ["context", "token", "window", "budget", "compaction", "compact", "cache", "prefix"],
+      "keywords": [
+        "context",
+        "token",
+        "window",
+        "budget",
+        "compaction",
+        "compact",
+        "cache",
+        "prefix"
+      ],
       "primary_nodes": [],
       "patterns": []
     },
     "security": {
-      "keywords": ["security", "vulnerability", "injection", "xss", "sql", "auth", "credentials", "secrets"],
+      "keywords": [
+        "security",
+        "vulnerability",
+        "injection",
+        "xss",
+        "sql",
+        "auth",
+        "credentials",
+        "secrets"
+      ],
       "primary_nodes": [],
-      "patterns": ["safety-hooks-framework"]
+      "patterns": [
+        "safety-hooks-framework"
+      ]
     },
     "code-review": {
-      "keywords": ["review", "code review", "pr review", "pull request", "quality", "refactor"],
+      "keywords": [
+        "review",
+        "code review",
+        "pr review",
+        "pull request",
+        "quality",
+        "refactor"
+      ],
       "primary_nodes": [],
-      "patterns": ["reflection"]
+      "patterns": [
+        "reflection"
+      ]
     },
     "hooks": {
-      "keywords": ["hook", "automation", "pretooluse", "posttooluse", "sessionstart", "event", "trigger"],
+      "keywords": [
+        "hook",
+        "automation",
+        "pretooluse",
+        "posttooluse",
+        "sessionstart",
+        "event",
+        "trigger"
+      ],
       "primary_nodes": [],
-      "patterns": ["safety-hooks-framework"]
+      "patterns": [
+        "safety-hooks-framework"
+      ]
     },
     "testing": {
-      "keywords": ["test", "testing", "tdd", "unit test", "integration test", "coverage", "spec"],
+      "keywords": [
+        "test",
+        "testing",
+        "tdd",
+        "unit test",
+        "integration test",
+        "coverage",
+        "spec"
+      ],
       "primary_nodes": [],
-      "patterns": ["reflection"]
+      "patterns": [
+        "reflection"
+      ]
     },
     "performance": {
-      "keywords": ["performance", "slow", "optimize", "speed", "latency", "cache", "efficient"],
+      "keywords": [
+        "performance",
+        "slow",
+        "optimize",
+        "speed",
+        "latency",
+        "cache",
+        "efficient"
+      ],
       "primary_nodes": [],
       "patterns": []
     },
     "git": {
-      "keywords": ["git", "commit", "branch", "merge", "rebase", "conflict", "push", "pull"],
+      "keywords": [
+        "git",
+        "commit",
+        "branch",
+        "merge",
+        "rebase",
+        "conflict",
+        "push",
+        "pull"
+      ],
       "primary_nodes": [],
       "patterns": []
     },
     "api": {
-      "keywords": ["api", "endpoint", "rest", "graphql", "request", "response", "fetch", "axios"],
+      "keywords": [
+        "api",
+        "endpoint",
+        "rest",
+        "graphql",
+        "request",
+        "response",
+        "fetch",
+        "axios"
+      ],
       "primary_nodes": [],
       "patterns": []
     },
     "database": {
-      "keywords": ["database", "sql", "query", "migration", "schema", "postgres", "mysql", "mongo", "prisma"],
+      "keywords": [
+        "database",
+        "sql",
+        "query",
+        "migration",
+        "schema",
+        "postgres",
+        "mysql",
+        "mongo",
+        "prisma"
+      ],
       "primary_nodes": [],
       "patterns": []
     },
     "typescript": {
-      "keywords": ["typescript", "type", "interface", "generic", "tsconfig", "tsc", "type error"],
+      "keywords": [
+        "typescript",
+        "type",
+        "interface",
+        "generic",
+        "tsconfig",
+        "tsc",
+        "type error"
+      ],
       "primary_nodes": [],
       "patterns": []
     },
     "react": {
-      "keywords": ["react", "component", "hook", "useState", "useEffect", "jsx", "tsx", "next.js", "nextjs"],
+      "keywords": [
+        "react",
+        "component",
+        "hook",
+        "useState",
+        "useEffect",
+        "jsx",
+        "tsx",
+        "next.js",
+        "nextjs"
+      ],
       "primary_nodes": [],
       "patterns": []
     },
     "python": {
-      "keywords": ["python", "pip", "venv", "django", "flask", "fastapi", "poetry"],
+      "keywords": [
+        "python",
+        "pip",
+        "venv",
+        "django",
+        "flask",
+        "fastapi",
+        "poetry"
+      ],
       "primary_nodes": [],
       "patterns": []
     },
     "docker": {
-      "keywords": ["docker", "container", "dockerfile", "compose", "kubernetes", "k8s", "deploy"],
+      "keywords": [
+        "docker",
+        "container",
+        "dockerfile",
+        "compose",
+        "kubernetes",
+        "k8s",
+        "deploy"
+      ],
       "primary_nodes": [],
       "patterns": []
     },
     "ci-cd": {
-      "keywords": ["ci", "cd", "pipeline", "github actions", "deploy", "build", "workflow"],
+      "keywords": [
+        "ci",
+        "cd",
+        "pipeline",
+        "github actions",
+        "deploy",
+        "build",
+        "workflow"
+      ],
       "primary_nodes": [],
       "patterns": []
     },
     "reasoning": {
-      "keywords": ["think", "reason", "analyze", "evaluate", "compare", "decide", "tradeoff"],
-      "primary_nodes": ["knowledge/rules/quick-dsv.md"],
-      "patterns": ["tree-of-thoughts", "reflection"]
+      "keywords": [
+        "think",
+        "reason",
+        "analyze",
+        "evaluate",
+        "compare",
+        "decide",
+        "tradeoff"
+      ],
+      "primary_nodes": [
+        "knowledge/rules/quick-dsv.md"
+      ],
+      "patterns": [
+        "tree-of-thoughts",
+        "reflection"
+      ]
     },
     "brainstorming": {
-      "keywords": ["brainstorm", "idea", "creative", "sparring", "explore options", "alternatives"],
+      "keywords": [
+        "brainstorm",
+        "idea",
+        "creative",
+        "sparring",
+        "explore options",
+        "alternatives"
+      ],
       "primary_nodes": [],
-      "patterns": ["reflection"]
+      "patterns": [
+        "reflection"
+      ]
     },
     "research": {
-      "keywords": ["research", "investigate", "find out", "learn about", "deep dive", "explore"],
+      "keywords": [
+        "research",
+        "investigate",
+        "find out",
+        "learn about",
+        "deep dive",
+        "explore"
+      ],
       "primary_nodes": [],
-      "patterns": ["recursive-research"]
+      "patterns": [
+        "recursive-research"
+      ]
     },
     "multi-agent": {
-      "keywords": ["multi-agent", "team", "parallel", "coordinate", "orchestrate", "multiple agents"],
+      "keywords": [
+        "multi-agent",
+        "team",
+        "parallel",
+        "coordinate",
+        "orchestrate",
+        "multiple agents"
+      ],
       "primary_nodes": [],
-      "patterns": ["parallel-agent-dispatch"]
+      "patterns": [
+        "parallel-agent-dispatch"
+      ]
     },
     "integrity": {
-      "keywords": ["integrity", "health", "broken", "corrupt", "fix system", "repair", "validate"],
+      "keywords": [
+        "integrity",
+        "health",
+        "broken",
+        "corrupt",
+        "fix system",
+        "repair",
+        "validate"
+      ],
       "primary_nodes": [],
       "patterns": []
     },
     "evolution": {
-      "keywords": ["evolution", "evolving", "what changed", "changelog", "update", "version"],
+      "keywords": [
+        "evolution",
+        "evolving",
+        "what changed",
+        "changelog",
+        "update",
+        "version"
+      ],
       "primary_nodes": [],
-      "patterns": ["self-improving-rules"]
+      "patterns": [
+        "self-improving-rules"
+      ]
     },
     "configuration": {
-      "keywords": ["config", "settings", "claude.md", "rules", "setup", "configure"],
+      "keywords": [
+        "config",
+        "settings",
+        "claude.md",
+        "rules",
+        "setup",
+        "configure"
+      ],
       "primary_nodes": [],
-      "patterns": ["progressive-disclosure"]
+      "patterns": [
+        "progressive-disclosure"
+      ]
+    },
+    "auto-hook-thinking-recall": {
+      "keywords": [
+        "recall",
+        "thinking"
+      ],
+      "primary": [
+        "hook-thinking-recall"
+      ],
+      "secondary": [],
+      "auto_generated": true
+    },
+    "auto-hook-delegation-enforcer": {
+      "keywords": [
+        "delegation",
+        "enforcer"
+      ],
+      "primary": [
+        "hook-delegation-enforcer"
+      ],
+      "secondary": [],
+      "auto_generated": true
+    },
+    "auto-hook-delegation-outcome-tracker": {
+      "keywords": [
+        "delegation",
+        "outcome",
+        "tracker"
+      ],
+      "primary": [
+        "hook-delegation-outcome-tracker"
+      ],
+      "secondary": [],
+      "auto_generated": true
+    },
+    "auto-script-hook_telemetry": {
+      "keywords": [
+        "hook",
+        "hook_telemetry",
+        "telemetry"
+      ],
+      "primary": [
+        "script-hook_telemetry"
+      ],
+      "secondary": [],
+      "auto_generated": true
     }
   }
 }

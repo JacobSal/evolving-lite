@@ -5,11 +5,16 @@
   "problem": "A sub-agent returns an error or unhelpful result, so you retry the identical prompt and get the same failure again",
   "solution": "Before retrying, add: the specific file path if known, the exact error message you are seeing, and one sentence of what you already tried. A single added sentence of context often unlocks the correct result on the first retry",
   "root_cause": "Sub-agent failures are usually caused by ambiguity or missing context, not model capability limits. The same ambiguous prompt produces the same failure reliably",
-  "tags": ["delegation", "retry", "prompting"],
+  "tags": [
+    "delegation",
+    "retry",
+    "prompting"
+  ],
   "confidence": 0.87,
   "effective_relevance": 79,
-  "access_count": 0,
+  "access_count": 8,
   "created": "2026-03-17T00:00:00",
   "source": "prewarmed",
-  "claude_code_version": "2.1.77"
+  "claude_code_version": "2.1.77",
+  "last_accessed": "2026-06-19T00:04:41.000737"
 }

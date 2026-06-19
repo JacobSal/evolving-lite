@@ -5,11 +5,16 @@
   "problem": "You delegate a task that touches API keys, credentials, or database destructive operations to a sub-agent for convenience, and lose visibility into what actually ran",
   "solution": "Handle anything touching secrets, production credentials, payment logic, or irreversible operations directly in the main agent. Delegation is for read-heavy exploration and analysis, not write-heavy sensitive operations",
   "root_cause": "Sub-agents run with limited oversight; errors or unexpected behavior in a delegated security task can be hard to detect and may cause silent data loss or credential exposure",
-  "tags": ["delegation", "security", "safety"],
+  "tags": [
+    "delegation",
+    "security",
+    "safety"
+  ],
   "confidence": 0.96,
   "effective_relevance": 88,
-  "access_count": 0,
+  "access_count": 5,
   "created": "2026-03-17T00:00:00",
   "source": "prewarmed",
-  "claude_code_version": "2.1.77"
+  "claude_code_version": "2.1.77",
+  "last_accessed": "2026-06-18T13:22:19.854233"
 }

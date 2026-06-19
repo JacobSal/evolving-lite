@@ -59,8 +59,15 @@ INVOCATION_LEDGER = (
 )
 
 
+def _evolving_tmp() -> str:
+    # EVOLVING_TMP unifies the temp namespace across bash+Python hooks (see
+    # common.py evolving_tmp_dir); default stays the OS tempdir. The writer
+    # (delegation-enforcer) resolves this identically.
+    return os.environ.get("EVOLVING_TMP") or tempfile.gettempdir()
+
+
 def _pending_marker_path(session_id: str) -> Path:
-    return Path(tempfile.gettempdir()) / f"delegation-pending-{session_id}.json"
+    return Path(_evolving_tmp()) / f"delegation-pending-{session_id}.json"
 
 
 def _resolve_session_id(input_data: Optional[Dict]) -> str:
@@ -134,7 +141,7 @@ def _unlink_marker(session_id: str) -> None:
 # =========================================================================
 
 def _quality_signal_path(session_id: str) -> Path:
-    return Path(tempfile.gettempdir()) / f"quality-signal-{session_id}.json"
+    return Path(_evolving_tmp()) / f"quality-signal-{session_id}.json"
 
 
 def _quality_signal_mode() -> str:

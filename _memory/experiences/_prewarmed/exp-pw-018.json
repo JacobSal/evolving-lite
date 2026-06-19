@@ -5,11 +5,16 @@
   "problem": "You add a hook script that does useful work but takes 500ms-1s to run, and every file read, edit, and bash call in the session now has that overhead",
   "solution": "Profile your hooks with `time` before deploying them. Move anything slow (network calls, large file reads, heavy computation) to async background jobs that write to an inbox file the hook reads instead",
   "root_cause": "Hooks are synchronous gate checks on the hot path of every tool call. There is no batching or caching; 500ms per hook becomes seconds of dead time per complex task",
-  "tags": ["claude-code", "hooks", "performance"],
+  "tags": [
+    "claude-code",
+    "hooks",
+    "performance"
+  ],
   "confidence": 0.91,
   "effective_relevance": 82,
-  "access_count": 0,
+  "access_count": 35,
   "created": "2026-03-17T00:00:00",
   "source": "prewarmed",
-  "claude_code_version": "2.1.77"
+  "claude_code_version": "2.1.77",
+  "last_accessed": "2026-06-18T13:21:40.021710"
 }

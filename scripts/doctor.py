@@ -72,6 +72,7 @@ SCAFFOLD_GITKEEP = ["_memory/sessions", "_memory/projects", "_autoevolve/outcome
 # Files that must exist + parse for the wiring check (the shipped substrate).
 REQUIRED_FILES = [
     "hooks/hooks.json",
+    "hooks/scripts/run-py.sh",
     "hooks/scripts/delegation-enforcer.py",
     "hooks/scripts/security-tier-check.py",
     "hooks/scripts/content-scanner.py",

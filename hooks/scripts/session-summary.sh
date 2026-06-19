@@ -10,9 +10,14 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PLUGIN_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 session_id="${CLAUDE_SESSION_ID:-$$}"
 
+# Shared temp namespace (see common.py evolving_tmp_dir): bash `/tmp` and
+# Python's tempfile.gettempdir() can diverge on Windows, so both pin here.
+RUNTIME_DIR="${EVOLVING_TMP:-${PLUGIN_ROOT}/_runtime}"
+mkdir -p "$RUNTIME_DIR" 2>/dev/null
+
 _write_sentinel() {
   local status="$1"
-  echo "{\"hook\":\"session-summary\",\"ts\":$(date +%s),\"status\":\"${status}\"}" > "/tmp/evolving-lite-sentinel-session-summary-${session_id}.json" 2>/dev/null
+  echo "{\"hook\":\"session-summary\",\"ts\":$(date +%s),\"status\":\"${status}\"}" > "${RUNTIME_DIR}/evolving-lite-sentinel-session-summary-${session_id}.json" 2>/dev/null
 }
 
 counter_file="${PLUGIN_ROOT}/_memory/.session-count"
