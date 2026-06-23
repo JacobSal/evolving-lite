@@ -17,7 +17,7 @@ _memory/security/*.jsonl
 
 # Keep pre-warmed experiences (shipped with plugin)
 # (06/19/2026), removing for now, need to add to calling repo or other
-_memory/experiences/_prewarmed/*.json
+_memory/experiences/_prewarmed/exp-*.json
 
 # Shared temp namespace (sentinels, session-scoped guard/marker files).
 # Pinned to <plugin_root>/_runtime so bash and Python hooks agree on one
